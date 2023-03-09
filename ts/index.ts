@@ -1,6 +1,33 @@
 import TimeTracker from "./Timer.js";
 
+// background and nav
+const nav_bar: Element | null = document.querySelector(".nav__toggle");
+const show_links: Element | null = document.querySelector(".links");
+const bg_mode: Element | null = document.querySelector(".toggle");
+const changeMode: Element | null = document.querySelector(".cover");
+const links: Element[] | null = Array.from(
+    document.querySelectorAll(".links li a")
+);
+
 // Modal
+const playPause = document.getElementById("playpause");
+const play: Element | null = document.getElementById("play");
+const pause: Element | null = document.getElementById("pause");
+const restart: Element | null = document.getElementById("reset");
+const setting: Element | null = document.getElementById("setting");
+
+// setting and pomodoro
+const sections: Element[] | null = Array.from(
+    document.querySelectorAll(".section")
+);
+const cancel_setting: Element | null = document.querySelector(".btn__cancel");
+const save_setting: Element | null = document.querySelector(".btn__save");
+
+// light/dark mdoe
+const prefersLightScheme: MediaQueryList = window.matchMedia(
+    "(prefers-color-scheme: light)"
+);
+
 // let opt = {
 //     study: 25,
 //     relax: 5,
@@ -21,8 +48,8 @@ let opt = {
     time: document.getElementById("time"),
     play: document.getElementById("play"),
     pause: document.getElementById("pause"),
-    studySound: "bell.mp3",
-    restSound: "bell.mp3",
+    studySound: "digital_alarm",
+    restSound: "key_chimes",
 };
 
 const timer = new TimeTracker(
@@ -48,16 +75,10 @@ function changePausePlay(): void {
     if ((<HTMLElement>play).style.display === "none") {
         (<HTMLElement>pause).style.display = "none";
         (<HTMLElement>play).style.display = "block";
-        // TODO: implement pause actions like stopping the
-        // timer
-        // initalizing the timer
         timer.pause();
     } else {
         (<HTMLElement>play).style.display = "none";
         (<HTMLElement>pause).style.display = "block";
-        // TODO: implement the play actions like starting the timer
-        // const timer = new TimeTracker();
-        // timer.render(timer.minutes, timer.study);
         timer.play();
     }
 }
@@ -100,35 +121,7 @@ function showSelected(id: string) {
     changeHighlight(<string>id);
 }
 
-// background and nav
-const nav_bar: Element | null = document.querySelector(".nav__toggle");
-const show_links: Element | null = document.querySelector(".links");
-const bg_mode: Element | null = document.querySelector(".toggle");
-const changeMode: Element | null = document.querySelector(".cover");
-const links: Element[] | null = Array.from(
-    document.querySelectorAll(".links li a")
-);
-
-// Controls
-const playPause = document.getElementById("playpause");
-const play: Element | null = document.getElementById("play");
-const pause: Element | null = document.getElementById("pause");
-const restart: Element | null = document.getElementById("reset");
-const setting: Element | null = document.getElementById("setting");
-
-// setting and pomodoro
-const sections: Element[] | null = Array.from(
-    document.querySelectorAll(".section")
-);
-const cancel_setting: Element | null = document.querySelector(".btn__cancel");
-const btns: Element[] | null = Array.from(document.querySelectorAll(".btn"));
-const time: Element | null = document.getElementById("time");
-
-// light/dark mdoe
-const prefersLightScheme: MediaQueryList = window.matchMedia(
-    "(prefers-color-scheme: light)"
-);
-
+// Controller
 // changing to light mode based on OS settings
 if (prefersLightScheme.matches) {
     // add light mode on body
@@ -179,6 +172,14 @@ if (setting) {
 if (cancel_setting) {
     cancel_setting.addEventListener("click", (e) => {
         showSelected("pomodoro");
+    });
+}
+
+if (save_setting) {
+    save_setting.addEventListener("submit", (e) => {
+        console.log(e);
+
+        console.log("Save");
     });
 }
 

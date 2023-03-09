@@ -1,5 +1,22 @@
 import TimeTracker from "./Timer.js";
+// background and nav
+const nav_bar = document.querySelector(".nav__toggle");
+const show_links = document.querySelector(".links");
+const bg_mode = document.querySelector(".toggle");
+const changeMode = document.querySelector(".cover");
+const links = Array.from(document.querySelectorAll(".links li a"));
 // Modal
+const playPause = document.getElementById("playpause");
+const play = document.getElementById("play");
+const pause = document.getElementById("pause");
+const restart = document.getElementById("reset");
+const setting = document.getElementById("setting");
+// setting and pomodoro
+const sections = Array.from(document.querySelectorAll(".section"));
+const cancel_setting = document.querySelector(".btn__cancel");
+const save_setting = document.querySelector(".btn__save");
+// light/dark mdoe
+const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
 // let opt = {
 //     study: 25,
 //     relax: 5,
@@ -19,8 +36,8 @@ let opt = {
     time: document.getElementById("time"),
     play: document.getElementById("play"),
     pause: document.getElementById("pause"),
-    studySound: "bell.mp3",
-    restSound: "bell.mp3",
+    studySound: "digital_alarm",
+    restSound: "key_chimes",
 };
 const timer = new TimeTracker(opt.study, opt.relax, opt.longRelax, opt.maxIterLimit, opt.breakInterval, opt.time, opt.play, opt.pause, opt.studySound, opt.restSound);
 // View
@@ -32,17 +49,11 @@ function changePausePlay() {
     if (play.style.display === "none") {
         pause.style.display = "none";
         play.style.display = "block";
-        // TODO: implement pause actions like stopping the
-        // timer
-        // initalizing the timer
         timer.pause();
     }
     else {
         play.style.display = "none";
         pause.style.display = "block";
-        // TODO: implement the play actions like starting the timer
-        // const timer = new TimeTracker();
-        // timer.render(timer.minutes, timer.study);
         timer.play();
     }
 }
@@ -80,25 +91,7 @@ function showSelected(id) {
     showSection(id);
     changeHighlight(id);
 }
-// background and nav
-const nav_bar = document.querySelector(".nav__toggle");
-const show_links = document.querySelector(".links");
-const bg_mode = document.querySelector(".toggle");
-const changeMode = document.querySelector(".cover");
-const links = Array.from(document.querySelectorAll(".links li a"));
-// Controls
-const playPause = document.getElementById("playpause");
-const play = document.getElementById("play");
-const pause = document.getElementById("pause");
-const restart = document.getElementById("reset");
-const setting = document.getElementById("setting");
-// setting and pomodoro
-const sections = Array.from(document.querySelectorAll(".section"));
-const cancel_setting = document.querySelector(".btn__cancel");
-const btns = Array.from(document.querySelectorAll(".btn"));
-const time = document.getElementById("time");
-// light/dark mdoe
-const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
+// Controller
 // changing to light mode based on OS settings
 if (prefersLightScheme.matches) {
     // add light mode on body
@@ -142,6 +135,12 @@ if (setting) {
 if (cancel_setting) {
     cancel_setting.addEventListener("click", (e) => {
         showSelected("pomodoro");
+    });
+}
+if (save_setting) {
+    save_setting.addEventListener("submit", (e) => {
+        console.log(e);
+        console.log("Save");
     });
 }
 if (links) {

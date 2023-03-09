@@ -39,15 +39,16 @@ export default class TimeTracker {
         this.timeOutIntervalSetter = undefined;
         this.expectedMilliseconds = null;
         this.milliseconds = 1000;
-        this.timerType = "study";
+        this.timerType = timerState.study;
         this.blinkCounter = 3;
         // binding functions
-        this.countDown = this.countDown.bind(this);
         this.play = this.play.bind(this);
         this.pause = this.pause.bind(this);
         this.step = this.step.bind(this);
         this.setUp = this.setUp.bind(this);
+        this.countDown = this.countDown.bind(this);
         this.changeState = this.changeState.bind(this);
+        this.showLight = this.showLight.bind(this);
         this.transitionDelay = this.transitionDelay.bind(this);
         this.timerStudySound = this.timerStudySound.bind(this);
         this.timerRestSound = this.timerRestSound.bind(this);
@@ -82,6 +83,7 @@ export default class TimeTracker {
     showLight() {
         let color;
         let bodyStyle = getComputedStyle(document.body);
+        console.log(this.timerType);
         if (this.timerType === timerState.relax ||
             this.timerType === timerState.long_relax) {
             color = bodyStyle.getPropertyValue("--clr-go-pmdr");
@@ -141,6 +143,7 @@ export default class TimeTracker {
         let showLightTimeout;
         let hideLightTimeout;
         this.changeState();
+        console.log(this.timerType);
         if (this.timerType == timerState.study) {
             this.timerStudySound();
         }
@@ -187,7 +190,13 @@ export default class TimeTracker {
     }
     // play btn click
     play() {
-        let drift = Date.now() - this.expectedMilliseconds;
+        let drift = Date.now();
+        this.expectedMilliseconds = Date.now();
+        // if (!this.expectedMilliseconds) {
+        // }
+        drift -= this.expectedMilliseconds;
+        console.log(drift);
+        console.log(this.milliseconds - drift);
         this.expectedMilliseconds = Date.now() + this.milliseconds;
         this.timeOutIntervalSetter = setTimeout(this.step, Math.max(0, this.milliseconds - drift));
     }
@@ -211,10 +220,14 @@ export default class TimeTracker {
     }
     async timerStudySound() {
         console.log(this.studySound);
+        let audio = new Audio(`../sounds/${this.studySound}.mp3`);
+        audio.play();
         console.log("Music played");
     }
     async timerRestSound() {
         console.log(this.restSound);
+        let audio = new Audio(`../sounds/${this.restSound}.mp3`);
+        audio.play();
         console.log(" REst Music played");
     }
     // setters
