@@ -1,0 +1,13 @@
+@use "../utils/" as u;
+
+body {
+    background-color: var(--clr-bg-pmdr);
+    font-family: var(--ff-main);
+}
+
+main {
+    height: 92vh;
+    max-width: 750px;
+    width: 100%;
+    margin: 0 auto;
+}

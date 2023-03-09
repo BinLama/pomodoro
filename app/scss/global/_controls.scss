@@ -1,0 +1,43 @@
+@use "../utils/" as u;
+
+.controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: u.rem(25);
+
+    button {
+        cursor: pointer;
+        width: u.rem(84.75);
+        height: u.rem(51.92);
+
+        border: none;
+        background-color: var(--clr-timer-scr-pmdr);
+        border-radius: u.rem(10);
+
+        &:hover {
+            background-color: var(--clr-btn-hover-pmdr);
+        }
+
+        &:active {
+            background-color: var(--clr-btn-active);
+        }
+        & svg {
+            fill: var(--clr-icon-pmdr);
+            height: u.rem(28);
+            margin: 0 auto;
+        }
+
+        @include u.breakpoint(large) {
+            width: u.rem(102);
+            height: u.rem(58);
+
+            & svg {
+                height: u.rem(38);
+            }
+        }
+    }
+}
+
+#pause {
+    display: none;
+}

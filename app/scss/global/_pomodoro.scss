@@ -1,0 +1,34 @@
+@use "../utils/" as u;
+
+.pomodoro {
+    @include u.flex_center;
+
+    color: var(--clr-icon-pmdr);
+    height: 100%;
+    position: relative;
+
+    &__container {
+        @include u.flex_column;
+
+        height: u.rem(262);
+        width: u.rem(335);
+        padding: u.rem(15);
+        border-radius: u.rem(25);
+
+        background-color: var(--clr-border-pmdr);
+
+        @include u.breakpoint(large) {
+            height: u.rem(313);
+            width: u.rem(400);
+            padding: u.rem(20);
+        }
+    }
+}
+
+.section {
+    display: none;
+}
+
+.show {
+    display: block;
+}
