@@ -192,11 +192,7 @@ export default class TimeTracker {
     play() {
         let drift = Date.now();
         this.expectedMilliseconds = Date.now();
-        // if (!this.expectedMilliseconds) {
-        // }
         drift -= this.expectedMilliseconds;
-        console.log(drift);
-        console.log(this.milliseconds - drift);
         this.expectedMilliseconds = Date.now() + this.milliseconds;
         this.timeOutIntervalSetter = setTimeout(this.step, Math.max(0, this.milliseconds - drift));
     }
