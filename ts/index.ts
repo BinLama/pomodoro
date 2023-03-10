@@ -35,8 +35,10 @@ const prefersLightScheme: MediaQueryList = window.matchMedia(
 //     maxIterLimit: 10,
 //     breakInterval: 4,
 //     time: document.getElementById("time"),
-// play: document.getElementById("play"),
-// pause: document.getElementById("pause"),
+//     play: document.getElementById("play"),
+//     pause: document.getElementById("pause"),
+//     studySound: "digital_alarm",
+//     restSound: "key_chimes",
 // };
 
 let opt = {
@@ -121,6 +123,77 @@ function showSelected(id: string) {
     changeHighlight(<string>id);
 }
 
+function setSavedData() {
+    let change = false;
+
+    let data = {
+        study: parseInt(
+            (document.getElementById("study") as HTMLInputElement).value
+        ),
+        relax: parseInt(
+            (document.getElementById("relax") as HTMLInputElement).value
+        ),
+        longRelax: parseInt(
+            (document.getElementById("long_relax") as HTMLInputElement).value
+        ),
+        maxIterLimit: parseInt(
+            (document.getElementById("num_intervals") as HTMLInputElement).value
+        ),
+        breakInterval: parseInt(
+            (document.getElementById("long_break_after") as HTMLInputElement)
+                .value
+        ),
+        studySound: (document.getElementById("start_sound") as HTMLInputElement)
+            .value,
+        restSound: (document.getElementById("end_sound") as HTMLInputElement)
+            .value,
+    };
+    console.log(data);
+
+    console.log("Save");
+
+    if (data.study !== timer.getStudyTime) {
+        change = true;
+        console.log("study change");
+        timer.changeStudyTime = data.study;
+        console.log(timer.getStudyTime);
+    }
+    if (data.relax !== timer.getRestTime) {
+        change = true;
+        console.log("relax change");
+        timer.changeRestTime = data.relax;
+    }
+    if (data.longRelax !== timer.getLongRestTime) {
+        change = true;
+        console.log("long relax change");
+        timer.changeLongRestTime = data.longRelax;
+    }
+    if (data.maxIterLimit !== timer.getMaxIterLimit) {
+        change = true;
+        console.log("maxIter change");
+        timer.changeMaxIterLimit = data.maxIterLimit;
+    }
+    if (data.breakInterval !== timer.getBreakInterval) {
+        change = true;
+        console.log("break interval change");
+        timer.changeBreakInterval = data.breakInterval;
+    }
+    if (data.studySound !== timer.getStudySound) {
+        change = true;
+        console.log("study sound change");
+        timer.changeStudySound = data.studySound;
+    }
+    if (data.restSound !== timer.getRestSound) {
+        change = true;
+        console.log("rest sound change");
+        timer.changeRestSound = data.restSound;
+    }
+    if (change) {
+        changeRestart();
+    }
+    showSelected("pomodoro");
+}
+
 // Controller
 // changing to light mode based on OS settings
 if (prefersLightScheme.matches) {
@@ -149,16 +222,12 @@ if (bg_mode && changeMode) {
 
 // play/pause btn actions
 if (playPause) {
-    playPause.addEventListener("click", (e) => {
-        changePausePlay();
-    });
+    playPause.addEventListener("click", changePausePlay);
 }
 
 // reset btn actions
 if (restart) {
-    restart.addEventListener("click", (e) => {
-        changeRestart();
-    });
+    restart.addEventListener("click", changeRestart);
 }
 
 if (setting) {
@@ -170,17 +239,13 @@ if (setting) {
 }
 
 if (cancel_setting) {
-    cancel_setting.addEventListener("click", (e) => {
+    cancel_setting.addEventListener("click", () => {
         showSelected("pomodoro");
     });
 }
 
 if (save_setting) {
-    save_setting.addEventListener("submit", (e) => {
-        console.log(e);
-
-        console.log("Save");
-    });
+    save_setting.addEventListener("click", setSavedData);
 }
 
 if (links) {

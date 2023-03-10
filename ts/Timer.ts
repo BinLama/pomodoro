@@ -330,6 +330,35 @@ export default class TimeTracker {
         console.log(" REst Music played");
     }
 
+    // getters
+    get getStudyTime() {
+        return this.study;
+    }
+
+    get getRestTime() {
+        return this.relax;
+    }
+
+    get getLongRestTime() {
+        return this.longRelax;
+    }
+
+    get getMaxIterLimit() {
+        return this.maxIterLimit;
+    }
+
+    get getBreakInterval() {
+        return this.breakInterval;
+    }
+
+    get getStudySound() {
+        return this.studySound;
+    }
+
+    get getRestSound() {
+        return this.restSound;
+    }
+
     // setters
     set changeStudyTime(study: number) {
         this.study = study;
