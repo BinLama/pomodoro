@@ -1,6 +1,7 @@
 @use "../utils/" as u;
 
 .timer {
+    position: relative;
     height: u.rem(170);
     font-size: u.rem(48);
 
@@ -13,5 +14,14 @@
         height: u.rem(195);
         margin-bottom: u.rem(20);
         font-size: u.rem(52);
+    }
+
+    &__interval {
+        font-size: u.rem(16);
+        font-weight: bold;
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }

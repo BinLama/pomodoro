@@ -1,47 +1,68 @@
 import TimeTracker from "./Timer.js";
 // background and nav
-const nav_bar = document.querySelector(".nav__toggle");
-const show_links = document.querySelector(".links");
-const bg_mode = document.querySelector(".toggle");
-const changeMode = document.querySelector(".cover");
-const links = Array.from(document.querySelectorAll(".links li a"));
+const nav_bar = getElement(".nav__toggle");
+const link_container = getElement(".links__container");
+const link_c = getElement(".links");
+const bg_mode = getElement(".toggle");
+const changeMode = getElement(".cover");
+const links = getElements(".links a");
 // Modal
-const playPause = document.getElementById("playpause");
-const play = document.getElementById("play");
-const pause = document.getElementById("pause");
-const restart = document.getElementById("reset");
-const setting = document.getElementById("setting");
+const playPause = getElement("#playpause");
+console.log(playPause);
+// document.getElementById("playpause");
+const play = getElement("#play");
+const pause = getElement("#pause");
+const restart = getElement("#reset");
+const setting = getElement("#setting");
 // setting and pomodoro
 const sections = Array.from(document.querySelectorAll(".section"));
-const cancel_setting = document.querySelector(".btn__cancel");
-const save_setting = document.querySelector(".btn__save");
+const cancel_setting = getElement(".btn__cancel");
+const save_setting = getElement(".btn__save");
+// timer - interval tracker
+const interval_pass = getElement("#int_pass");
+const interval_total = getElement("#int_total");
+console.log(interval_pass);
 // light/dark mdoe
 const prefersLightScheme = window.matchMedia("(prefers-color-scheme: light)");
+let opt = {
+    study: 25,
+    relax: 5,
+    longRelax: 15,
+    maxIterLimit: 10,
+    breakInterval: 4,
+    time: getElement("#time"),
+    play: getElement("#play"),
+    pause: getElement("#pause"),
+    studySound: "digital_alarm",
+    restSound: "key_chimes",
+};
 // let opt = {
-//     study: 25,
-//     relax: 5,
-//     longRelax: 15,
-//     maxIterLimit: 10,
-//     breakInterval: 4,
+//     study: 1,
+//     relax: 1,
+//     longRelax: 2,
+//     maxIterLimit: 3,
+//     breakInterval: 2,
 //     time: document.getElementById("time"),
 //     play: document.getElementById("play"),
 //     pause: document.getElementById("pause"),
 //     studySound: "digital_alarm",
 //     restSound: "key_chimes",
 // };
-let opt = {
-    study: 1,
-    relax: 1,
-    longRelax: 2,
-    maxIterLimit: 3,
-    breakInterval: 2,
-    time: document.getElementById("time"),
-    play: document.getElementById("play"),
-    pause: document.getElementById("pause"),
-    studySound: "digital_alarm",
-    restSound: "key_chimes",
-};
 const timer = new TimeTracker(opt.study, opt.relax, opt.longRelax, opt.maxIterLimit, opt.breakInterval, opt.time, opt.play, opt.pause, opt.studySound, opt.restSound);
+// helpers
+function getElement(element) {
+    const data = document.querySelector(element);
+    if (data)
+        return data;
+    throw Error(`Cannot find the element. Please make sure "${element}" is a correct query.`);
+}
+function getElements(element) {
+    const data = document.querySelectorAll(element);
+    if (data)
+        return Array.from(data);
+    throw Error(`Cannot find the element. Please make sure "${element}" is a correct query.`);
+}
+/* helpers end */
 // View
 function toggleClass(element, classname) {
     element.classList.toggle(classname);
@@ -82,10 +103,10 @@ function changeHighlight(type) {
     if (links) {
         links.forEach((link) => {
             if (link.dataset.type === type) {
-                link.parentElement.classList.add("current");
+                link.classList.add("current");
                 return;
             }
-            link.parentElement.classList.remove("current");
+            link.classList.remove("current");
         });
     }
 }
@@ -159,9 +180,17 @@ if (prefersLightScheme.matches) {
     changeMode.classList.add("light");
 }
 // showing all the links
-if (nav_bar && show_links) {
-    nav_bar.addEventListener("click", (e) => {
-        toggleClass(show_links, "show_links");
+if (nav_bar && link_c) {
+    nav_bar.addEventListener("click", () => {
+        let link_c_height = link_c.getBoundingClientRect()
+            .height;
+        let link_container_height = (link_container).getBoundingClientRect().height;
+        if (link_container_height === 0) {
+            link_container.style.height = `${link_c_height}px`;
+        }
+        else {
+            link_container.style.height = `0px`;
+        }
     });
 }
 // chaning to dark or light mode

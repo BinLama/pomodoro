@@ -33,52 +33,59 @@
             type="image/x-icon"
         />
     </head>
-    <body>
-        <nav>
-            <div class="nav">
-                <div class="nav__header">
-                    <div class="icon">POMODORO</div>
-                    <button class="nav__toggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-                <!-- show_links -->
-                <ul class="links">
-                    <li class="current">
-                        <a href="#" data-type="pomodoro">Home</a>
-                    </li>
-                    <li><a href="#" data-type="history">History</a></li>
-                    <li><a href="#" data-type="setting">Setting</a></li>
-                    <li>
-                        <div class="toggle">
-                            <span class="cover"></span>
-                            <div class="toggle__icon">
-                                <div class="sun">
-                                    <svg
-                                        viewBox="0 0 22 22"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M2.55 18.09L3.96 19.5L5.76 17.71L4.34 16.29M11 5C7.69 5 5 7.69 5 11C5 14.31 7.69 17 11 17C14.31 17 17 14.31 17 11C17 7.68 14.31 5 11 5ZM19 12H22V10H19M16.24 17.71L18.04 19.5L19.45 18.09L17.66 16.29M19.45 4L18.04 2.6L16.24 4.39L17.66 5.81M12 0H10V3H12M5.76 4.39L3.96 2.6L2.55 4L4.34 5.81L5.76 4.39ZM0 12H3V10H0M12 19H10V22H12"
-                                        />
-                                    </svg>
-                                </div>
-                                <div class="moon">
-                                    <svg
-                                        viewBox="0 0 18 21"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M10.1115 0C4.52416 0 0 4.59249 0 10.2564C0 15.9203 4.52416 20.5128 10.1115 20.5128C12.8531 20.5128 15.3369 19.4048 17.1601 17.6099C17.3863 17.3855 17.4452 17.0375 17.3004 16.7537C17.1556 16.4698 16.8434 16.3095 16.5313 16.3645C16.0879 16.4423 15.6355 16.4835 15.1695 16.4835C10.7856 16.4835 7.22961 12.8755 7.22961 8.42491C7.22961 5.41209 8.85831 2.78846 11.2697 1.40568C11.5457 1.24542 11.6859 0.924909 11.618 0.613553C11.5502 0.302198 11.2878 0.0686814 10.9711 0.0412089C10.6861 0.0183151 10.401 0.00457868 10.1115 0.00457868V0Z"
-                                        />
-                                    </svg>
+    <!-- remove light_mode -->
+    <body class="">
+        <header>
+            <nav>
+                <div class="nav">
+                    <div class="nav__header">
+                        <div class="icon">POMODORO</div>
+                        <button class="nav__toggle">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    <!-- show_links -->
+                    <div class="links__container">
+                        <div class="links">
+                            <a href="#" data-type="pomodoro" class="current">
+                                Home
+                            </a>
+
+                            <a href="#" data-type="history">History</a>
+
+                            <a href="#" data-type="setting">Setting</a>
+                            <div class="toggle__container">
+                                <div class="toggle">
+                                    <span class="cover"></span>
+                                    <div class="toggle__icon">
+                                        <div class="sun">
+                                            <svg
+                                                viewBox="0 0 22 22"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M2.55 18.09L3.96 19.5L5.76 17.71L4.34 16.29M11 5C7.69 5 5 7.69 5 11C5 14.31 7.69 17 11 17C14.31 17 17 14.31 17 11C17 7.68 14.31 5 11 5ZM19 12H22V10H19M16.24 17.71L18.04 19.5L19.45 18.09L17.66 16.29M19.45 4L18.04 2.6L16.24 4.39L17.66 5.81M12 0H10V3H12M5.76 4.39L3.96 2.6L2.55 4L4.34 5.81L5.76 4.39ZM0 12H3V10H0M12 19H10V22H12"
+                                                />
+                                            </svg>
+                                        </div>
+                                        <div class="moon">
+                                            <svg
+                                                viewBox="0 0 18 21"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M10.1115 0C4.52416 0 0 4.59249 0 10.2564C0 15.9203 4.52416 20.5128 10.1115 20.5128C12.8531 20.5128 15.3369 19.4048 17.1601 17.6099C17.3863 17.3855 17.4452 17.0375 17.3004 16.7537C17.1556 16.4698 16.8434 16.3095 16.5313 16.3645C16.0879 16.4423 15.6355 16.4835 15.1695 16.4835C10.7856 16.4835 7.22961 12.8755 7.22961 8.42491C7.22961 5.41209 8.85831 2.78846 11.2697 1.40568C11.5457 1.24542 11.6859 0.924909 11.618 0.613553C11.5502 0.302198 11.2878 0.0686814 10.9711 0.0412089C10.6861 0.0183151 10.401 0.00457868 10.1115 0.00457868V0Z"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                    </div>
+                </div>
+            </nav>
+        </header>
         <main>
             <div class="pomodoro">
                 <section class="section show" data-type="pomodoro">
@@ -87,6 +94,10 @@
                             <div id="time">
                                 <span id="minutes">00</span> :
                                 <span id="seconds">00</span>
+                            </div>
+                            <div class="timer__interval">
+                                <span id="int_pass">1</span
+                                ><span id="int_total"> / 10</span>
                             </div>
                         </div>
                         <div class="controls">

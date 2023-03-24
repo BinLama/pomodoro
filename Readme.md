@@ -2,6 +2,7 @@
 
 ## TODO JS:
 
+-   [ ] change interval based on the set up and update it.
 -   [ ] save the dark mode or light mode preference to local storage.
 -   [ ] create a database and store the data there.
 -   [ ] create a visualization using d3 on the number of seconds spent on studying.

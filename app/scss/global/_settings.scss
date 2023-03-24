@@ -42,11 +42,15 @@
 
 // formatting the form and adding custom styles
 .form {
-    font-size: u.rem(24);
+    font-size: u.rem(16);
     height: u.rem(45);
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include u.breakpoint(medium) {
+        font-size: u.rem(24);
+    }
 
     &:not(:last-child) {
         margin-bottom: 27px;

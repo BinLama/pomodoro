@@ -1,58 +1,66 @@
 import TimeTracker from "./Timer.js";
 
 // background and nav
-const nav_bar: Element | null = document.querySelector(".nav__toggle");
-const show_links: Element | null = document.querySelector(".links");
-const bg_mode: Element | null = document.querySelector(".toggle");
-const changeMode: Element | null = document.querySelector(".cover");
-const links: Element[] | null = Array.from(
-    document.querySelectorAll(".links li a")
-);
+const nav_bar: Element | null = getElement(".nav__toggle");
+const link_container: Element | null = getElement(".links__container");
+const link_c: Element | null = getElement(".links");
+const bg_mode: Element | null = getElement(".toggle");
+const changeMode: Element | null = getElement(".cover");
+const links: Element[] | null = getElements(".links a");
 
 // Modal
-const playPause = document.getElementById("playpause");
-const play: Element | null = document.getElementById("play");
-const pause: Element | null = document.getElementById("pause");
-const restart: Element | null = document.getElementById("reset");
-const setting: Element | null = document.getElementById("setting");
+const playPause = getElement("#playpause");
+console.log(playPause);
+
+// document.getElementById("playpause");
+const play: Element | null = getElement("#play");
+const pause: Element | null = getElement("#pause");
+const restart: Element | null = getElement("#reset");
+const setting: Element | null = getElement("#setting");
 
 // setting and pomodoro
 const sections: Element[] | null = Array.from(
     document.querySelectorAll(".section")
 );
-const cancel_setting: Element | null = document.querySelector(".btn__cancel");
-const save_setting: Element | null = document.querySelector(".btn__save");
+const cancel_setting: Element | null = getElement(".btn__cancel");
+const save_setting: Element | null = getElement(".btn__save");
+
+// timer - interval tracker
+const interval_pass = getElement("#int_pass");
+const interval_total = getElement("#int_total");
+
+console.log(interval_pass);
 
 // light/dark mdoe
 const prefersLightScheme: MediaQueryList = window.matchMedia(
     "(prefers-color-scheme: light)"
 );
 
+let opt = {
+    study: 25,
+    relax: 5,
+    longRelax: 15,
+    maxIterLimit: 10,
+    breakInterval: 4,
+    time: getElement("#time"),
+    play: getElement("#play"),
+    pause: getElement("#pause"),
+    studySound: "digital_alarm",
+    restSound: "key_chimes",
+};
+
 // let opt = {
-//     study: 25,
-//     relax: 5,
-//     longRelax: 15,
-//     maxIterLimit: 10,
-//     breakInterval: 4,
+//     study: 1,
+//     relax: 1,
+//     longRelax: 2,
+//     maxIterLimit: 3,
+//     breakInterval: 2,
 //     time: document.getElementById("time"),
 //     play: document.getElementById("play"),
 //     pause: document.getElementById("pause"),
 //     studySound: "digital_alarm",
 //     restSound: "key_chimes",
 // };
-
-let opt = {
-    study: 1,
-    relax: 1,
-    longRelax: 2,
-    maxIterLimit: 3,
-    breakInterval: 2,
-    time: document.getElementById("time"),
-    play: document.getElementById("play"),
-    pause: document.getElementById("pause"),
-    studySound: "digital_alarm",
-    restSound: "key_chimes",
-};
 
 const timer = new TimeTracker(
     opt.study,
@@ -67,6 +75,25 @@ const timer = new TimeTracker(
     opt.restSound
 );
 
+// helpers
+function getElement(element: string) {
+    const data = document.querySelector(element);
+    if (data) return <HTMLElement>data;
+
+    throw Error(
+        `Cannot find the element. Please make sure "${element}" is a correct query.`
+    );
+}
+
+function getElements(element: string) {
+    const data = document.querySelectorAll(element);
+    if (data) return Array.from(data);
+
+    throw Error(
+        `Cannot find the element. Please make sure "${element}" is a correct query.`
+    );
+}
+/* helpers end */
 // View
 function toggleClass(element: Element, classname: string): void {
     element.classList.toggle(classname);
@@ -110,10 +137,10 @@ function changeHighlight(type: string): void {
     if (links) {
         links.forEach((link) => {
             if ((<HTMLElement>link).dataset.type === type) {
-                (<HTMLElement>link.parentElement).classList.add("current");
+                (<HTMLElement>link).classList.add("current");
                 return;
             }
-            (<HTMLElement>link.parentElement).classList.remove("current");
+            (<HTMLElement>link).classList.remove("current");
         });
     }
 }
@@ -204,9 +231,19 @@ if (prefersLightScheme.matches) {
 }
 
 // showing all the links
-if (nav_bar && show_links) {
-    nav_bar.addEventListener("click", (e) => {
-        toggleClass(show_links, "show_links");
+if (nav_bar && link_c) {
+    nav_bar.addEventListener("click", () => {
+        let link_c_height = (<HTMLElement>link_c).getBoundingClientRect()
+            .height;
+        let link_container_height = (<HTMLElement>(
+            link_container
+        )).getBoundingClientRect().height;
+
+        if (link_container_height === 0) {
+            (<HTMLElement>link_container).style.height = `${link_c_height}px`;
+        } else {
+            (<HTMLElement>link_container).style.height = `0px`;
+        }
     });
 }
 
