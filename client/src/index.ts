@@ -10,7 +10,6 @@ const links: Element[] | null = getElements(".links a");
 
 // Modal
 const playPause = getElement("#playpause");
-console.log(playPause);
 
 // document.getElementById("playpause");
 const play: Element | null = getElement("#play");
@@ -26,10 +25,10 @@ const cancel_setting: Element | null = getElement(".btn__cancel");
 const save_setting: Element | null = getElement(".btn__save");
 
 // timer - interval tracker
-const interval_pass = getElement("#int_pass");
-const interval_total = getElement("#int_total");
+// const interval_pass = getElement("#int_pass");
+// const interval_total = getElement("#int_total");
 
-console.log(interval_pass);
+// console.log(interval_pass);
 
 // light/dark mdoe
 const prefersLightScheme: MediaQueryList = window.matchMedia(
@@ -45,19 +44,21 @@ let opt = {
     time: getElement("#time"),
     play: getElement("#play"),
     pause: getElement("#pause"),
+    timerInterval: getElement(".timer__interval"),
     studySound: "digital_alarm",
     restSound: "key_chimes",
 };
 
 // let opt = {
-//     study: 1,
-//     relax: 1,
-//     longRelax: 2,
+//     study: 0.1,
+//     relax: 0.1,
+//     longRelax: 0.1,
 //     maxIterLimit: 3,
 //     breakInterval: 2,
 //     time: document.getElementById("time"),
 //     play: document.getElementById("play"),
 //     pause: document.getElementById("pause"),
+//     timerInterval: getElement(".timer__interval"),
 //     studySound: "digital_alarm",
 //     restSound: "key_chimes",
 // };
@@ -69,6 +70,7 @@ const timer = new TimeTracker(
     opt.maxIterLimit,
     opt.breakInterval,
     opt.time,
+    opt.timerInterval,
     opt.play,
     opt.pause,
     opt.studySound,

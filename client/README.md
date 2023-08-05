@@ -10,7 +10,7 @@
 
 ---
 
-<!-- Django -->
+<!-- Express -->
 
--   [ ] implement django to send and receive data.
--   [ ] use postgress sql to store the data.
+-   [ ] implement express to send and receive data.
+-   [ ] use mongodb to store the data.

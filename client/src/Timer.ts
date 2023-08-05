@@ -26,6 +26,9 @@ export default class TimeTracker {
     private time: HTMLElement | null;
     private minutes: HTMLElement | null;
     private seconds: HTMLElement | null;
+    private timerInterval: HTMLElement | null;
+    private intervalPass: HTMLElement | null;
+    private intervalTotal: HTMLElement | null;
 
     // controls
     private playBtn: HTMLElement | null;
@@ -44,6 +47,7 @@ export default class TimeTracker {
         maxIterLimit: number,
         breakInterval: number,
         time: HTMLElement | null,
+        timerInterval: HTMLElement | null,
         playBtn: HTMLElement | null,
         pauseBtn: HTMLElement | null,
         studySound: string,
@@ -68,7 +72,6 @@ export default class TimeTracker {
         this.breakInterval = breakInterval;
 
         this.secRemaining = this.study * 60;
-        // this.secRemaining = this.study * 3;
 
         // sounds
         this.studySound = studySound;
@@ -76,8 +79,15 @@ export default class TimeTracker {
 
         // access to timer
         this.time = time;
+        this.timerInterval = timerInterval;
         this.minutes = (<HTMLElement>this.time).querySelector("#minutes");
         this.seconds = (<HTMLElement>this.time).querySelector("#seconds");
+        this.intervalPass = (<HTMLElement>this.timerInterval).querySelector(
+            "#int_pass"
+        );
+        this.intervalTotal = (<HTMLElement>this.timerInterval).querySelector(
+            "#int_total"
+        );
 
         // access controls
         this.playBtn = playBtn;
@@ -107,7 +117,9 @@ export default class TimeTracker {
 
     // render the data
     private render(element: HTMLElement | null, value: number): void {
-        (<HTMLElement>element).textContent = value.toString().padStart(2, "0");
+        (<HTMLElement>element).textContent = Math.floor(value)
+            .toString()
+            .padStart(2, "0");
     }
 
     // change the state that the pomodoro is in.
@@ -176,6 +188,8 @@ export default class TimeTracker {
             this.secRemaining === this.study * 60
         ) {
             this.intervalCounter += 1;
+            this.render(this.intervalPass, this.intervalCounter);
+
             console.log(`interval: ${this.intervalCounter}`);
         }
 
@@ -183,9 +197,10 @@ export default class TimeTracker {
 
         // time
         let second = this.secRemaining % 60;
-        let minute = Math.floor(this.secRemaining / 60);
+        let minute = this.secRemaining / 60;
 
         this.render(this.seconds, second);
+
         if (second === 59) {
             this.render(this.minutes, minute);
         }
@@ -209,13 +224,13 @@ export default class TimeTracker {
 
             // call transition
             (<number>this.expectedMilliseconds) += this.milliseconds;
-            this.timeOutIntervalSetter = setTimeout(
+            this.timeOutIntervalSetter = window.setTimeout(
                 this.transitionDelay,
                 Math.max(0, <number>this.milliseconds - drift)
             );
         } else {
             (<number>this.expectedMilliseconds) += this.milliseconds;
-            this.timeOutIntervalSetter = setTimeout(
+            this.timeOutIntervalSetter = window.setTimeout(
                 this.step,
                 Math.max(0, <number>this.milliseconds - drift)
             );
@@ -247,7 +262,6 @@ export default class TimeTracker {
         if (this.timerType === timerState.relax) {
             this.secRemaining = this.relax * 60;
             this.render(this.minutes, this.relax);
-
             console.log("relax time start");
         } else if (this.timerType === timerState.study) {
             this.secRemaining = this.study * 60;
@@ -272,7 +286,7 @@ export default class TimeTracker {
 
         // run step again
         (<number>this.expectedMilliseconds) += this.milliseconds;
-        this.timeOutIntervalSetter = setTimeout(
+        this.timeOutIntervalSetter = window.setTimeout(
             this.step,
             Math.max(0, <number>this.milliseconds - drift)
         );
@@ -285,7 +299,7 @@ export default class TimeTracker {
         drift -= <number>this.expectedMilliseconds;
 
         this.expectedMilliseconds = Date.now() + this.milliseconds;
-        this.timeOutIntervalSetter = setTimeout(
+        this.timeOutIntervalSetter = window.setTimeout(
             this.step,
             Math.max(0, <number>this.milliseconds - drift)
         );
@@ -299,17 +313,22 @@ export default class TimeTracker {
     // reset btn click
     reset() {
         clearInterval(this.timeOutIntervalSetter);
-        this.render(this.minutes, this.study);
-        this.render(this.seconds, 0);
         this.secRemaining = this.study * 60;
         this.intervalCounter = 0;
         this.timerType = "study";
+        this.render(this.minutes, this.secRemaining / 60);
+        this.render(this.seconds, this.secRemaining % 60);
+        this.render(this.intervalPass, this.intervalCounter + 1);
     }
 
     // This is the first render. Since, we don't want user
     // to have access to variables, we want to use this.
     setUp() {
-        this.render(this.minutes, this.study);
+        // time
+        this.render(this.seconds, this.secRemaining % 60);
+        this.render(this.minutes, this.secRemaining / 60);
+        this.render(this.intervalPass, this.intervalCounter + 1);
+        this.render(this.intervalTotal, this.maxIterLimit);
     }
 
     private async timerStudySound() {
