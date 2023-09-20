@@ -1,380 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pomodoro</title>
-        <!-- style css -->
-        <link rel="stylesheet" href="./styles/style.css" />
-        <script src="./dist/index.js" defer type="module"></script>
 
-        <!-- font awesome -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro</title>
+    <!-- style css -->
+    <link rel="stylesheet" href="./styles/style.css" />
+    <script src="./dist/index.js" defer type="module"></script>
 
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inria+Sans:wght@300;400;700&display=swap"
-            rel="stylesheet"
-        />
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <!-- favicon -->
-        <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
-    </head>
-    <!-- remove light_mode -->
-    <body class="">
-        <header>
-            <nav>
-                <div class="nav">
-                    <div class="nav__header">
-                        <div class="icon">POMODORO</div>
-                        <button class="nav__toggle">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
-                    <!-- show_links -->
-                    <div class="links__container">
-                        <div class="links">
-                            <a href="#" data-type="pomodoro" class="current">
-                                Home
-                            </a>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inria+Sans:wght@300;400;700&display=swap"
+        rel="stylesheet" />
 
-                            <a href="#" data-type="history">History</a>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+</head>
+<!-- remove light_mode -->
 
-                            <a href="#" data-type="setting">Setting</a>
-                            <div class="toggle__container">
-                                <div class="toggle">
-                                    <span class="cover"></span>
-                                    <div class="toggle__icon">
-                                        <div class="sun">
-                                            <svg
-                                                viewBox="0 0 22 22"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M2.55 18.09L3.96 19.5L5.76 17.71L4.34 16.29M11 5C7.69 5 5 7.69 5 11C5 14.31 7.69 17 11 17C14.31 17 17 14.31 17 11C17 7.68 14.31 5 11 5ZM19 12H22V10H19M16.24 17.71L18.04 19.5L19.45 18.09L17.66 16.29M19.45 4L18.04 2.6L16.24 4.39L17.66 5.81M12 0H10V3H12M5.76 4.39L3.96 2.6L2.55 4L4.34 5.81L5.76 4.39ZM0 12H3V10H0M12 19H10V22H12"
-                                                />
-                                            </svg>
-                                        </div>
-                                        <div class="moon">
-                                            <svg
-                                                viewBox="0 0 18 21"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M10.1115 0C4.52416 0 0 4.59249 0 10.2564C0 15.9203 4.52416 20.5128 10.1115 20.5128C12.8531 20.5128 15.3369 19.4048 17.1601 17.6099C17.3863 17.3855 17.4452 17.0375 17.3004 16.7537C17.1556 16.4698 16.8434 16.3095 16.5313 16.3645C16.0879 16.4423 15.6355 16.4835 15.1695 16.4835C10.7856 16.4835 7.22961 12.8755 7.22961 8.42491C7.22961 5.41209 8.85831 2.78846 11.2697 1.40568C11.5457 1.24542 11.6859 0.924909 11.618 0.613553C11.5502 0.302198 11.2878 0.0686814 10.9711 0.0412089C10.6861 0.0183151 10.401 0.00457868 10.1115 0.00457868V0Z"
-                                                />
-                                            </svg>
-                                        </div>
+<body class="">
+    <header>
+        <nav>
+            <div class="nav">
+                <div class="nav__header">
+                    <div class="icon">POMODORO</div>
+                    <button class="nav__toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <!-- show_links -->
+                <div class="links__container">
+                    <div class="links">
+                        <a href="#" data-type="pomodoro" class="current">
+                            Home
+                        </a>
+
+                        <a href="#" data-type="setting">Setting</a>
+                        <div class="toggle__container">
+                            <div class="toggle">
+                                <span class="cover"></span>
+                                <div class="toggle__icon">
+                                    <div class="sun">
+                                        <svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M2.55 18.09L3.96 19.5L5.76 17.71L4.34 16.29M11 5C7.69 5 5 7.69 5 11C5 14.31 7.69 17 11 17C14.31 17 17 14.31 17 11C17 7.68 14.31 5 11 5ZM19 12H22V10H19M16.24 17.71L18.04 19.5L19.45 18.09L17.66 16.29M19.45 4L18.04 2.6L16.24 4.39L17.66 5.81M12 0H10V3H12M5.76 4.39L3.96 2.6L2.55 4L4.34 5.81L5.76 4.39ZM0 12H3V10H0M12 19H10V22H12" />
+                                        </svg>
+                                    </div>
+                                    <div class="moon">
+                                        <svg viewBox="0 0 18 21" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10.1115 0C4.52416 0 0 4.59249 0 10.2564C0 15.9203 4.52416 20.5128 10.1115 20.5128C12.8531 20.5128 15.3369 19.4048 17.1601 17.6099C17.3863 17.3855 17.4452 17.0375 17.3004 16.7537C17.1556 16.4698 16.8434 16.3095 16.5313 16.3645C16.0879 16.4423 15.6355 16.4835 15.1695 16.4835C10.7856 16.4835 7.22961 12.8755 7.22961 8.42491C7.22961 5.41209 8.85831 2.78846 11.2697 1.40568C11.5457 1.24542 11.6859 0.924909 11.618 0.613553C11.5502 0.302198 11.2878 0.0686814 10.9711 0.0412089C10.6861 0.0183151 10.401 0.00457868 10.1115 0.00457868V0Z" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </header>
-        <main>
-            <div class="pomodoro">
-                <section class="section show" data-type="pomodoro">
-                    <div class="pomodoro__container">
-                        <div class="timer">
-                            <div id="time">
-                                <span id="minutes">00</span> :
-                                <span id="seconds">00</span>
-                            </div>
-                            <div class="timer__interval">
-                                <span id="int_pass">1</span>
-                                /
-                                <span id="int_total">10</span>
-                            </div>
-                        </div>
-                        <div class="controls">
-                            <button class="controls__playpause" id="playpause">
-                                <div id="play" data-id="play">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 384 512"
-                                    >
-                                        <path
-                                            d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"
-                                        />
-                                    </svg>
-                                </div>
-                                <div id="pause" data-id="pause">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 320 512"
-                                    >
-                                        <path
-                                            d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z"
-                                        />
-                                    </svg>
-                                </div>
-                            </button>
-                            <button
-                                class="controls__reset"
-                                id="reset"
-                                data-id="reset"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512"
-                                >
-                                    <path
-                                        d="M32.5 224H24c-13.3 0-24-10.7-24-24V72c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2L82.6 96.6c87.6-86.5 228.7-86.2 315.8 1c87.5 87.5 87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3c-62.2-62.2-162.7-62.5-225.3-1L169 183c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8H32.5z"
-                                    />
-                                </svg>
-                            </button>
-                            <button
-                                class="controls__setting"
-                                id="setting"
-                                data-id="setting"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512"
-                                >
-                                    <path
-                                        d="M481.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-30.9 28.1c-7.7 7.1-11.4 17.5-10.9 27.9c.1 2.9 .2 5.8 .2 8.8s-.1 5.9-.2 8.8c-.5 10.5 3.1 20.9 10.9 27.9l30.9 28.1c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-39.7-12.6c-10-3.2-20.8-1.1-29.7 4.6c-4.9 3.1-9.9 6.1-15.1 8.7c-9.3 4.8-16.5 13.2-18.8 23.4l-8.9 40.7c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-8.9-40.7c-2.2-10.2-9.5-18.6-18.8-23.4c-5.2-2.7-10.2-5.6-15.1-8.7c-8.8-5.7-19.7-7.8-29.7-4.6L69.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l30.9-28.1c7.7-7.1 11.4-17.5 10.9-27.9c-.1-2.9-.2-5.8-.2-8.8s.1-5.9 .2-8.8c.5-10.5-3.1-20.9-10.9-27.9L8.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l39.7 12.6c10 3.2 20.8 1.1 29.7-4.6c4.9-3.1 9.9-6.1 15.1-8.7c9.3-4.8 16.5-13.2 18.8-23.4l8.9-40.7c2-9.1 9-16.3 18.2-17.8C213.3 1.2 227.5 0 242 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l8.9 40.7c2.2 10.2 9.4 18.6 18.8 23.4c5.2 2.7 10.2 5.6 15.1 8.7c8.8 5.7 19.7 7.7 29.7 4.6l39.7-12.6c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM242 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </section>
-                <section class="section" data-type="setting">
-                    <!-- setting-active to view -->
-                    <div class="setting">
-                        <div class="setting__content">
-                            <div class="content">
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="study">Study Time</label>
-                                    <div class="select">
-                                        <select name="study" id="study">
-                                            <option value="25" selected>
-                                                25 minutes
-                                            </option>
-                                            <option value="30">
-                                                30 minutes
-                                            </option>
-                                            <option value="35">
-                                                35 minutes
-                                            </option>
-                                            <option value="40">
-                                                40 minutes
-                                            </option>
-                                            <option value="45">
-                                                45 minutes
-                                            </option>
-                                            <option value="50">
-                                                50 minutes
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="relax">Break Time</label>
-                                    <div class="select">
-                                        <select name="relax" id="relax">
-                                            <option value="5" selected>
-                                                5 minutes
-                                            </option>
-                                            <option value="10">
-                                                10 minutes
-                                            </option>
-                                            <option value="15">
-                                                15 minutes
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="long_relax">Long Break</label>
-                                    <div class="select">
-                                        <select
-                                            name="long_relax"
-                                            id="long_relax"
-                                        >
-                                            <option value="20">
-                                                20 minutes
-                                            </option>
-                                            <option value="25">
-                                                25 minutes
-                                            </option>
-                                            <option value="30" selected>
-                                                30 minutes
-                                            </option>
-                                            <option value="35">
-                                                35 minutes
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="long_break_after"
-                                        >Long Break After</label
-                                    >
-                                    <div class="select">
-                                        <select
-                                            name="long_break_after"
-                                            id="long_break_after"
-                                        >
-                                            <option value="4" selected>
-                                                4 intervals
-                                            </option>
-                                            <option value="5">
-                                                5 intervals
-                                            </option>
-                                            <option value="6">
-                                                6 intervals
-                                            </option>
-                                            <option value="7">
-                                                7 intervals
-                                            </option>
-                                            <option value="8">
-                                                8 intervals
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="num_intervals"
-                                        >Num. of Intervals</label
-                                    >
-                                    <div class="select">
-                                        <select
-                                            name="num_intervals"
-                                            id="num_intervals"
-                                        >
-                                            <option value="5" selected>
-                                                5 intervals
-                                            </option>
-                                            <option value="10">
-                                                10 intervals
-                                            </option>
-                                            <option value="15">
-                                                15 intervals
-                                            </option>
-                                            <option value="20">
-                                                20 intervals
-                                            </option>
-                                            <option value="25">
-                                                25 intervals
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="start_sound"
-                                        >Break Start Sound</label
-                                    >
-                                    <div class="select">
-                                        <select
-                                            name="start_sound"
-                                            id="start_sound"
-                                        >
-                                            <option value="bell">Bell</option>
-                                            <option
-                                                value="digital_alarm"
-                                                selected
-                                            >
-                                                Digital Alarm
-                                            </option>
-                                            <option value="goofy_car_horn">
-                                                Goofy Car Horn
-                                            </option>
-                                            <option value="key_chimes">
-                                                Key Chimes
-                                            </option>
-                                            <option value="party_horn">
-                                                Party Horn
-                                            </option>
-                                            <option
-                                                value="tom_and_jerry_scream"
-                                            >
-                                                T&J scream
-                                            </option>
-                                            <option value="train_horn">
-                                                Train Horn
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                                <!-- setting -->
-                                <div class="form">
-                                    <label for="end_sound"
-                                        >Break End Sound</label
-                                    >
-                                    <div class="select">
-                                        <select name="end_sound" id="end_sound">
-                                            <option value="bell">Bell</option>
-                                            <option value="digital_alarm">
-                                                Digital Alarm
-                                            </option>
-                                            <option value="goofy_car_horn">
-                                                Goofy Car Horn
-                                            </option>
-                                            <option value="key_chimes" selected>
-                                                Key Chimes
-                                            </option>
-                                            <option value="party_horn">
-                                                Party Horn
-                                            </option>
-                                            <option
-                                                value="tom_and_jerry_scream"
-                                            >
-                                                T&J scream
-                                            </option>
-                                            <option value="train_horn">
-                                                Train Horn
-                                            </option>
-                                        </select>
-                                        <span class="focus"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="btn__container">
-                            <button class="btn btn__save" data-type="save">
-                                Save
-                            </button>
-                            <button class="btn btn__cancel" data-type="cancel">
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </section>
             </div>
-        </main>
-        <!-- <footer class="footer">
-            <a href="#" target="_blank">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                    <path
-                        d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"
-                    />
-                </svg>
-            </a>
-        </footer> -->
-    </body>
+        </nav>
+    </header>
+    <main>
+        <div class="pomodoro">
+            <section class="section show" data-type="pomodoro">
+                <div class="pomodoro__container">
+                    <div class="timer">
+                        <div id="time">
+                            <span id="minutes">00</span> :
+                            <span id="seconds">00</span>
+                        </div>
+                        <div class="timer__interval">
+                            <span id="int_pass">1</span>
+                            /
+                            <span id="int_total">10</span>
+                        </div>
+                    </div>
+                    <div class="controls">
+                        <button class="controls__playpause" id="playpause">
+                            <div id="play" data-id="play">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                    <path
+                                        d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z" />
+                                </svg>
+                            </div>
+                            <div id="pause" data-id="pause">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                    <path
+                                        d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z" />
+                                </svg>
+                            </div>
+                        </button>
+                        <button class="controls__reset" id="reset" data-id="reset">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M32.5 224H24c-13.3 0-24-10.7-24-24V72c0-9.7 5.8-18.5 14.8-22.2s19.3-1.7 26.2 5.2L82.6 96.6c87.6-86.5 228.7-86.2 315.8 1c87.5 87.5 87.5 229.3 0 316.8s-229.3 87.5-316.8 0c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0c62.5 62.5 163.8 62.5 226.3 0s62.5-163.8 0-226.3c-62.2-62.2-162.7-62.5-225.3-1L169 183c6.9 6.9 8.9 17.2 5.2 26.2s-12.5 14.8-22.2 14.8H32.5z" />
+                            </svg>
+                        </button>
+                        <button class="controls__setting" id="setting" data-id="setting">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path
+                                    d="M481.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-30.9 28.1c-7.7 7.1-11.4 17.5-10.9 27.9c.1 2.9 .2 5.8 .2 8.8s-.1 5.9-.2 8.8c-.5 10.5 3.1 20.9 10.9 27.9l30.9 28.1c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-39.7-12.6c-10-3.2-20.8-1.1-29.7 4.6c-4.9 3.1-9.9 6.1-15.1 8.7c-9.3 4.8-16.5 13.2-18.8 23.4l-8.9 40.7c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-8.9-40.7c-2.2-10.2-9.5-18.6-18.8-23.4c-5.2-2.7-10.2-5.6-15.1-8.7c-8.8-5.7-19.7-7.8-29.7-4.6L69.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l30.9-28.1c7.7-7.1 11.4-17.5 10.9-27.9c-.1-2.9-.2-5.8-.2-8.8s.1-5.9 .2-8.8c.5-10.5-3.1-20.9-10.9-27.9L8.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l39.7 12.6c10 3.2 20.8 1.1 29.7-4.6c4.9-3.1 9.9-6.1 15.1-8.7c9.3-4.8 16.5-13.2 18.8-23.4l8.9-40.7c2-9.1 9-16.3 18.2-17.8C213.3 1.2 227.5 0 242 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l8.9 40.7c2.2 10.2 9.4 18.6 18.8 23.4c5.2 2.7 10.2 5.6 15.1 8.7c8.8 5.7 19.7 7.7 29.7 4.6l39.7-12.6c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM242 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="section" data-type="setting">
+                <!-- setting-active to view -->
+                <div class="setting">
+                    <div class="setting__content">
+                        <div class="content">
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="study">Study Time</label>
+                                <div class="select">
+                                    <select name="study" id="study">
+                                        <option value="25" selected>
+                                            25 minutes
+                                        </option>
+                                        <option value="30">
+                                            30 minutes
+                                        </option>
+                                        <option value="35">
+                                            35 minutes
+                                        </option>
+                                        <option value="40">
+                                            40 minutes
+                                        </option>
+                                        <option value="45">
+                                            45 minutes
+                                        </option>
+                                        <option value="50">
+                                            50 minutes
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="relax">Break Time</label>
+                                <div class="select">
+                                    <select name="relax" id="relax">
+                                        <option value="5" selected>
+                                            5 minutes
+                                        </option>
+                                        <option value="10">
+                                            10 minutes
+                                        </option>
+                                        <option value="15">
+                                            15 minutes
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="long_relax">Long Break</label>
+                                <div class="select">
+                                    <select name="long_relax" id="long_relax">
+                                        <option value="20">
+                                            20 minutes
+                                        </option>
+                                        <option value="25">
+                                            25 minutes
+                                        </option>
+                                        <option value="30" selected>
+                                            30 minutes
+                                        </option>
+                                        <option value="35">
+                                            35 minutes
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="long_break_after">Long Break After</label>
+                                <div class="select">
+                                    <select name="long_break_after" id="long_break_after">
+                                        <option value="4" selected>
+                                            4 intervals
+                                        </option>
+                                        <option value="5">
+                                            5 intervals
+                                        </option>
+                                        <option value="6">
+                                            6 intervals
+                                        </option>
+                                        <option value="7">
+                                            7 intervals
+                                        </option>
+                                        <option value="8">
+                                            8 intervals
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="num_intervals">Num. of Intervals</label>
+                                <div class="select">
+                                    <select name="num_intervals" id="num_intervals">
+                                        <option value="5" selected>
+                                            5 intervals
+                                        </option>
+                                        <option value="10">
+                                            10 intervals
+                                        </option>
+                                        <option value="15">
+                                            15 intervals
+                                        </option>
+                                        <option value="20">
+                                            20 intervals
+                                        </option>
+                                        <option value="25">
+                                            25 intervals
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="start_sound">Break Start Sound</label>
+                                <div class="select">
+                                    <select name="start_sound" id="start_sound">
+                                        <option value="bell">Bell</option>
+                                        <option value="digital_alarm" selected>
+                                            Digital Alarm
+                                        </option>
+                                        <option value="goofy_car_horn">
+                                            Goofy Car Horn
+                                        </option>
+                                        <option value="key_chimes">
+                                            Key Chimes
+                                        </option>
+                                        <option value="party_horn">
+                                            Party Horn
+                                        </option>
+                                        <option value="tom_and_jerry_scream">
+                                            T&J scream
+                                        </option>
+                                        <option value="train_horn">
+                                            Train Horn
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                            <!-- setting -->
+                            <div class="form">
+                                <label for="end_sound">Break End Sound</label>
+                                <div class="select">
+                                    <select name="end_sound" id="end_sound">
+                                        <option value="bell">Bell</option>
+                                        <option value="digital_alarm">
+                                            Digital Alarm
+                                        </option>
+                                        <option value="goofy_car_horn">
+                                            Goofy Car Horn
+                                        </option>
+                                        <option value="key_chimes" selected>
+                                            Key Chimes
+                                        </option>
+                                        <option value="party_horn">
+                                            Party Horn
+                                        </option>
+                                        <option value="tom_and_jerry_scream">
+                                            T&J scream
+                                        </option>
+                                        <option value="train_horn">
+                                            Train Horn
+                                        </option>
+                                    </select>
+                                    <span class="focus"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn__container">
+                        <button class="btn btn__save" data-type="save">
+                            Save
+                        </button>
+                        <button class="btn btn__cancel" data-type="cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+</body>
+
 </html>
