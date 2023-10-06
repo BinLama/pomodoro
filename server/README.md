@@ -1,8 +1,9 @@
 #### TODO:
 
--   [ ] create a database and store the data there.
--   [ ] implement express to send and receive data.
--   [ ] use mongodb to store the data.
+- [x] create a database and store the data there.
+- [ ] implement express to send and receive data.
+- [ ] use mySql to store the data.
+- [ ] impement jwt and Oauth
 
 ## Start:
 

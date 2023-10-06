@@ -1,0 +1,62 @@
+[
+  {
+    "f_name": "harry",
+    "l_name": "potter",
+    "email": "youAreAWizardHARRY@hogwarts.edu",
+    "username": "harryDPotter",
+    "hash_pw": "harryIsTheB3stWiz4rD",
+    "setting": {},
+    "color": {},
+    "sessions": [{ "completed": 1 }],
+    "tasks": [
+      { "task": "Wash Face" },
+      { "task": "Focus on finishing the work" },
+      { "task": "Get a job" }
+    ]
+  },
+  {
+    "f_name": "bill",
+    "l_name": "money",
+    "email": "likemy@sshole.cum",
+    "username": "billLikeMon3y",
+    "hash_pw": "passTheBillAndGetM0n3y!",
+    "setting": {},
+    "color": {},
+    "sessions": [{ "completed": 1 }],
+    "tasks": [
+      { "task": "Wash Face" },
+      { "task": "Focus on finishing the work" },
+      { "task": "Get a job" }
+    ]
+  },
+  {
+    "f_name": "Luffy",
+    "l_name": "Monkey",
+    "email": "garpBeatTheShitOutOfMe@foosha.village",
+    "username": "MonkeyDLuffy",
+    "hash_pw": "IamStupid123",
+    "setting": {},
+    "color": {},
+    "sessions": [{ "completed": 1 }],
+    "tasks": [
+      { "task": "Wash Face" },
+      { "task": "Focus on finishing the work" },
+      { "task": "Get a job" }
+    ]
+  },
+  {
+    "f_name": "Usopp",
+    "l_name": "God",
+    "email": "GodDUsopp@gecko.island",
+    "username": "IwillBeHiding",
+    "hash_pw": "10TONhamm3RSmasH",
+    "setting": {},
+    "color": {},
+    "sessions": [{ "completed": 1 }],
+    "tasks": [
+      { "task": "Wash Face" },
+      { "task": "Focus on finishing the work" },
+      { "task": "Get a job" }
+    ]
+  }
+]
