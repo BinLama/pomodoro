@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
     const { f_name, l_name, username, email, password } = req.body;
 
     if (!(f_name && l_name && email && password && username)) {
-      return res.stauts(400).json({ msg: "Not all information was provided" });
+      return res.status(400).json({ msg: "Not all information was provided" });
     }
 
     if (!validateEmail(email)) {
@@ -131,20 +131,20 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ msg: `Please insert proper information` });
     }
 
-    const user = await User.update(req.body, { where: { id: id } });
+    // first find the user
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ["hash_pw"] },
+    });
 
-    if (user[0] === 1) {
-      const newUser = await User.findByPk(id, {
-        attributes: { exclude: ["hash_pw"] },
-      });
-
-      return res.status(200).json({ user: newUser });
+    if (!user) {
+      return res.status(404).json({ msg: `User with id: ${id} not found.` });
     }
 
-    res
-      .status(404)
-      .json({ msg: `No user with id: ${id} or no new information to update` });
+    const updatedOldUser = await user.update(req.body);
+
+    return res.status(200).json({ user: updatedOldUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ msg: error });
   }
 };
