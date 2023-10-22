@@ -1,96 +1,104 @@
-const User = require("../models/User");
+const { User, signup, login } = require("../models/index");
 const { validateEmail } = require("../utils/isEmail");
+const { Op } = require("sequelize");
+const jwt = require("jsonwebtoken");
 
-const getAllUser = async (req, res) => {
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "30d" });
+};
+
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
       attributes: { exclude: ["hash_pw"] },
     });
-    return res.status(200).json({ users: users });
+    return res.status(200).json({ user: users });
   } catch (error) {
-    res.status(500).json({ msg: error });
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// signup users
+const signupUser = async (req, res) => {
+  try {
+    const { f_name, l_name, username, email, password } = req.body;
+
+    if (!(f_name && l_name && email && password && username)) {
+      return res
+        .status(400)
+        .json({ error: "Not all information was provided" });
+    }
+
+    if (!validateEmail(email)) {
+      return res.status(400).json({ error: `Please enter a proper email.` });
+    }
+
+    // check if email or username exits on the server
+    const usernameOrEmailExists = await User.findOne({
+      where: {
+        [Op.or]: [{ email: email }, { username: username }],
+      },
+      attributes: ["email", "username"],
+    });
+
+    if (usernameOrEmailExists) {
+      return res.status(409).json({ error: `User already exists.` });
+    }
+
+    const user = await signup(f_name, l_name, email, password, username);
+
+    // create a token
+    const token = createToken(user.id);
+
+    res.status(201).json({ username: user.username, token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  // add settings, color,
+  // const user = User.build()
+};
+
+const loginUser = async (req, res) => {
+  try {
+    const { usernameOrEmail, password } = req.body;
+
+    if (!(usernameOrEmail && password)) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all the information" });
+    }
+
+    const user = await login(usernameOrEmail, password);
+
+    // create a token
+    const token = createToken(user.id);
+
+    res.status(200).json({ username: user.username, token });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error.message });
   }
 };
 
 const getUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    console.log(id);
+    const { id } = req.user;
+
     const user = await User.findByPk(id, {
       attributes: { exclude: ["hash_pw"] },
     });
 
     if (!user) {
-      return res.status(404).json({ msg: `No user with id: ${id}` });
+      return res.status(404).json({ error: `No user with id: ${id}` });
     }
 
     res.status(200).json({ user: user });
   } catch (error) {
-    return res.status(500).json({ msg: error });
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
-};
-
-const createUser = async (req, res) => {
-  try {
-    const { f_name, l_name, username, email, password } = req.body;
-
-    if (!(f_name && l_name && email && password && username)) {
-      return res.status(400).json({ msg: "Not all information was provided" });
-    }
-
-    if (!validateEmail(email)) {
-      return res.status(400).json({ msg: `Please enter a proper email.` });
-    }
-
-    // check if email exits on the server
-    const emailInDB = await User.findOne({
-      where: {
-        email: email,
-      },
-      attributes: ["email", "username"],
-    });
-
-    // check if username exits on the server
-    const usernameInDB = await User.findOne({
-      where: {
-        username: username,
-      },
-      attributes: ["email", "username"],
-    });
-
-    if (emailInDB || usernameInDB) {
-      return res.status(409).json({ msg: `User already exists.` });
-    }
-
-    const user = await User.create(
-      {
-        username: username,
-        f_name: f_name,
-        l_name: l_name,
-        email: email,
-        hash_pw: password,
-        setting: {},
-        color: {},
-      },
-      {
-        include: [User.setting, User.color],
-      }
-    );
-
-    const newUser = Object.fromEntries(
-      Object.entries(user.dataValues).filter(([key, val]) => {
-        if (key != "hash_pw") {
-          return [key, val];
-        }
-      })
-    );
-
-    res.status(200).json({ user: newUser });
-  } catch (error) {
-    res.status(500).json({ msg: error });
-  }
-  // add settings, color,
-  // const user = User.build()
 };
 
 const deleteUser = async (req, res) => {
@@ -100,35 +108,40 @@ const deleteUser = async (req, res) => {
   // if they log back in, then don't delete the user anymore
   //
   try {
-    const { id } = req.params;
+    const { id } = req.user;
 
-    const deleted = await User.destroy({
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ error: `No user with id: ${id}` });
+    }
+
+    await User.destroy({
       where: {
         id: id,
       },
       force: true,
     });
 
-    if (deleted === 0) {
-      return res.status(404).json({ msg: `User with id: ${id} not found.` });
-    }
-
     res.status(200).json({
-      msg: `Deleting User: ${id}`,
-      user: deleted,
+      user: `User with id: ${id} has been successfully deleted.`,
     });
   } catch (error) {
-    res.status(500).json({ msg: error });
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 const updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
+
     const { f_name, l_name, username } = req.body;
 
     if (f_name === "" || l_name === "" || username === "") {
-      return res.status(400).json({ msg: `Please insert proper information` });
+      return res
+        .status(400)
+        .json({ error: `Please insert proper information` });
     }
 
     // first find the user
@@ -137,7 +150,7 @@ const updateUser = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ msg: `User with id: ${id} not found.` });
+      return res.status(404).json({ error: `User with id: ${id} not found.` });
     }
 
     const updatedOldUser = await user.update(req.body);
@@ -145,14 +158,15 @@ const updateUser = async (req, res) => {
     return res.status(200).json({ user: updatedOldUser });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ msg: error });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 module.exports = {
-  getAllUser,
+  getAllUsers,
+  signupUser,
+  loginUser,
   getUser,
-  createUser,
   updateUser,
   deleteUser,
 };

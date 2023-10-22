@@ -1,22 +1,23 @@
 const express = require("express");
 const {
-  getAllUser,
   getUser,
-  createUser,
   deleteUser,
   updateUser,
+  getAllUsers,
 } = require("../controller/User");
-const { getUserSetting } = require("../controller/Setting");
+const requireAuth = require("../middleware/requireAuth");
 
 const userRouter = express.Router();
 
-// getting user info
-userRouter.route("/").get(getAllUser).post(createUser);
+// require auth for all user routes
+userRouter.use(requireAuth);
 
-// getting single user info
-userRouter.route("/:id").get(getUser).delete(deleteUser).patch(updateUser);
+// get all user
+userRouter.get("/all", getAllUsers);
 
-// getting settings
-userRouter.get("/:id/setting", getUserSetting);
+// get for viewing the profile
+// patch for changing the profile
+// delete for deleting the user
+userRouter.route("/").get(getUser).delete(deleteUser).patch(updateUser);
 
 module.exports = { userRouter };

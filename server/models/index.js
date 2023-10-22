@@ -1,62 +1,100 @@
 // data
 const info = require("../data.json");
 
+// database
+const sequelize = require("../db/db");
+
 // db models
-const User = require("./User");
+const { User, signup, login } = require("./User");
 const Setting = require("./Setting");
 const Color = require("./Color");
 const Task = require("./Task");
 const Session = require("./Session");
 
-const makeConnection = () => {
-  // One to One User and Setting
-  User.setting = User.hasOne(Setting, {
-    foreignKey: {
-      allowNull: false,
-    },
-    onDelete: "CASCADE",
-  });
-  Setting.belongsTo(User, {
-    foreignKey: {
-      allowNull: false,
-    },
-    onDelete: "CASCADE",
-  });
-
-  // One to One User and Color
-  User.color = User.hasOne(Color, {
-    foreignKey: {
-      allowNull: false,
-    },
-    onDelete: "CASCADE",
-  });
-  Color.belongsTo(User, {
-    foreignKey: {
-      allowNull: false,
-    },
-    onDelete: "CASCADE",
-  });
-
-  // One to Many User and Task (many task)
-  User.tasks = User.hasMany(Task, {
-    onDelete: "CASCADE",
-  });
-  Task.belongsTo(User, {
-    onDelete: "CASCADE",
-  });
-
-  // One to many User and Session (many Session)
-  User.sessions = User.hasMany(Session, {
-    onDelete: "CASCADE",
-  });
-  Session.belongsTo(User, {
-    onDelete: "CASCADE",
-  });
+// authenticate the database
+const authenticateDatabase = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+    throw new Error(`Unable to connect to the database: ${error.message}`);
+  }
 };
 
-const start = async () => {
-  makeConnection();
-  // await sequelize.sync({});
+// sync the models
+const syncModels = async () => {
+  try {
+    await sequelize.sync({ force: false });
+    console.log("Models synchronized with the database.");
+  } catch (error) {
+    console.error("Error syncing models with the database:", error);
+    throw new Error(`Error syncing models with the database: ${error.message}`);
+  }
+};
+
+// create models associations
+const makeConnection = () => {
+  try {
+    // One to One User and Setting
+    User.setting = User.hasOne(Setting, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+    Setting.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+
+    // One to One User and Color
+    User.color = User.hasOne(Color, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+    Color.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+
+    // One to Many User and Task (many task)
+    User.tasks = User.hasMany(Task, {
+      onDelete: "CASCADE",
+    });
+    Task.belongsTo(User, {
+      onDelete: "CASCADE",
+    });
+
+    // One to many User and Session (many Session)
+    User.sessions = User.hasMany(Session, {
+      onDelete: "CASCADE",
+    });
+    Session.belongsTo(User, {
+      onDelete: "CASCADE",
+    });
+  } catch (error) {
+    console.error("Error creating association:", error);
+    throw new Error(`Error creating association: ${error.message}`);
+  }
+};
+
+const dbStart = async () => {
+  try {
+    await authenticateDatabase();
+    makeConnection();
+    console.log("Create Model Connection");
+    await syncModels();
+  } catch (error) {
+    console.error(error);
+  }
+
   // create user in sign up
   // await User.bulkCreate(info, {
   //   include: [User.setting, User.color, User.tasks, User.sessions],
@@ -99,7 +137,16 @@ const start = async () => {
   // const oneSetting = await Setting.findOne({ where: { UserId: null } });
   // console.log(oneSetting);
   // oneUser.setSetting(oneSetting);
-  console.log("Create Model Connection");
 };
 
-module.exports = start;
+module.exports = {
+  sequelize,
+  dbStart,
+  User,
+  signup,
+  login,
+  Setting,
+  Session,
+  Color,
+  Task,
+};
