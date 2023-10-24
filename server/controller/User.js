@@ -56,8 +56,6 @@ const signupUser = async (req, res) => {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-  // add settings, color,
-  // const user = User.build()
 };
 
 const loginUser = async (req, res) => {
@@ -155,6 +153,7 @@ const updateUser = async (req, res) => {
 
     const updatedOldUser = await user.update(req.body);
 
+    console.log(updatedOldUser);
     return res.status(200).json({ user: updatedOldUser });
   } catch (error) {
     console.log(error);

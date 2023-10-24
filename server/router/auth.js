@@ -9,4 +9,4 @@ authRouter.route("/signup").post(signupUser);
 // login route
 authRouter.route("/login").post(loginUser);
 
-module.exports = { authRouter };
+module.exports = authRouter;

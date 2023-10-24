@@ -20,4 +20,4 @@ userRouter.get("/all", getAllUsers);
 // delete for deleting the user
 userRouter.route("/").get(getUser).delete(deleteUser).patch(updateUser);
 
-module.exports = { userRouter };
+module.exports = userRouter;
