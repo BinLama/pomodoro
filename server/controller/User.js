@@ -1,11 +1,8 @@
 const { User, signup, login } = require("../models/index");
 const { validateEmail } = require("../utils/isEmail");
 const { Op } = require("sequelize");
-const jwt = require("jsonwebtoken");
-
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.SECRET, { expiresIn: "30d" });
-};
+const { createToken } = require("../utils/tokenManager");
+const { COOKIE_NAME } = require("../utils/constants");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -22,7 +19,7 @@ const getAllUsers = async (req, res) => {
 // signup users
 const signupUser = async (req, res) => {
   try {
-    const { f_name, l_name, username, email, password } = req.body;
+    let { f_name, l_name, username, email, password } = req.body;
 
     if (!(f_name && l_name && email && password && username)) {
       return res
@@ -33,6 +30,13 @@ const signupUser = async (req, res) => {
     if (!validateEmail(email)) {
       return res.status(400).json({ error: `Please enter a proper email.` });
     }
+
+    if (password.length < 9) {
+      return res.status(400).json({ error: "Please add a longer password" });
+    }
+
+    username = username.trim();
+    email = email.trim();
 
     // check if email or username exits on the server
     const usernameOrEmailExists = await User.findOne({
@@ -48,10 +52,28 @@ const signupUser = async (req, res) => {
 
     const user = await signup(f_name, l_name, email, password, username);
 
-    // create a token
-    const token = createToken(user.id);
+    res.clearCookie(COOKIE_NAME, {
+      httpOnly: true,
+      domain: "localhost",
+      signed: true,
+      path: "/",
+    });
 
-    res.status(201).json({ username: user.username, token });
+    // create a token
+    const token = createToken(user.id, user.email, "7d");
+
+    // create a cookie
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+    res.cookie(COOKIE_NAME, token, {
+      path: "/",
+      domain: "localhost",
+      expires,
+      httpOnly: true,
+      signed: true,
+    });
+
+    res.status(201).json({ username: user.username });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -64,16 +86,35 @@ const loginUser = async (req, res) => {
 
     if (!(usernameOrEmail && password)) {
       return res
-        .status(400)
+        .status(401)
         .json({ error: "Please provide all the information" });
     }
 
     const user = await login(usernameOrEmail, password);
 
-    // create a token
-    const token = createToken(user.id);
+    res.clearCookie(COOKIE_NAME, {
+      httpOnly: true,
+      domain: "localhost",
+      signed: true,
+      path: "/",
+    });
 
-    res.status(200).json({ username: user.username, token });
+    // create a token
+    const token = createToken(user.id, user.email, "7d");
+
+    // create a cookie
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 7);
+
+    res.cookie(COOKIE_NAME, token, {
+      path: "/",
+      domain: "localhost",
+      expires,
+      httpOnly: true,
+      signed: true,
+    });
+
+    res.status(200).json({ username: user.username });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });

@@ -10,7 +10,7 @@ const sequelize = new Sequelize(
     host: "localhost",
     port: 3306,
     dialect: "mysql",
-    logging: (...msg) => console.log(msg),
+    // logging: (...msg) => console.log(msg),
   },
   {
     define: {
