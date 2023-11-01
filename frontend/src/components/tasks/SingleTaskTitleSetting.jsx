@@ -1,4 +1,4 @@
-const SingleTask = ({ task }) => {
+const SingleTaskSetting = ({ task }) => {
   const { icon, text, priority } = task;
   return (
     <div className="tasks__title__setting-div">
@@ -7,4 +7,4 @@ const SingleTask = ({ task }) => {
     </div>
   );
 };
-export default SingleTask;
+export default SingleTaskSetting;
