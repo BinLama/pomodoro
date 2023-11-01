@@ -1,7 +1,7 @@
 import Navigation from "./components/Navigation";
 import "./scss/App.scss";
 import Pomodoro from "./components/Pomodoro";
-import Tasks from "./components/Tasks";
+import Tasks from "./components/tasks/Tasks";
 import { PomodoroContextProvider } from "./context/PomodoroContext";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <main>
       <PomodoroContextProvider>
         {/* <Navigation /> */}
-        <Pomodoro />
+        {/* <Pomodoro /> */}
       </PomodoroContextProvider>
       <Tasks />
     </main>
