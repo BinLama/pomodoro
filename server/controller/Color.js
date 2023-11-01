@@ -19,6 +19,7 @@ const getColorSetting = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 const updateColorSetting = async (req, res) => {
   try {
     const { id: UserId } = req.user;
