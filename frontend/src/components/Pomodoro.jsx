@@ -21,12 +21,6 @@ const Pomodoro = () => {
     maxSeconds,
   } = usePomodoroTimer(1, 1, 2); // this sets the pomodoro and break to 1min
 
-  const circleRef = useRef(null);
-
-  const circumference = (r) => {
-    return 2 * Math.PI * r;
-  };
-
   return (
     <div className="timer">
       <div className="timer__stateSwitch">
@@ -35,7 +29,8 @@ const Pomodoro = () => {
           onClick={() => {
             choosePhase(POMODORO);
           }}
-          className={phase === POMODORO ? "active" : ""}
+          className={phase === POMODORO ? "active pomodoro" : "pomodoro"}
+          disabled={isActive}
         >
           Pomodoro
         </button>
@@ -45,6 +40,7 @@ const Pomodoro = () => {
             choosePhase(SHORTBREAK);
           }}
           className={phase === SHORTBREAK ? "active" : ""}
+          disabled={isActive}
         >
           Break
         </button>
@@ -54,6 +50,7 @@ const Pomodoro = () => {
             choosePhase(LONGBREAK);
           }}
           className={phase === LONGBREAK ? "active" : ""}
+          disabled={isActive}
         >
           Long Break
         </button>
@@ -67,7 +64,6 @@ const Pomodoro = () => {
                   ? "is_pomodoro timer__cntdwn-svg"
                   : "is_break timer__cntdwn-svg"
               }
-              ref={circleRef}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,19 +88,12 @@ const Pomodoro = () => {
                   cy="50%"
                   strokeWidth="1.5"
                   strokeDasharray={MAX_CURCUM}
-                  strokeDashoffset={MAX_CURCUM * (remainingTime / maxSeconds)}
-                  //   minutes !== 0
-                  //     ? circum - (circum * seconds) / (minutes * 60)
-                  //     : circum
-                  // }
+                  style={{
+                    strokeDashoffset: MAX_CURCUM * (remainingTime / maxSeconds),
+                  }}
                   className="progress"
                 ></circle>
               </svg>
-              {/* create some kind of circle that shows the countdown */}
-              {/* first circle will be lighter and another will be darker and will cover the circle based on percentage of seconds passed. */}
-              {/* <svg height="100" width="100">
-            <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" />
-          </svg> */}
             </div>
             <div className="timer__cntdwn-div">
               <h1>{`${String(minutes).padStart(2, "0")}:${String(

@@ -3,36 +3,49 @@
 .timer {
   //  need to remove this aftewards
   display: grid;
-  background-color: rgb(157, 235, 157);
+  background-color: rgb(231, 224, 224);
   max-width: u.rem(455);
   max-height: u.rem(590);
   margin: u.rem(15);
   padding: u.rem(10);
   justify-items: center;
 
-
   &__stateSwitch {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 
     button {
+      width: u.rem(110);
       background: transparent;
       border: none;
       border-bottom: u.rem(2) solid transparent;
       font-weight: 700;
       color: var(--red);
       padding-inline: u.rem(10);
+      padding-top: u.rem(5);
       cursor: pointer;
+      border-radius: u.rem(5);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      &:hover {
+        background-color: hsla(var(--primary), 0.1);
+      }
     }
 
     .active {
-      color: var(--primary);
-      border-color: var(--bdr-btm-clr);
+      border-color: hsla(var(--bdr-btm-clr), 0.5);
+    }
+
+    .pomodoro {
+      color: hsl(var(--primary));
     }
   }
 
   &__cntdwn {
     display: inline-block;
+    color: hsl(var(--primary));
 
     &-relative {
       position: relative;
@@ -40,12 +53,12 @@
 
     &-container {
       text-align: center;
+      margin: u.rem(20) 0;
     }
 
     &-div {
       position: absolute;
       inset: 0;
-      color: white;
       // border: 2px solid var(--red);
       display: flex;
       flex-direction: column;
@@ -53,6 +66,27 @@
       border-radius: 50%;
       margin: u.rem(10);
       cursor: pointer;
+
+      h1 {
+        font-size: u.rem(64);
+        font-weight: 600;
+        margin-top: u.rem(40);
+      }
+    }
+
+    &-level {
+      font-size: u.rem(14);
+      line-height: u.rem(18);
+      margin-top: u.rem(10);
+
+      .lvl {
+        font-weight: 600;
+      }
+    }
+
+    &-session {
+      margin-top: u.rem(10);
+      font-size: u.rem(12);
     }
 
     &-svg {
@@ -63,15 +97,15 @@
 }
 
 .is_pomodoro {
-  stroke: var(--primary);
+  stroke: hsl(var(--primary));
 
   .track[data-circlecolor] {
     opacity: 0.2;
-
   }
 
   .progress {
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.3s linear;
   }
 }

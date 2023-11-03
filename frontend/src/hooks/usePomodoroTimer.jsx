@@ -21,7 +21,7 @@ const usePomodoroTimer = (
   const rotationRef = useRef(1);
   const [timerStarted, setTimerStarted] = useState(false); // start and pause tracker
   const [session, setSession] = useState(1);
-  const [remainingTime, setRemainingTime] = useState(0); // keeps track of seconds left (useful for calculating percentage of time passed)
+  const [remainingTime, setRemainingTime] = useState(minutes * 60); // keeps track of seconds left (useful for calculating percentage of time passed)
   const [status, setStatus] = useState(null);
   const [maxSeconds, setMaxSeconds] = useState(minutes * 60); // max seconds counted
 
@@ -124,6 +124,7 @@ const usePomodoroTimer = (
     setMinutes(() => {
       const newMin = pomoPhases[phase].minutes;
       setMaxSeconds(newMin * 60);
+      setRemainingTime(newMin * 60);
       return newMin;
     });
     setSeconds(0);
