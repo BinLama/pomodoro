@@ -149,6 +149,7 @@ const usePomodoroTimer = (
       setMinutes(() => {
         const newMin = pomoPhases[nextPhase].minutes;
         setMaxSeconds(newMin * 60);
+        setRemainingTime(newMin * 60);
         return newMin;
       });
       setSeconds(0);
@@ -156,15 +157,25 @@ const usePomodoroTimer = (
   };
 
   const choosePhase = (selectedPhase) => {
+    // TODO: create an alert when chaning phase.
+    // TODO: thinking of creating a custom hook that will alert me but will also be used for different things in the future.
+    if (timerStarted) {
+      if (!window.confirm("Are you sure you want to change the phase?")) {
+        return;
+      }
+    }
     setIsActive(false);
     setPhase(selectedPhase);
     setMinutes(() => {
       const newMin = pomoPhases[selectedPhase].minutes;
       setMaxSeconds(newMin * 60);
+      setRemainingTime(newMin * 60);
+
       return newMin;
     });
     setSeconds(0);
     setTimerStarted(false);
+    setStatus(null);
   };
 
   return {

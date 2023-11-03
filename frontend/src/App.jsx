@@ -9,9 +9,9 @@ function App() {
     <main>
       <PomodoroContextProvider>
         {/* <Navigation /> */}
-        <Pomodoro />
+        {/* <Pomodoro /> */}
       </PomodoroContextProvider>
-      {/* <Tasks /> */}
+      <Tasks />
     </main>
   );
 }

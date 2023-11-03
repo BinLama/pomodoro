@@ -5,6 +5,15 @@ body {
   font-size: u.rem(16);
 }
 
-// .btn {
-
-// }
+.btn {
+  display: inline-block;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  font-size: u.rem(16);
+  padding: u.rem(10) u.rem(32);
+  border-radius: u.rem(7);
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}

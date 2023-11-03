@@ -3,7 +3,7 @@
 .timer {
   //  need to remove this aftewards
   display: grid;
-  background-color: rgb(231, 224, 224);
+  // background-color: rgb(231, 224, 224);
   max-width: u.rem(455);
   max-height: u.rem(590);
   margin: u.rem(15);
@@ -21,7 +21,7 @@
       border: none;
       border-bottom: u.rem(2) solid transparent;
       font-weight: 700;
-      color: var(--red);
+      color: hsl(var(--red));
       padding-inline: u.rem(10);
       padding-top: u.rem(5);
       cursor: pointer;
@@ -31,6 +31,10 @@
 
       &:hover {
         background-color: hsla(var(--primary), 0.1);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
       }
     }
 
@@ -45,7 +49,6 @@
 
   &__cntdwn {
     display: inline-block;
-    color: hsl(var(--primary));
 
     &-relative {
       position: relative;
@@ -59,13 +62,11 @@
     &-div {
       position: absolute;
       inset: 0;
-      // border: 2px solid var(--red);
       display: flex;
       flex-direction: column;
       justify-content: center;
       border-radius: 50%;
       margin: u.rem(10);
-      cursor: pointer;
 
       h1 {
         font-size: u.rem(64);
@@ -79,6 +80,11 @@
       line-height: u.rem(18);
       margin-top: u.rem(10);
 
+      div {
+        display: inline-block;
+        cursor: pointer;
+      }
+
       .lvl {
         font-weight: 600;
       }
@@ -87,25 +93,75 @@
     &-session {
       margin-top: u.rem(10);
       font-size: u.rem(12);
+
+      div {
+        display: inline-block;
+        cursor: pointer;
+      }
     }
 
     &-svg {
       height: u.rem(275);
       width: u.rem(275);
+
+      .progress {
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+        transition: stroke-dashoffset 0.3s linear;
+      }
+
+      .track[data-circlecolor] {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &__controller {
+    // color
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      text-transform: uppercase;
+    }
+
+    .primary {
+      background-color: hsla(var(--primary), .95);
+
+      &:hover {
+        background-color: hsla(var(--primary), 1);
+      }
+
+      &:active {
+        background-color: hsla(var(--primary), .85);
+      }
+
+    }
+
+    .secondary {
+      background-color: hsla(var(--red), .95);
+
+      &:hover {
+        background-color: hsla(var(--red), 1);
+      }
+
+      &:active {
+        background-color: hsla(var(--red), .85);
+      }
+
+      &:disabled {
+        background-color: hsla(var(--red), .5);
+      }
     }
   }
 }
 
 .is_pomodoro {
   stroke: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
 
-  .track[data-circlecolor] {
-    opacity: 0.2;
-  }
-
-  .progress {
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.3s linear;
-  }
+.is_break {
+  stroke: hsl(var(--red));
+  color: hsl(var(--red));
 }

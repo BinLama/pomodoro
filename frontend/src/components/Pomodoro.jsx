@@ -95,19 +95,31 @@ const Pomodoro = () => {
                 ></circle>
               </svg>
             </div>
-            <div className="timer__cntdwn-div">
+            <div
+              className={
+                phase === POMODORO
+                  ? "is_pomodoro timer__cntdwn-div"
+                  : "is_break timer__cntdwn-div"
+              }
+            >
               <h1>{`${String(minutes).padStart(2, "0")}:${String(
                 seconds
               ).padStart(2, "0")}`}</h1>
+
               <div className="timer__cntdwn-level">
-                <p>Level</p>
-                <p className="lvl">Beginner</p>
+                {/* TODO: add an on click function that opens up setting */}
+                <div>
+                  <p>Level</p>
+                  <p className="lvl">Beginner</p>
+                </div>
               </div>
               <div className="timer__cntdwn-session">
-                <span>{`${String(session).padStart(2, "0")}`}</span>
-
-                {/* this should be changed after getting the setting */}
-                <span> / 10</span>
+                {/* TODO: add on click functionality that resets the counter but show alert first*/}
+                <div>
+                  <span>{`${String(session).padStart(2, "0")}`}</span>
+                  {/* TODO:  this should be changed after getting the setting */}
+                  <span> / 10</span>
+                </div>
               </div>
             </div>
           </div>
@@ -115,26 +127,44 @@ const Pomodoro = () => {
         <div className="timer__controller">
           {!isActive ? (
             <>
-              <button onClick={startTimer} type="button">
+              <button
+                onClick={startTimer}
+                className="btn primary"
+                type="button"
+              >
                 Start
               </button>
             </>
           ) : (
             <>
-              <button onClick={pauseTimer} type="button">
+              <button
+                onClick={pauseTimer}
+                className="btn primary"
+                type="button"
+              >
                 Pause
               </button>
             </>
           )}
           {timerStarted ? (
             <>
-              <button onClick={resetTimer} type="button" disabled={isActive}>
+              <button
+                onClick={resetTimer}
+                className="btn secondary"
+                type="button"
+                disabled={isActive}
+              >
                 Restart
               </button>
             </>
           ) : (
             <>
-              <button onClick={skipPhase} type="button" disabled={isActive}>
+              <button
+                onClick={skipPhase}
+                type="button"
+                className="btn secondary"
+                disabled={isActive}
+              >
                 Skip
               </button>
             </>
