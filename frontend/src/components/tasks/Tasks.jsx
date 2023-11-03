@@ -7,6 +7,7 @@ import { useState } from "react";
 import TaskModal from "./TaskModal";
 
 const Tasks = () => {
+  // TODO: tasks should be received through local host or database.
   const [tasks, setTasks] = useState([
     { id: 1, title: "task1", note: "task1 note" },
     { id: 2, title: "In Progress", note: "task2 note" },

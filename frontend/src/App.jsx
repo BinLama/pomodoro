@@ -1,6 +1,6 @@
 import Navigation from "./components/Navigation";
 import "./scss/App.scss";
-import Pomodoro from "./components/Pomodoro";
+import Pomodoro from "./components/pomodoro/Pomodoro";
 import Tasks from "./components/tasks/Tasks";
 import { PomodoroContextProvider } from "./context/PomodoroContext";
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import usePomodoroTimer from "../hooks/usePomodoroTimer";
-import { POMODORO, SHORTBREAK, LONGBREAK } from "../utils/constants";
+import usePomodoroTimer from "../../hooks/usePomodoroTimer";
+import { POMODORO, SHORTBREAK, LONGBREAK } from "../../utils/constants";
 
 const MAX_CURCUM = 295.301;
 
