@@ -1,0 +1,77 @@
+@use "../utils/" as u;
+
+.timer {
+  //  need to remove this aftewards
+  display: grid;
+  background-color: rgb(157, 235, 157);
+  max-width: u.rem(455);
+  max-height: u.rem(590);
+  margin: u.rem(15);
+  padding: u.rem(10);
+  justify-items: center;
+
+
+  &__stateSwitch {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      background: transparent;
+      border: none;
+      border-bottom: u.rem(2) solid transparent;
+      font-weight: 700;
+      color: var(--red);
+      padding-inline: u.rem(10);
+      cursor: pointer;
+    }
+
+    .active {
+      color: var(--primary);
+      border-color: var(--bdr-btm-clr);
+    }
+  }
+
+  &__cntdwn {
+    display: inline-block;
+
+    &-relative {
+      position: relative;
+    }
+
+    &-container {
+      text-align: center;
+    }
+
+    &-div {
+      position: absolute;
+      inset: 0;
+      color: white;
+      // border: 2px solid var(--red);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 50%;
+      margin: u.rem(10);
+      cursor: pointer;
+    }
+
+    &-svg {
+      height: u.rem(275);
+      width: u.rem(275);
+    }
+  }
+}
+
+.is_pomodoro {
+  stroke: var(--primary);
+
+  .track[data-circlecolor] {
+    opacity: 0.2;
+
+  }
+
+  .progress {
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+}

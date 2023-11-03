@@ -16,11 +16,15 @@ const usePomodoroTimer = (
   const [phase, setPhase] = useState(POMODORO);
   const [minutes, setMinutes] = useState(pomoPhases.pomodoro.minutes);
   const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
-  const [startTime, setStartTime] = useState(null);
+  const [isActive, setIsActive] = useState(false); // let the countdonw happen
+  const [startTime, setStartTime] = useState(null); // used for calculating delay on timer
   const rotationRef = useRef(1);
-  const [timerStarted, setTimerStarted] = useState(false);
+  const [timerStarted, setTimerStarted] = useState(false); // start and pause tracker
   const [session, setSession] = useState(1);
+  const [remainingTime, setRemainingTime] = useState(0); // keeps track of seconds left (useful for calculating percentage of time passed)
+  const [status, setStatus] = useState(null);
+  const [maxSeconds, setMaxSeconds] = useState(minutes * 60); // max seconds counted
+
   useEffect(() => {
     let timeout;
 
@@ -43,12 +47,20 @@ const usePomodoroTimer = (
               newState = SHORTBREAK;
             }
 
-            setMinutes(() => pomoPhases[newState].minutes);
+            setMinutes(() => {
+              const newMin = pomoPhases[newState].minutes;
+              setMaxSeconds(newMin * 60 - 1);
+              return newMin;
+            });
             console.log("change phase:", newState);
+
             return newState;
           });
 
           setTimerStarted(false);
+          setRemainingTime(() => {
+            return maxSeconds;
+          });
         } else {
           setMinutes((prevMinutes) => prevMinutes - 1);
           setSeconds(59);
@@ -62,6 +74,12 @@ const usePomodoroTimer = (
         });
       }
 
+      if (seconds !== 0 || minutes !== 0) {
+        setRemainingTime((oldTime) => {
+          console.log("old time:", oldTime);
+          return oldTime - 1;
+        });
+      }
       // calculating the delay of running the tick function
       const remainingMilliseconds = 1000 - (elapsedMilliseconds % 1000);
 
@@ -81,20 +99,36 @@ const usePomodoroTimer = (
 
   const startTimer = () => {
     console.log("current phase:", phase);
-    setIsActive(true);
     setStartTime(new Date().getTime());
-    setTimerStarted(true);
+    setIsActive(true);
+
+    if (status === "play" || status === null) {
+      setMaxSeconds(() => {
+        const newMaxSec = minutes * 60;
+        setRemainingTime(newMaxSec);
+        return newMaxSec;
+      });
+
+      setTimerStarted(true);
+    }
+    setStatus("play");
   };
 
   const pauseTimer = () => {
     setIsActive(false);
+    setStatus("paused");
   };
 
   const resetTimer = () => {
     setIsActive(false);
-    setMinutes(pomoPhases[phase].minutes);
+    setMinutes(() => {
+      const newMin = pomoPhases[phase].minutes;
+      setMaxSeconds(newMin * 60);
+      return newMin;
+    });
     setSeconds(0);
     setTimerStarted(false);
+    setStatus(null);
   };
 
   const skipPhase = () => {
@@ -110,7 +144,12 @@ const usePomodoroTimer = (
       }
 
       setPhase(nextPhase);
-      setMinutes(pomoPhases[nextPhase].minutes);
+
+      setMinutes(() => {
+        const newMin = pomoPhases[nextPhase].minutes;
+        setMaxSeconds(newMin * 60);
+        return newMin;
+      });
       setSeconds(0);
     }
   };
@@ -118,7 +157,11 @@ const usePomodoroTimer = (
   const choosePhase = (selectedPhase) => {
     setIsActive(false);
     setPhase(selectedPhase);
-    setMinutes(pomoPhases[selectedPhase].minutes);
+    setMinutes(() => {
+      const newMin = pomoPhases[selectedPhase].minutes;
+      setMaxSeconds(newMin * 60);
+      return newMin;
+    });
     setSeconds(0);
     setTimerStarted(false);
   };
@@ -135,6 +178,8 @@ const usePomodoroTimer = (
     resetTimer,
     skipPhase,
     choosePhase,
+    maxSeconds,
+    remainingTime,
   };
 };
 

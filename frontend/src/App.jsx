@@ -11,7 +11,7 @@ function App() {
         {/* <Navigation /> */}
         <Pomodoro />
       </PomodoroContextProvider>
-      <Tasks />
+      {/* <Tasks /> */}
     </main>
   );
 }
