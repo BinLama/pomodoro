@@ -22,6 +22,16 @@ main {
   font-weight: 600;
   color: black;
   cursor: pointer;
+  background-color: rgba(178, 202, 241, 0.5);
+
+  &:hover {
+    background-color: rgba(178, 202, 241, 0.55);
+    color: hsl(var(--primary));
+  }
+
+  &:active {
+    background-color: rgba(178, 202, 241, 0.8);
+  }
 }
 
 .underline {

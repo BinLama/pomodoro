@@ -70,6 +70,8 @@
     }
 
     &-addtask {
+      margin: u.rem(20) 0;
+
       button {
         display: flex;
         width: 100%;
@@ -104,9 +106,7 @@
   }
 
   &__info {
-    display: block;
     padding: u.rem(15) u.rem(10);
-    justify-content: space-between;
   }
 
   &__detail {
@@ -148,7 +148,6 @@
     color: inherit;
     font-size: u.rem(20);
     display: flex;
-    right: 0;
     background-color: rgba(178, 202, 241, 0.5)
   }
 
@@ -158,5 +157,11 @@
     padding: u.rem(10);
     border-radius: u.rem(7);
     font-size: u.rem(14);
+  }
+
+  &__modal {
+    border: 1px solid hsla(var(--blk), 0.5);
+    border-radius: u.rem(7);
+    margin: u.rem(20) 0;
   }
 }

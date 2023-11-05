@@ -21,6 +21,6 @@
 
 ### TODO Task
 
-- [ ] create a add task div
-- [ ] add new task but make sure add task div is below
+- [x] create a add task div
+- [x] add new task but make sure add task div is below
 - [ ] make newly added task dragable

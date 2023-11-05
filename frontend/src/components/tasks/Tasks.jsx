@@ -18,16 +18,28 @@ const Tasks = () => {
     },
     { id: 3, title: "Done", note: "task3 note" },
     {
-      id: 2,
+      id: 4,
       title: "12345678901234567 8901234567890",
-      note: "task2 note",
+      note: "",
     },
   ]);
 
+  // showing setting when clicked
   const [displaySetting, setDisplaySetting] = useState(false);
+
+  // showing add modal
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const openAndCloseSetting = () => {
     setDisplaySetting(!displaySetting);
+  };
+
+  const openAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const closeAddModal = () => {
+    setShowAddModal(false);
   };
 
   return (
@@ -61,11 +73,16 @@ const Tasks = () => {
             return <SingleTask key={task.id} task={task} />;
           })}
         </div>
+
         {/* modal for task CRUD */}
-        <TaskModal />
+        {showAddModal && (
+          <div className="task__modal">
+            <TaskModal showDelete={false} close={closeAddModal} />
+          </div>
+        )}
         {/* add task */}
         <div className="tasks__list-addtask">
-          <button type="button" className="btn">
+          <button type="button" className="btn" onClick={openAddModal}>
             <IoAddCircle /> Add Task
           </button>
         </div>

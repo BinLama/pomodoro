@@ -37,9 +37,11 @@ const SingleTask = ({ task }) => {
               </button>
             </div>
           </div>
-          <div className="task__note">
-            <p>{note}</p>
-          </div>
+          {note && (
+            <div className="task__note">
+              <p>{note}</p>
+            </div>
+          )}
         </div>
       )}
       {edit && (

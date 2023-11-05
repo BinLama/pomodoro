@@ -1,13 +1,25 @@
-import { useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useEffect, useState, useRef } from "react";
+import { BsTrashFill } from "react-icons/bs";
+import { SCROLLHEIGHT } from "../../utils/constants";
 
-const TaskModal = ({ close, title = "", note = "" }) => {
+const TaskModal = ({ close, title = "", note = "", showDelete = true }) => {
   const [pomoTask, setPomoTask] = useState({
     title: title,
-    notes: note,
+    note: note,
   });
 
-  const [notes, setNotes] = useState(false);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    // reset height - important to shrink on delete
+    textareaRef.current.style.height = `${SCROLLHEIGHT}px`;
+
+    // set height
+    textareaRef.current.style.height = `${Math.max(
+      textareaRef.current.scrollHeight,
+      SCROLLHEIGHT
+    )}px`;
+  }, [pomoTask.note]);
 
   return (
     <div className="tasks__list__modal">
@@ -26,43 +38,23 @@ const TaskModal = ({ close, title = "", note = "" }) => {
       </div>
       <div className="tasks__list__modal-notes">
         <textarea
-          className={
-            notes
-              ? "tasks__list__modal-textarea notes"
-              : "tasks__list__modal-textarea"
-          }
-          value={pomoTask.notes}
+          className="tasks__list__modal-textarea"
+          value={pomoTask.note}
           onChange={(e) => {
             setPomoTask((oldTask) => {
-              return { ...oldTask, notes: e.target.value };
+              return { ...oldTask, note: e.target.value };
             });
           }}
+          ref={textareaRef}
           placeholder="Some notes..."
         ></textarea>
-        <button
-          type="button"
-          onClick={() =>
-            setNotes((oldNote) => {
-              return !oldNote;
-            })
-          }
-          className="btn"
-        >
-          {notes ? (
-            <>
-              <AiOutlinePlus /> Add Notes
-            </>
-          ) : (
-            <>
-              <AiOutlinePlus /> Remove Notes
-            </>
-          )}
-        </button>
       </div>
-      <div className="tasks__list__commit">
-        <button type="button" className="btn delete">
-          Delete
-        </button>
+      <div className="tasks__list__modal-buttons">
+        {showDelete && (
+          <button type="button" className="btn delete">
+            <BsTrashFill />
+          </button>
+        )}
         <div className="">
           <button type="button" className="btn cancel" onClick={close}>
             Cancel
