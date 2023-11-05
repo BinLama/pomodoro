@@ -1,3 +1,162 @@
+@use "../utils/" as u;
+
 .tasks {
-  background-color: rgb(193, 231, 193);
+  // background-color: rgb(193, 231, 193);
+  color: hsl(var(--blk));
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__button {
+      position: relative;
+
+      button {
+        padding: u.rem(7);
+        color: inherit;
+        font-size: u.rem(20);
+      }
+    }
+
+    &__setting {
+      position: absolute;
+      display: grid;
+      background: hsla(var(--white));
+      top: 150%;
+      right: 0%;
+      width: max-content;
+      padding: u.rem(5);
+      border-radius: u.rem(10);
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+      &-div {
+        border-radius: u.rem(10);
+
+        .priority {
+          padding: 0;
+          height: 1px;
+          width: 100%;
+          background: rgba(var(--underline), 0.63);
+        }
+
+        &:hover {
+          color: hsl(var(--primary));
+          background-color: rgba(var(--hover), 0.5);
+        }
+
+        div {
+          display: flex;
+          align-items: center;
+          padding: u.rem(10);
+          cursor: pointer;
+
+        }
+
+        svg {
+          margin: 0 u.rem(5);
+        }
+      }
+    }
+  }
+
+  &__list {
+
+    &__task {
+      display: grid;
+      gap: u.rem(20);
+      margin-top: u.rem(10);
+
+    }
+
+    &-addtask {
+      button {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        color: var(--blk);
+        box-shadow: inset 0 0 14px 3px rgba(0, 0, 0, .08);
+        border: 2px dashed hsla(0, 0%, 50%, 0.75);
+
+        >svg {
+          margin-right: u.rem(5);
+        }
+
+        &:hover {
+          background-color: rgba(244, 249, 253, 0.75);
+        }
+
+      }
+    }
+  }
+}
+
+.task {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid hsla(var(--blk), 0.5);
+  border-radius: u.rem(7);
+
+  &.fade {
+    color: rgb(75, 75, 75);
+    background-color: hsla(var(--primary), 0.15);
+    text-decoration: line-through;
+  }
+
+  &__info {
+    display: block;
+    padding: u.rem(15) u.rem(10);
+    justify-content: space-between;
+  }
+
+  &__detail {
+    display: flex;
+    align-items: center;
+    gap: u.rem(10);
+  }
+
+  &__title {
+    flex: 1;
+  }
+
+  &__mark {
+    background-color: azure;
+    padding: u.rem(4);
+    border-radius: 50%;
+    transition: var(--transition);
+    border: 1px solid hsla(var(--blk), 0.5);
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      color: black;
+    }
+
+    &:active {
+      scale: 1.2;
+    }
+  }
+
+  .completed {
+    border: 1px solid hsla(var(--primary), 0.5);
+    background-color: hsla(var(--primary), 0.5);
+    color: white;
+  }
+
+  &__edit-button {
+    padding: u.rem(7);
+    color: inherit;
+    font-size: u.rem(20);
+    display: flex;
+    right: 0;
+    background-color: rgba(178, 202, 241, 0.5)
+  }
+
+  &__note {
+    background-color: hsl(var(--blk), .15);
+    margin: 0 u.rem(10) u.rem(15) u.rem(30);
+    padding: u.rem(10);
+    border-radius: u.rem(7);
+    font-size: u.rem(14);
+  }
 }

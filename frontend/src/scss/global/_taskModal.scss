@@ -1,0 +1,19 @@
+@use "../utils/" as u;
+
+.tasks__list__modal {
+  margin: u.rem(20) 0;
+  padding: u.rem(15) u.rem(10);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid hsla(var(--blk), 0.5);
+  border-radius: u.rem(7);
+  display: grid;
+  gap: u.rem(10);
+
+  input[type=text],
+  textarea {
+    width: 100%;
+    padding: u.rem(10);
+    border-radius: u.rem(7);
+    border: 1px solid hsla(var(--blk), 0.5);
+  }
+}

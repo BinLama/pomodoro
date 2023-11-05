@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const TaskModal = () => {
+const TaskModal = ({ close, title = "", note = "" }) => {
   const [pomoTask, setPomoTask] = useState({
-    title: "",
-    notes: "",
+    title: title,
+    notes: note,
   });
 
   const [notes, setNotes] = useState(false);
@@ -46,8 +46,17 @@ const TaskModal = () => {
               return !oldNote;
             })
           }
+          className="btn"
         >
-          <AiOutlinePlus /> Add Notes
+          {notes ? (
+            <>
+              <AiOutlinePlus /> Add Notes
+            </>
+          ) : (
+            <>
+              <AiOutlinePlus /> Remove Notes
+            </>
+          )}
         </button>
       </div>
       <div className="tasks__list__commit">
@@ -55,7 +64,7 @@ const TaskModal = () => {
           Delete
         </button>
         <div className="">
-          <button type="button" className="btn cancel">
+          <button type="button" className="btn cancel" onClick={close}>
             Cancel
           </button>
           <button type="button" className="btn save">

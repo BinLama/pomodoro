@@ -3,6 +3,7 @@
 body {
   font-family: var(--ff);
   font-size: u.rem(16);
+  background: hsl(var(--bg));
 }
 
 main {
@@ -19,6 +20,12 @@ main {
   padding: u.rem(10) u.rem(32);
   border-radius: u.rem(7);
   font-weight: 600;
-  color: white;
+  color: black;
   cursor: pointer;
+}
+
+.underline {
+  height: 2px;
+  width: 100%;
+  background-color: hsla(var(--bdr-btm-clr));
 }

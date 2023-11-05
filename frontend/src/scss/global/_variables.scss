@@ -1,7 +1,16 @@
 :root {
-  --white: #fff;
-  --ff: 'Open Sans', sans-serif;
+  --bg: 220, 18%, 97%; // background
+
+  --white: 0, 0%, 100%;
   --primary: 252, 93%, 67%;
   --red: 0, 93%, 67%;
   --bdr-btm-clr: 0, 0%, 0%;
+  --blk: 0, 0%, 0%;
+
+  --underline: 133, 133, 133;
+  --hover: 228, 228, 228;
+  // font family
+  --ff: 'Open Sans', sans-serif;
+  --transition: all 0.3s linear;
+
 }
