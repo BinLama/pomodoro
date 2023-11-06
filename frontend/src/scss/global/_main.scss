@@ -20,7 +20,7 @@ main {
   padding: u.rem(10) u.rem(32);
   border-radius: u.rem(7);
   font-weight: 600;
-  color: black;
+  color: hsla(var(--blk), .75);
   cursor: pointer;
   background-color: rgba(178, 202, 241, 0.5);
 

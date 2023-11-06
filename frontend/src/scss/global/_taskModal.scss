@@ -22,11 +22,13 @@
 
   input[type=text] {
     width: 100%;
+
   }
 
   textarea {
     outline: none;
     resize: none;
+
   }
 
   &-notes {
@@ -56,14 +58,30 @@
     justify-content: space-between;
 
 
-
     button {
       padding-inline: u.rem(15);
+    }
+
+    .delete:hover {
+      color: hsl(var(--red));
     }
 
     >div {
       display: flex;
       gap: u.rem(10);
+      text-decoration: none !important;
     }
   }
+
+
+  .is__error {
+    border: 1px solid hsl(var(--red)) !important;
+  }
+
+  .error {
+    font-size: u.rem(12);
+    color: hsl(var(--red));
+  }
+
+
 }

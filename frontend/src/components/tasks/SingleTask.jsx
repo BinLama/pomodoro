@@ -2,12 +2,13 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import TaskModal from "./TaskModal";
 import { useState } from "react";
+import { useTaskContext } from "../../hooks/useTasks";
 
 const SingleTask = ({ task }) => {
-  const { title, note } = task;
-
+  const { title, note, id, completed } = task;
   const [edit, setEdit] = useState(false);
-  const [completed, setCompleted] = useState(false);
+
+  const { updateTask } = useTaskContext();
 
   const showEdit = () => {
     setEdit(true);
@@ -25,7 +26,9 @@ const SingleTask = ({ task }) => {
             <div className="task__detail">
               <div
                 className={completed ? "task__mark completed" : "task__mark"}
-                onClick={() => setCompleted((prev) => !prev)}
+                onClick={() => {
+                  updateTask(id, { completed: !completed });
+                }}
               >
                 <AiOutlineCheck />
               </div>
@@ -46,7 +49,7 @@ const SingleTask = ({ task }) => {
       )}
       {edit && (
         <div className="task__edit">
-          <TaskModal close={closeEdit} title={title} note={note} />
+          <TaskModal close={closeEdit} title={title} note={note} id={id} />
         </div>
       )}
     </div>

@@ -24,3 +24,4 @@
 - [x] create a add task div
 - [x] add new task but make sure add task div is below
 - [ ] make newly added task dragable
+- [ ] give warning for no title on input

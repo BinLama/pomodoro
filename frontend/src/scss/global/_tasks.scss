@@ -102,7 +102,10 @@
   &.fade {
     color: rgb(75, 75, 75);
     background-color: hsla(var(--primary), 0.15);
-    text-decoration: line-through;
+
+    .task__show {
+      text-decoration: line-through;
+    }
   }
 
   &__info {
