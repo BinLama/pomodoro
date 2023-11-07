@@ -1,0 +1,65 @@
+@use "../utils/" as u;
+
+.nav__setting-options {
+  right: -50%;
+  top: 110%;
+  background-color: hsla(var(--white));
+  border-radius: u.rem(10);
+  box-shadow: hsl(var(--blk)) 0px 0px 0px 0px,
+    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+    hsla(var(--white), .2) 0px 12px 28px 0px,
+    hsla(var(--blk), 0.1) 0px 2px 4px 0px,
+    hsla(var(--white), .5) 0px 0px 0px 1px inset;
+
+  // need this for animation
+  overflow: hidden;
+  transition: translate 0.3s ease-in-out;
+}
+
+.main__options {
+  width: max-content;
+  margin: u.rem(10);
+  display: grid;
+
+  >hr {
+    margin: u.rem(5) 0;
+    border: none;
+    height: 1px;
+    width: 100%;
+    background-color: hsla(var(--blk), 0.8);
+  }
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: u.rem(14);
+  gap: u.rem(80);
+  padding: u.rem(7) u.rem(10);
+  border-radius: u.rem(10);
+  cursor: pointer;
+
+  &:hover {
+    color: hsl(var(--primary));
+    background-color: rgb(218, 232, 245);
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    gap: u.rem(10);
+
+    svg {
+      font-size: u.rem(19);
+    }
+
+    p {
+      font-weight: 600;
+    }
+  }
+
+  .button {
+    font-size: u.rem(24);
+  }
+}

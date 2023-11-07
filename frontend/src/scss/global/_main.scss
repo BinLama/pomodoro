@@ -8,6 +8,11 @@ body {
 
 main {
   margin: 0 u.rem(15);
+  max-width: u.rem(1200);
+
+  @include u.breakpoint("large") {
+    margin: 0 auto;
+  }
 }
 
 
@@ -38,4 +43,12 @@ main {
   height: 2px;
   width: 100%;
   background-color: hsla(var(--bdr-btm-clr));
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
 }

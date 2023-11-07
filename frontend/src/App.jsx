@@ -1,4 +1,4 @@
-import Navigation from "./components/Navigation";
+import Navigation from "./components/navigation/Navigation";
 import "./scss/App.scss";
 import Pomodoro from "./components/pomodoro/Pomodoro";
 import Tasks from "./components/tasks/Tasks";
@@ -9,12 +9,12 @@ function App() {
   return (
     <main>
       <PomodoroContextProvider>
-        {/* <Navigation /> */}
-        <Pomodoro />
+        <Navigation />
+        {/* <Pomodoro /> */}
       </PomodoroContextProvider>
-      <TaskContextProvider>
+      {/* <TaskContextProvider>
         <Tasks />
-      </TaskContextProvider>
+      </TaskContextProvider> */}
     </main>
   );
 }

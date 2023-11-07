@@ -1,1 +1,45 @@
 @use "../utils/" as u;
+
+.header {
+  height: u.rem(48);
+  display: flex;
+  align-items: center;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  &__container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: u.rem(10);
+  }
+
+  &__setting {
+    display: flex;
+    align-items: center;
+    font-size: u.rem(24);
+    padding: u.rem(4);
+    border-radius: u.rem(5);
+    // TODO: change the background color
+    background-color: rgb(218, 232, 245);
+    cursor: pointer;
+
+    &:hover {
+      background-color: hsla(var(--primary), 0.09);
+      color: hsla(var(--primary), 1);
+    }
+
+    p {
+      font-size: u.rem(16);
+    }
+  }
+
+  &-h1 {
+    font-size: u.rem(20);
+  }
+}
