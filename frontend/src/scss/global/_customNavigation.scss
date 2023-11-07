@@ -1,33 +1,50 @@
 @use "../utils/" as u;
 
 .nav__setting-options {
+  width: u.rem(256);
   right: -50%;
   top: 110%;
-  background-color: hsla(var(--white));
   border-radius: u.rem(10);
-  box-shadow: hsl(var(--blk)) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0) 0px 0px 0px 0px,
-    hsla(var(--white), .2) 0px 12px 28px 0px,
-    hsla(var(--blk), 0.1) 0px 2px 4px 0px,
-    hsla(var(--white), .5) 0px 0px 0px 1px inset;
+  box-shadow: hsl(var(--blk)) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, hsla(var(--white), 0.2) 0px 12px 28px 0px, hsla(var(--blk), 0.1) 0px 2px 4px 0px, hsla(var(--white), 0.5) 0px 0px 0px 1px inset;
+  z-index: 30;
 
-  // need this for animation
   overflow: hidden;
-  transition: translate 0.3s ease-in-out;
+
+  &-container {
+    background-color: hsla(var(--white));
+    width: u.rem(512);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+  }
 }
 
-.main__options {
-  width: max-content;
-  margin: u.rem(10);
-  display: grid;
+.show {
+  transform: translateX(-50%);
+}
 
-  >hr {
-    margin: u.rem(5) 0;
-    border: none;
-    height: 1px;
-    width: 100%;
-    background-color: hsla(var(--blk), 0.8);
+.main {
+
+
+  &__options {
+    width: u.rem(256);
+    padding: u.rem(10);
+
+    >hr {
+      margin: u.rem(5) 0;
+      border: none;
+      height: 1px;
+      width: 100%;
+      background-color: hsla(var(--blk), 0.8);
+    }
   }
+
+  &__choices {
+    padding: u.rem(10);
+    width: u.rem(256);
+  }
+
 }
 
 .options {
@@ -61,5 +78,14 @@
 
   .button {
     font-size: u.rem(24);
+  }
+}
+
+.customize__timer {
+  display: grid;
+
+  &-title {
+    display: flex;
+    padding: u.rem(7) u.rem(10);
   }
 }
