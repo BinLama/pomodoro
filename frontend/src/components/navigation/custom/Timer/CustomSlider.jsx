@@ -1,6 +1,6 @@
-import SingleSlider from "./SingleSlider";
-import { usePomodoroContext } from "../../hooks/usePomodoroContext";
-import { CUSTOM } from "../../utils/constants";
+import SingleSlider from "../../SingleSlider";
+import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
+import { CUSTOM } from "../../../../utils/constants";
 import { useEffect, useState } from "react";
 
 const CustomSlider = ({ slider }) => {

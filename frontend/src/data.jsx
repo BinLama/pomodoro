@@ -87,3 +87,12 @@ export const customFocusLevel = {
     },
   ],
 };
+
+export const customAlarm = {
+  title: "Custom Alarm",
+  choices: [
+    { id: uuidv4(), name: "Sound 1" },
+    { id: uuidv4(), name: "Sound 2" },
+    { id: uuidv4(), name: "mute" },
+  ],
+};

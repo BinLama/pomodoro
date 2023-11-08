@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { usePomodoroContext } from "../../hooks/usePomodoroContext";
+import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 import CustomSlider from "./CustomSlider";
-import { CUSTOM } from "../../utils/constants";
+import { CUSTOM } from "../../../../utils/constants";
 
 const CustomizeTimerOptions = ({
   name,

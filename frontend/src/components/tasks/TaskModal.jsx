@@ -63,7 +63,7 @@ const TaskModal = forwardRef(
       <div className="tasks__list__modal">
         <div className="tasks__list__modal-title">
           <input
-            className={invalid && "is__error"}
+            className={invalid ? "is__error" : ""}
             type="text"
             placeholder="What are you working on?"
             value={pomoTask.title}
