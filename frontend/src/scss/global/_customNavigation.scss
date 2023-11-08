@@ -81,11 +81,7 @@
   }
 }
 
-.customize__timer {
+// variable based displays
+.customFocus .main__choices .customize__timer {
   display: grid;
-
-  &-title {
-    display: flex;
-    padding: u.rem(7) u.rem(10);
-  }
 }

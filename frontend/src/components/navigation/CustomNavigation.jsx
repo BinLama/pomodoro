@@ -1,31 +1,41 @@
 import { useState } from "react";
 import { navigationCustomizationSetting } from "../../data";
 import SingleNavigationCusotmization from "./SingleNavigationCusotmization";
+import CustomizeChoices from "./CustomizeChoices";
 
 const CustomNavigation = () => {
-  const [showOptions, setShowOptions] = useState(false);
+  const [showOptions, setShowOptions] = useState({
+    show: false,
+    type: "",
+  });
 
-  const openOptions = () => {
-    setShowOptions(true);
+  const openOptions = (type) => {
+    setShowOptions(() => {
+      const option = { show: true, ...type };
+      console.log(option);
+      return option;
+    });
   };
 
   const closeOptions = () => {
-    setShowOptions(false);
+    setShowOptions({
+      show: false,
+      type: "",
+    });
   };
 
   return (
     <div className="absolute nav__setting-options">
-      {/* remove or add show */}
       <div
         className={
-          showOptions
-            ? "nav__setting-options-container show"
+          showOptions.show
+            ? `nav__setting-options-container ${showOptions.type} `
             : "nav__setting-options-container"
         }
       >
         <div
           className="main__options"
-          style={{ height: showOptions ? "0" : "auto" }}
+          style={{ height: showOptions.show ? "0" : "auto" }}
         >
           {navigationCustomizationSetting.map((setting) => {
             return (
@@ -41,14 +51,24 @@ const CustomNavigation = () => {
           <p className="options">Skip to break</p>
           <p className="options">Skip to Pomodoro</p>
         </div>
-        <div className="main__choices">
+        <CustomizeChoices closeOptions={closeOptions} />
+        {/* <div className="main__choices">
           <div className="customize__timer">
             <div className="customize__timer-title">
-              <p>ICON</p>
+              <IoArrowBackOutline />
               <p>Customize focus level</p>
             </div>
+            <div className="customize__timer-options">
+              <div className="customize__timer-options__input">
+                <input type="radio" value="" id="beginner" />
+                <label htmlFor="beginner">
+                  <span className="">Beginner</span>
+                  <span>10 min &#xb7; 5 min &#xb7; 10 min</span>
+                </label>
+              </div>
+            </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
