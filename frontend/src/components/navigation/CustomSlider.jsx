@@ -5,15 +5,25 @@ import { useEffect, useState } from "react";
 
 const CustomSlider = ({ slider }) => {
   const { chosen, updateTimer } = usePomodoroContext();
-
+  // keep track of the slide update
   const [sliderData, setSliderData] = useState({
-    pomodoro: parseInt(slider[0].value),
-    shortBreak: parseInt(slider[1].value),
-    longBreak: parseInt(slider[2].value),
+    pomodoro: chosen.newTimer.pomodoro,
+    shortBreak: chosen.newTimer.break,
+    longBreak: chosen.newTimer.longBreak,
   });
 
   useEffect(() => {
     const { pomodoro, shortBreak, longBreak } = sliderData;
+    const { pomodoro: pomo, break: sb, longBreak: lb } = chosen.newTimer;
+
+    // stop the update at the beginning
+    if (
+      chosen.data === CUSTOM &&
+      pomo === pomodoro &&
+      sb === shortBreak &&
+      lb === longBreak
+    )
+      return;
     updateTimer(CUSTOM, pomodoro, shortBreak, longBreak);
   }, [sliderData]);
 

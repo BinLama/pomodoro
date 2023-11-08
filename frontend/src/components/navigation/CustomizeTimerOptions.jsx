@@ -19,7 +19,6 @@ const CustomizeTimerOptions = ({
         type="radio"
         value={name}
         onChange={(e) => {
-          // if (chosen.data === CUSTOM) return;
           updateTimer((type = e.target.value), pomodoro, shortBreak, longBreak);
         }}
         id={name}

@@ -3,25 +3,23 @@ import { navigationCustomizationSetting } from "../../data";
 import SingleNavigationCusotmization from "./SingleNavigationCusotmization";
 import CustomizeChoices from "./CustomizeChoices";
 
+const DEFAULT = {
+  show: false,
+  type: "",
+};
+
 const CustomNavigation = () => {
-  const [showOptions, setShowOptions] = useState({
-    show: false,
-    type: "",
-  });
+  const [showOptions, setShowOptions] = useState(DEFAULT);
 
   const openOptions = (type) => {
     setShowOptions(() => {
       const option = { show: true, ...type };
-      console.log(option);
       return option;
     });
   };
 
   const closeOptions = () => {
-    setShowOptions({
-      show: false,
-      type: "",
-    });
+    setShowOptions(DEFAULT);
   };
 
   return (

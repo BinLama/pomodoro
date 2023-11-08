@@ -15,7 +15,14 @@ export const PomodoroContextProvider = ({ children }) => {
   });
 
   const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
-    if (type === chosen.data && type !== CUSTOM) {
+    // stop the same update when it's already selected
+    if (
+      (type === chosen.data && type !== CUSTOM) ||
+      (type === CUSTOM &&
+        chosen.newTimer.pomodoro === pomodoro &&
+        chosen.newTimer.break === shortBreak &&
+        chosen.newTimer.longBreak === longBreak)
+    ) {
       return;
     }
     setChosen((oldTimer) => {
