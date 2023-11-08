@@ -7,7 +7,7 @@ const CustomizeChoices = ({ closeOptions }) => {
     <div className="main__choices">
       {/* Customize Timer */}
       <div className="customize__timer">
-        <div className="customize__timer-title">
+        <div className="customize-title">
           <div className="arrow" onClick={closeOptions}>
             <IoArrowBackOutline />
           </div>
@@ -22,7 +22,7 @@ const CustomizeChoices = ({ closeOptions }) => {
       {/* Customize Timer End */}
       {/* Customize Alarm */}
       <div className="customize__alarm">
-        <div className="customize__timer-title">
+        <div className="customize-title">
           <div className="arrow" onClick={closeOptions}>
             <IoArrowBackOutline />
           </div>

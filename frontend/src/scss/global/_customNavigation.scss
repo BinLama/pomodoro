@@ -81,7 +81,42 @@
   }
 }
 
+.customize-title {
+  display: flex;
+  align-items: center;
+  gap: u.rem(10);
+
+  p {
+    font-weight: 600;
+    font-size: u.rem(17);
+  }
+
+  .arrow {
+    padding: u.rem(4);
+    background-color: hsla(var(--primary), 0.5);
+    border-radius: 50%;
+    color: hsl(var(--white));
+    cursor: pointer;
+
+    &:hover {
+      background-color: hsla(var(--primary), 0.9);
+    }
+
+    &:active {
+      background-color: hsla(var(--primary), 0.7);
+    }
+  }
+}
+
 // variable based displays
 .customFocus .main__choices .customize__timer {
+  display: grid;
+}
+
+.customAlarm .main__choices .customize__alarm {
+  display: grid;
+}
+
+.autoStart .main__choices .auto__start {
   display: grid;
 }

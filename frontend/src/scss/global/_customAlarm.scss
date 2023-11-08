@@ -1,0 +1,6 @@
+@use "../utils/" as u;
+
+.customize__alarm {
+  display: none;
+  padding: u.rem(7) u.rem(10);
+}

@@ -5,36 +5,10 @@
   padding: u.rem(7) u.rem(10);
   gap: u.rem(10);
 
-  &-title {
-    display: flex;
-    align-items: center;
-    gap: u.rem(10);
-
-    p {
-      font-weight: 600;
-      font-size: u.rem(17);
-    }
-
-    .arrow {
-      padding: u.rem(4);
-      background-color: hsla(var(--primary), 0.5);
-      border-radius: 50%;
-      color: hsl(var(--white));
-      cursor: pointer;
-
-      &:hover {
-        background-color: hsla(var(--primary), 0.9);
-      }
-
-      &:active {
-        background-color: hsla(var(--primary), 0.7);
-      }
-    }
-  }
-
   &-options {
     display: grid;
     gap: u.rem(5);
+    margin-top: u.rem(10);
 
     &__input {
       display: flex;
@@ -59,7 +33,6 @@
         font-size: u.rem(12);
         color: hsla(var(--blk), 0.5);
       }
-
 
       .slider {
         &__title {
