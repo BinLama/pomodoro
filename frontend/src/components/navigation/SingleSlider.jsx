@@ -1,15 +1,11 @@
 // map so that it's easy to convert from slide type to pomodoro type
-const mapper = {
-  "long break": "longBreak",
-  break: "shortBreak",
-  pomodoro: "pomodoro",
-};
+import { mapper } from "../../data";
 
 const SingleSlider = ({ type, min, max, level, sliderData, setSliderData }) => {
   return (
     <div>
       <div className="slider__title">
-        <p>{`${sliderData[mapper[type]]} min`}</p>
+        <p>{`${sliderData[mapper[type]]}${type !== "volume" ? " min" : ""}`}</p>
         <p>{type}</p>
       </div>
       <input

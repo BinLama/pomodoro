@@ -1,6 +1,7 @@
 import { IoArrowBackOutline } from "react-icons/io5";
 import CustomizeTimerOptions from "./custom/Timer/CustomizeTimerOptions";
-import { customFocusLevel } from "../../data";
+import { autoStart, customAlarm, customFocusLevel } from "../../data";
+import CustomizeAlarmOptions from "./custom/Alarm/CustomizeAlarmOptions";
 
 const CustomizeChoices = ({ closeOptions }) => {
   return (
@@ -26,13 +27,25 @@ const CustomizeChoices = ({ closeOptions }) => {
           <div className="arrow" onClick={closeOptions}>
             <IoArrowBackOutline />
           </div>
-          <p>{customFocusLevel.title}</p>
+          <p>{customAlarm.title}</p>
         </div>
-        <div className="">
-          <p>ALA</p>
-        </div>
+        <CustomizeAlarmOptions />
       </div>
       {/* Customize Alarm End */}
+      {/* Customize auto start */}
+      <div className="auto__start">
+        <div className="customize-title">
+          <div className="arrow" onClick={closeOptions}>
+            <IoArrowBackOutline />
+          </div>
+          <p>{autoStart.title}</p>
+        </div>
+        <div className="">
+          <p>Auto Start break</p>
+          <p>Auto Start pomodoro</p>
+        </div>
+      </div>
+      {/* Customize auto start end */}
     </div>
   );
 };

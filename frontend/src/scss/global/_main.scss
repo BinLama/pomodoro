@@ -52,3 +52,26 @@ main {
 .absolute {
   position: absolute;
 }
+
+.bounce {
+  animation: bounce 450ms;
+  animation-timing-function: linear;
+}
+
+@keyframes bounce {
+  25% {
+    transform: scale(calc(var(--s, 1) + 0.2));
+  }
+
+  50% {
+    transform: scale(calc(var(--s, 1) - 0.1));
+  }
+
+  75% {
+    transform: scale(calc(var(--s, 1) + 0.1));
+  }
+
+  100% {
+    transform: scale(var(--s, 1));
+  }
+}

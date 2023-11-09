@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import usePomodoroTimer from "../../hooks/usePomodoroTimer";
 import { POMODORO, SHORTBREAK, LONGBREAK } from "../../utils/constants";
 

@@ -3,4 +3,44 @@
 .customize__alarm {
   display: none;
   padding: u.rem(7) u.rem(10);
+
+  &-options {
+    display: grid;
+    // padding: u.rem(10);
+    gap: u.rem(5);
+
+  }
+
+  .audio__selection {
+    display: grid;
+    gap: u.rem(2);
+    margin-top: u.rem(10);
+    cursor: pointer;
+    text-transform: capitalize;
+    font-weight: 600;
+
+    &-div {
+      display: flex;
+      padding: u.rem(5);
+      padding-left: u.rem(10);
+      // border: 1px solid black;
+      border-radius: u.rem(5);
+      justify-content: center;
+
+      &:hover {
+        color: hsl(var(--primary));
+        background-color: rgb(218, 232, 245);
+      }
+
+      .mute {
+        font-size: u.rem(24);
+      }
+    }
+
+    .selected {
+      color: hsl(var(--primary));
+      background-color: rgb(218, 232, 245);
+    }
+
+  }
 }

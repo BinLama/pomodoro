@@ -12,7 +12,7 @@ const CustomizeTimerOptions = ({
   slider,
 }) => {
   const { chosen, updateTimer } = usePomodoroContext();
-
+  // for custom radio
   return (
     <div className="customize__timer-options__input">
       <input

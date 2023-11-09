@@ -1,0 +1,35 @@
+@use "../utils/" as u;
+
+.slider {
+  &__title {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      font-size: u.rem(12);
+      color: hsla(var(--blk), 0.5);
+    }
+  }
+
+
+  input[type=range] {
+    width: 100%;
+    height: 10px;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-moz-range-progress {
+    background-color: hsla(var(--primary), 0.7);
+  }
+
+  input[type=range]::-moz-range-track {
+    background-color: hsla(var(--red), 0.7);
+  }
+
+  input[type=range]:disabled::-moz-range-track,
+  input[type=range]:disabled::-moz-range-progress {
+    background-color: hsl(var(--grey));
+  }
+
+}

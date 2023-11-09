@@ -4,13 +4,15 @@ import Pomodoro from "./components/pomodoro/Pomodoro";
 import Tasks from "./components/tasks/Tasks";
 import { PomodoroContextProvider } from "./context/PomodoroContext";
 import { TaskContextProvider } from "./context/TaskContext";
+import Test from "./test";
 
 function App() {
   return (
     <main>
+      {/* <Test /> */}
       <PomodoroContextProvider>
         <Navigation />
-        {/* <Pomodoro /> */}
+        <Pomodoro />
       </PomodoroContextProvider>
       {/* <TaskContextProvider>
         <Tasks />

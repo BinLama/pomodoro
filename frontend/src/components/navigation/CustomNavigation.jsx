@@ -50,23 +50,6 @@ const CustomNavigation = () => {
           <p className="options">Skip to Pomodoro</p>
         </div>
         <CustomizeChoices closeOptions={closeOptions} />
-        {/* <div className="main__choices">
-          <div className="customize__timer">
-            <div className="customize__timer-title">
-              <IoArrowBackOutline />
-              <p>Customize focus level</p>
-            </div>
-            <div className="customize__timer-options">
-              <div className="customize__timer-options__input">
-                <input type="radio" value="" id="beginner" />
-                <label htmlFor="beginner">
-                  <span className="">Beginner</span>
-                  <span>10 min &#xb7; 5 min &#xb7; 10 min</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
