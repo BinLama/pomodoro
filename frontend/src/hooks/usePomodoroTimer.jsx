@@ -1,19 +1,38 @@
 import { useState, useEffect, useRef } from "react";
 import { POMODORO, SHORTBREAK, LONGBREAK } from "../utils/constants";
+import { usePomodoroContext } from "./usePomodoroContext";
 
+/**
+ * @param {Int16Array} pomodoro The int
+ * @param {Int16Array} shortBreak The int
+ * @param {Int16Array} longBreak The int
+ * @param {Int16Array} pomodoro The int
+ * @param {boolean} selfPomo The boolean
+ * @param {boolean} selfBreak The boolean
+
+ */
 const usePomodoroTimer = (
   pomodoro = 25,
   shortBreak = 5,
   longBreak = 15,
-  longRelaxInterval = 4
+  selfPomo,
+  selfBreak,
+  longRelaxInterval
 ) => {
-  const pomoPhases = {
+  const [pomoPhases, setPomoPhases] = useState({
     pomodoro: { minutes: pomodoro },
     shortBreak: { minutes: shortBreak },
     longBreak: { minutes: longBreak },
-  };
+  });
+
+  // using pomodoro context to play music
+  // TODO: get all the settings data too.
+  const { playAudio, chosenMusic } = usePomodoroContext();
 
   const [phase, setPhase] = useState(POMODORO);
+  // Old Phase keeps track of the changes in phases (only updates when new phase changes after timer ends)
+  const [oldPhase, setOldPhase] = useState(POMODORO);
+
   const [minutes, setMinutes] = useState(pomoPhases.pomodoro.minutes);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false); // let the countdonw happen
@@ -24,6 +43,11 @@ const usePomodoroTimer = (
   const [remainingTime, setRemainingTime] = useState(minutes * 60); // keeps track of seconds left (useful for calculating percentage of time passed)
   const [status, setStatus] = useState(null);
   const [maxSeconds, setMaxSeconds] = useState(minutes * 60); // max seconds counted
+
+  const [auto, setAuto] = useState({
+    start: selfPomo,
+    break: selfBreak,
+  });
 
   useEffect(() => {
     let timeout;
@@ -36,30 +60,42 @@ const usePomodoroTimer = (
         if (minutes === 0) {
           // Timer is complete, but don't switch phase automatically
           setIsActive(false);
-          rotationRef.current += 1;
+
+          // play audio
+          playAudio(chosenMusic, true);
+
+          // updating phase only when state changes from one to another
+          if (
+            (phase === POMODORO && oldPhase !== POMODORO) ||
+            ((phase === SHORTBREAK || phase === LONGBREAK) &&
+              oldPhase === POMODORO)
+          ) {
+            rotationRef.current += 1;
+          }
+          console.log(rotationRef.current, longRelaxInterval);
           setSession(rotationRef.current % longRelaxInterval);
           setPhase((oldState) => {
             let newState;
             if (oldState === SHORTBREAK || oldState === LONGBREAK) {
               newState = POMODORO;
             } else {
-              // if (rotationRef.current %)
               newState = SHORTBREAK;
             }
+            console.log("timer end change phase:", newState);
+            setOldPhase(oldState);
 
             setMinutes(() => {
               const newMin = pomoPhases[newState].minutes;
-              setMaxSeconds(newMin * 60 - 1);
+              setMaxSeconds(newMin * 60);
               return newMin;
             });
-            console.log("change phase:", newState);
+
+            setTimerStarted(false);
+            setRemainingTime(() => {
+              return maxSeconds;
+            });
 
             return newState;
-          });
-
-          setTimerStarted(false);
-          setRemainingTime(() => {
-            return maxSeconds;
           });
         } else {
           setMinutes((prevMinutes) => prevMinutes - 1);
@@ -97,6 +133,19 @@ const usePomodoroTimer = (
     };
   }, [isActive, minutes, seconds, startTime]);
 
+  useEffect(() => {
+    if (auto.start && phase === POMODORO && !timerStarted && status) {
+      choosePhase(POMODORO);
+      startTimer();
+    }
+
+    if (auto.break && phase === SHORTBREAK && !timerStarted && status) {
+      choosePhase(SHORTBREAK);
+      startTimer();
+    }
+  }, [auto.start, auto.break, phase, timerStarted]);
+
+  // FUNCTIONS
   const startTimer = () => {
     console.log("current phase:", phase);
     setStartTime(new Date().getTime());
@@ -117,6 +166,7 @@ const usePomodoroTimer = (
   const pauseTimer = () => {
     setIsActive(false);
     setStatus("paused");
+    console.log("Timer Paused");
   };
 
   const resetTimer = () => {
@@ -130,6 +180,7 @@ const usePomodoroTimer = (
     setSeconds(0);
     setTimerStarted(false);
     setStatus(null);
+    console.log("Timer Reseted");
   };
 
   const skipPhase = () => {
@@ -176,6 +227,22 @@ const usePomodoroTimer = (
     setSeconds(0);
     setTimerStarted(false);
     setStatus(null);
+    console.log("Choose Phase");
+  };
+
+  const setNewPomodoro = (pomo, brk, longBrk) => {
+    pauseTimer();
+    resetTimer();
+    choosePhase(POMODORO);
+    setPomoPhases(() => {
+      const newPhase = {
+        pomodoro: { minutes: pomo },
+        shortBreak: { minutes: brk },
+        longBreak: { minutes: longBrk },
+      };
+      setMinutes(pomo);
+      return newPhase;
+    });
   };
 
   return {
@@ -192,6 +259,8 @@ const usePomodoroTimer = (
     choosePhase,
     maxSeconds,
     remainingTime,
+    setNewPomodoro,
+    setAuto,
   };
 };
 

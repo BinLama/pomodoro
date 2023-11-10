@@ -9,16 +9,14 @@ import {
   MEDIUM,
   STANDARD,
 } from "./utils/constants";
-import {
-  bell,
-  digital_alarm,
-  goofy_car_horn,
-  key_chimes,
-  party_horn,
-  tom_and_jerry_scream,
-  train_horn,
-} from "../public/sounds";
-// import bell from "/sounds/bell.mp3";
+
+import bell from "/sounds/bell.mp3";
+import digital_alarm from "/sounds/digital_alarm.mp3";
+import goofy_car_horn from "/sounds/goofy_car_horn.mp3";
+import key_chimes from "/sounds/key_chimes.mp3";
+import party_horn from "/sounds/party_horn.mp3";
+import tom_and_jerry_scream from "/sounds/tom_and_jerry_scream.mp3";
+import train_horn from "/sounds/train_horn.mp3";
 
 export const taskSetting = [
   { id: uuidv4(), icon: <BsTrashFill />, text: "Clear finished tasks" },
@@ -55,6 +53,13 @@ export const navigationCustomizationSetting = [
 export const customFocusLevel = {
   title: "Customize focus level",
   choices: [
+    {
+      id: uuidv4(),
+      name: "TEST",
+      pomodoro: 1,
+      break: 1,
+      longBreak: 1,
+    },
     {
       id: uuidv4(),
       name: BEGINNER,
@@ -114,14 +119,6 @@ export const customAlarm = {
     { id: uuidv4(), name: "train horn", music: "train_horn" },
   ],
   volume: 50,
-};
-
-export const autoStart = {
-  title: "Auto Start",
-  choices: [
-    { id: uuidv4(), name: "Auto Start Break", start: false },
-    { id: uuidv4(), name: "Auto Start Pomodoro", start: false },
-  ],
 };
 
 export const mapper = {

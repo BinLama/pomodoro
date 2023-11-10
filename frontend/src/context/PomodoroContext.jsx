@@ -16,10 +16,13 @@ export const PomodoroContextProvider = ({ children }) => {
     },
   });
 
+  const [chosenMusic, setChosenMusic] = useState("bell");
+  const [audio, setAudio] = useState(new Audio(sounds[chosenMusic]));
   const [volume, setVolume] = useState(10);
   const [mute, setMute] = useState(false);
-  const [chosenMusic, setChosenMusic] = useState();
-
+  const [autoPomo, setAutoPomo] = useState(false);
+  const [autoBreak, setAutoBreak] = useState(true);
+  const [longRelaxInterval, setLongRelaxInterval] = useState(4);
   // get all the data here
 
   const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
@@ -48,27 +51,75 @@ export const PomodoroContextProvider = ({ children }) => {
     });
   };
 
-  const play = (name, active = true) => {
-    if (mute && !active) return;
-    const music = sounds[name];
-    const audio = new Audio(music);
-    audio.volume = volume / 100;
-    audio.play();
+  const playAudio = (music, pomo = false) => {
+    if (mute && pomo) return;
+    const newMusic = sounds[music];
+    if (audio) {
+      audio.pause();
+    }
+
+    if (music !== chosenMusic) {
+      const newAudio = new Audio(newMusic);
+      setAudio(newAudio);
+      newAudio.play().catch((e) => {
+        console.log("New audio play error");
+      });
+      return;
+    }
+    audio.play().catch((e) => {
+      console.log("Old audio play error");
+    });
   };
 
+  const handleVolumeChange = (loudness) => {
+    setVolume(loudness);
+    audio.volume = loudness / 100;
+  };
+
+  const changeMusic = (music) => {
+    if (mute) setMute(false);
+    playAudio(music);
+    setChosenMusic(() => {
+      const newMusic = music;
+      console.log(newMusic);
+      return newMusic;
+    });
+  };
+
+  const toggleMute = () => {
+    setMute((oldMute) => {
+      return !oldMute;
+    });
+  };
+
+  const toggleBreak = () => {
+    setAutoBreak((prev) => !prev);
+  };
+
+  const togglePomo = () => {
+    setAutoPomo((prev) => !prev);
+  };
   return (
     <PomodoroContext.Provider
       value={{
         chosen,
         setChosen,
         updateTimer,
-        play,
+        playAudio,
         mute,
         setMute,
         volume,
-        setVolume,
+        handleVolumeChange,
         chosenMusic,
         setChosenMusic,
+        changeMusic,
+        toggleMute,
+        autoPomo,
+        togglePomo,
+        autoBreak,
+        toggleBreak,
+        longRelaxInterval,
+        setLongRelaxInterval,
       }}
     >
       {children}

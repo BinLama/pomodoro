@@ -1,9 +1,13 @@
+import { useEffect } from "react";
+import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 import usePomodoroTimer from "../../hooks/usePomodoroTimer";
 import { POMODORO, SHORTBREAK, LONGBREAK } from "../../utils/constants";
 
 const MAX_CURCUM = 295.301;
 
 const Pomodoro = () => {
+  const { chosen, autoBreak, autoPomo, longRelaxInterval } =
+    usePomodoroContext();
   const {
     phase,
     minutes,
@@ -18,7 +22,32 @@ const Pomodoro = () => {
     choosePhase,
     remainingTime,
     maxSeconds,
-  } = usePomodoroTimer(1, 1, 2); // this sets the pomodoro and break to 1min
+    setNewPomodoro,
+    setAuto,
+  } = usePomodoroTimer(
+    chosen.newTimer.pomodoro,
+    chosen.newTimer.break,
+    chosen.newTimer.longBreak,
+    autoPomo,
+    autoBreak,
+    longRelaxInterval
+  ); // this sets the pomodoro and break to 1min
+
+  useEffect(() => {
+    console.log("GOT to reset chosen");
+    setNewPomodoro(
+      chosen.newTimer.pomodoro,
+      chosen.newTimer.break,
+      chosen.newTimer.longBreak
+    );
+  }, [chosen]);
+
+  useEffect(() => {
+    setAuto(() => {
+      const newAuto = { start: autoPomo, break: autoBreak };
+      return newAuto;
+    });
+  }, [autoBreak, autoPomo]);
 
   return (
     <div className="timer">

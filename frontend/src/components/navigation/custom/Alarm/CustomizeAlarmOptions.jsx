@@ -3,16 +3,17 @@ import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 import SingleSlider from "../../SingleSlider";
 import SingleAudio from "./SingleAudio";
 import { customAlarm } from "../../../../data";
-import { BiSolidVolumeMute } from "react-icons/bi";
+import { BiSolidVolumeFull, BiSolidVolumeMute } from "react-icons/bi";
 
 const CustomizeAlarmOptions = () => {
-  const { setMute, mute, volume, setVolume } = usePomodoroContext();
+  const { toggleMute, mute, volume, handleVolumeChange } = usePomodoroContext();
   const [sliderData, setSliderData] = useState({
     volume: volume,
   });
 
   useEffect(() => {
-    setVolume(sliderData.volume);
+    if (volume === sliderData.volume) return;
+    handleVolumeChange(sliderData.volume);
     console.log("changed Volume");
   }, [sliderData]);
 
@@ -22,11 +23,8 @@ const CustomizeAlarmOptions = () => {
         {customAlarm.choices.map((alarm) => {
           return <SingleAudio key={alarm.id} {...alarm} />;
         })}
-        <div
-          className="audio__selection-div mute"
-          onClick={() => setMute(true)}
-        >
-          <BiSolidVolumeMute />
+        <div className="audio__selection-div mute" onClick={toggleMute}>
+          {!mute ? <BiSolidVolumeMute /> : <BiSolidVolumeFull />}
         </div>
       </div>
       <div className="slider">
@@ -38,7 +36,6 @@ const CustomizeAlarmOptions = () => {
           setSliderData={setSliderData}
           level={!mute}
         />
-        {/* <input type="range" name="sound" id="sound" min={1} max={100} /> */}
       </div>
     </div>
   );

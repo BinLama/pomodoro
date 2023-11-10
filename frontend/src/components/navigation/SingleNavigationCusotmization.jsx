@@ -1,12 +1,6 @@
 import { BiChevronRight } from "react-icons/bi";
 
-const SingleNavigationCusotmization = ({
-  id,
-  icon,
-  note,
-  type,
-  openOptions,
-}) => {
+const SingleNavigationCusotmization = ({ icon, note, type, openOptions }) => {
   return (
     <div
       className="options"
