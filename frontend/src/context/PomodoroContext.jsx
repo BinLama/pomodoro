@@ -36,6 +36,7 @@ export const PomodoroContextProvider = ({ children }) => {
     ) {
       return;
     }
+    console.log("DATA:", pomodoro, shortBreak, longBreak);
     setChosen((oldTimer) => {
       const data = {
         data: type,
@@ -46,7 +47,7 @@ export const PomodoroContextProvider = ({ children }) => {
           longBreak,
         },
       };
-      console.log(data);
+      console.log("Setting chosen", data);
       return data;
     });
   };

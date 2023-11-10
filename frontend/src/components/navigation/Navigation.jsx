@@ -4,15 +4,9 @@ import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
 // import { Link } from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = ({ showSetting, showOrHideSetting }) => {
   // TODO: show the letters on large screen
   const [largeScreen, setLargeScreen] = useState(false); // used for showing the paragraphs for large screen.
-
-  const [showSetting, setShowSetting] = useState(false);
-
-  const showOrHideSetting = () => {
-    setShowSetting((prev) => !prev);
-  };
 
   return (
     <header className="header">

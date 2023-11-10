@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const CustomSlider = ({ slider }) => {
   const { chosen, updateTimer } = usePomodoroContext();
   // keep track of the slide update
+
   const [sliderData, setSliderData] = useState({
     pomodoro: chosen.newTimer.pomodoro,
     shortBreak: chosen.newTimer.break,

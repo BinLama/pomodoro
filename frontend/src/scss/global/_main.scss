@@ -6,15 +6,6 @@ body {
   background: hsl(var(--bg));
 }
 
-main {
-  margin: 0 u.rem(15);
-  max-width: u.rem(1200);
-
-  @include u.breakpoint("large") {
-    margin: 0 auto;
-  }
-}
-
 
 .btn {
   display: inline-block;
@@ -74,4 +65,11 @@ main {
   100% {
     transform: scale(var(--s, 1));
   }
+}
+
+.overlay {
+  background-color: transparent;
+  height: calc(100% - 3rem);
+  width: 100%;
+  z-index: 1;
 }

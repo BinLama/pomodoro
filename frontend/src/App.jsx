@@ -5,13 +5,26 @@ import Tasks from "./components/tasks/Tasks";
 import { PomodoroContextProvider } from "./context/PomodoroContext";
 import { TaskContextProvider } from "./context/TaskContext";
 import Test from "./test";
+import { useState } from "react";
 
 function App() {
+  const [showSetting, setShowSetting] = useState(false);
+  const showOrHideSetting = () => {
+    setShowSetting((prev) => !prev);
+  };
+
   return (
     <main>
       {/* <Test /> */}
       <PomodoroContextProvider>
-        <Navigation />
+        <Navigation
+          showSetting={showSetting}
+          showOrHideSetting={showOrHideSetting}
+        />
+        {showSetting && (
+          <div className="overlay absolute" onClick={showOrHideSetting}></div>
+        )}
+
         <Pomodoro />
       </PomodoroContextProvider>
       {/* <TaskContextProvider>

@@ -4,6 +4,16 @@
   height: u.rem(48);
   display: flex;
   align-items: center;
+  margin: 0 u.rem(10);
+  max-width: u.rem(1200);
+
+  @include u.breakpoint("medium") {
+    margin: 0 u.rem(20);
+  }
+
+  @include u.breakpoint("xlarge") {
+    margin: 0 auto;
+  }
 }
 
 .nav {
@@ -42,4 +52,5 @@
   &-h1 {
     font-size: u.rem(20);
   }
+
 }
