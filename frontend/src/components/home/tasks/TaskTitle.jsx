@@ -1,5 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { taskSetting } from "../../data";
+import { taskSetting } from "../../../data";
 import SingleTaskSetting from "./SingleTaskTitleSetting";
 import { useState } from "react";
 

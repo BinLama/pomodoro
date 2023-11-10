@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef, forwardRef } from "react";
 import { BsTrashFill } from "react-icons/bs";
-import { SCROLLHEIGHT } from "../../utils/constants";
-import { useTaskContext } from "../../hooks/useTasks";
+import { SCROLLHEIGHT } from "../../../utils/constants";
+import { useTaskContext } from "../../../hooks/useTasks";
 
 const TaskModal = forwardRef(
   ({ id, close, title = "", note = "", newTask = false }, ref) => {

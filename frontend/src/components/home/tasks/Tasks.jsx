@@ -5,7 +5,7 @@ import TaskModal from "./TaskModal";
 import TaskTitle from "./TaskTitle";
 import AddTask from "./AddTask";
 import { v4 as uuid } from "uuid";
-import { useTaskContext } from "../../hooks/useTasks";
+import { useTaskContext } from "../../../hooks/useTasks";
 
 const Tasks = () => {
   const {

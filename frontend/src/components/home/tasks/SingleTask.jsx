@@ -2,7 +2,7 @@ import { AiOutlineCheck } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import TaskModal from "./TaskModal";
 import { useState } from "react";
-import { useTaskContext } from "../../hooks/useTasks";
+import { useTaskContext } from "../../../hooks/useTasks";
 
 const SingleTask = ({ task }) => {
   const { title, note, id, completed } = task;

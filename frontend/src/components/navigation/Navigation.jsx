@@ -13,7 +13,12 @@ const Navigation = ({ showSetting, showOrHideSetting }) => {
       <div className="nav">
         <h1 className="nav-h1">Pomodoro</h1>
         <nav className="nav__container">
-          <div className="nav__setting report">
+          <div
+            className="nav__setting report"
+            onClick={() => {
+              alert("reports will be coming in the next patch :)");
+            }}
+          >
             <BiBarChartSquare />
             {largeScreen && <p>Report</p>}
           </div>
