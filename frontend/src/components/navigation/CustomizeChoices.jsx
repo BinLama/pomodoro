@@ -17,7 +17,6 @@ const CustomizeChoices = ({ closeOptions }) => {
         </div>
         <div className="customize__timer-options ">
           {customFocusLevel.choices.map((level) => {
-            console.log("LEVEL", level);
             return <CustomizeTimerOptions key={level.id} {...level} />;
           })}
         </div>

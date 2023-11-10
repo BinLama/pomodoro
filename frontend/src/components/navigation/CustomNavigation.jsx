@@ -2,6 +2,7 @@ import { useState } from "react";
 import { navigationCustomizationSetting } from "../../data";
 import SingleNavigationCusotmization from "./SingleNavigationCusotmization";
 import CustomizeChoices from "./CustomizeChoices";
+import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 
 const DEFAULT = {
   show: false,
@@ -9,6 +10,7 @@ const DEFAULT = {
 };
 
 const CustomNavigation = () => {
+  const { setChangeToBreak, setChangeToPomo } = usePomodoroContext();
   const [showOptions, setShowOptions] = useState(DEFAULT);
 
   const openOptions = (type) => {
@@ -46,8 +48,22 @@ const CustomNavigation = () => {
             );
           })}
           <hr />
-          <p className="options">Skip to break</p>
-          <p className="options">Skip to Pomodoro</p>
+          <p
+            className="options"
+            onClick={() => {
+              setChangeToBreak((prev) => prev + 1);
+            }}
+          >
+            Skip to break
+          </p>
+          <p
+            className="options"
+            onClick={() => {
+              setChangeToPomo((prev) => prev + 1);
+            }}
+          >
+            Skip to Pomodoro
+          </p>
         </div>
         <CustomizeChoices closeOptions={closeOptions} />
       </div>

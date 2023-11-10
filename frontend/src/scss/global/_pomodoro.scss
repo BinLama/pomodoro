@@ -3,10 +3,10 @@
 .timer {
   //  need to remove this aftewards
   display: grid;
-  // background-color: rgb(231, 224, 224);
   max-width: u.rem(455);
   max-height: u.rem(590);
   justify-items: center;
+  margin: u.rem(10);
 
   &__stateSwitch {
     display: flex;

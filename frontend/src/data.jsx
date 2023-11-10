@@ -95,9 +95,9 @@ export const customFocusLevel = {
       id: uuidv4(),
       name: CUSTOM,
       slider: [
-        { type: "pomodoro", min: 1, max: 60, value: 15 },
-        { type: "break", min: 1, max: 60, value: 15 },
-        { type: "long break", min: 1, max: 60, value: 15 },
+        { type: "pomodoro", min: 1, max: 60, value: 12 },
+        { type: "break", min: 1, max: 60, value: 13 },
+        { type: "long break", min: 1, max: 60, value: 14 },
       ],
     },
   ],

@@ -23,7 +23,7 @@ const CustomizeTimerOptions = ({
           if (type === CUSTOM) {
             const pomo = slider[0].value;
             const sb = slider[1].value;
-            const lb = slider[1].value;
+            const lb = slider[2].value;
             updateTimer(e.target.value, pomo, sb, lb);
             return;
           }

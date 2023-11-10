@@ -6,8 +6,14 @@ import { POMODORO, SHORTBREAK, LONGBREAK } from "../../utils/constants";
 const MAX_CURCUM = 295.301;
 
 const Pomodoro = () => {
-  const { chosen, autoBreak, autoPomo, longRelaxInterval } =
-    usePomodoroContext();
+  const {
+    chosen,
+    autoBreak,
+    autoPomo,
+    longRelaxInterval,
+    changeToBreak,
+    changeToPomo,
+  } = usePomodoroContext();
   const {
     phase,
     minutes,
@@ -24,6 +30,7 @@ const Pomodoro = () => {
     maxSeconds,
     setNewPomodoro,
     setAuto,
+    resetSession,
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
     chosen.newTimer.break,
@@ -48,6 +55,18 @@ const Pomodoro = () => {
       return newAuto;
     });
   }, [autoBreak, autoPomo]);
+
+  useEffect(() => {
+    if (changeToBreak === 0) return;
+    if (phase === SHORTBREAK) return;
+    choosePhase(SHORTBREAK);
+  }, [changeToBreak]);
+
+  useEffect(() => {
+    if (changeToBreak === 0) return;
+    if (phase === POMODORO) return;
+    choosePhase(POMODORO);
+  }, [changeToPomo]);
 
   return (
     <div className="timer">
@@ -138,12 +157,12 @@ const Pomodoro = () => {
                 {/* TODO: add an on click function that opens up setting */}
                 <div>
                   <p>Level</p>
-                  <p className="lvl">Beginner</p>
+                  <p className="lvl">{chosen.data.toUpperCase()}</p>
                 </div>
               </div>
               <div className="timer__cntdwn-session">
                 {/* TODO: add on click functionality that resets the counter but show alert first*/}
-                <div>
+                <div onClick={resetSession}>
                   <span>{`${String(session).padStart(2, "0")}`}</span>
                   {/* TODO:  this should be changed after getting the setting */}
                   <span> / 10</span>

@@ -61,6 +61,17 @@ const usePomodoroTimer = (
           // Timer is complete, but don't switch phase automatically
           setIsActive(false);
 
+          if (
+            (!auto.break && !auto.start) ||
+            (auto.break &&
+              (phase === SHORTBREAK || phase === LONGBREAK) &&
+              !auto.start) ||
+            (auto.start && phase === POMODORO && !auto.break)
+          ) {
+            console.log("GOTO TO STATUS");
+            setStatus(null);
+          }
+
           // play audio
           playAudio(chosenMusic, true);
 
@@ -73,13 +84,17 @@ const usePomodoroTimer = (
             rotationRef.current += 1;
           }
           console.log(rotationRef.current, longRelaxInterval);
-          setSession(rotationRef.current % longRelaxInterval);
+          setSession(rotationRef.current);
           setPhase((oldState) => {
             let newState;
             if (oldState === SHORTBREAK || oldState === LONGBREAK) {
               newState = POMODORO;
             } else {
-              newState = SHORTBREAK;
+              if (rotationRef.current % longRelaxInterval === 0) {
+                newState = LONGBREAK;
+              } else {
+                newState = SHORTBREAK;
+              }
             }
             console.log("timer end change phase:", newState);
             setOldPhase(oldState);
@@ -138,7 +153,7 @@ const usePomodoroTimer = (
       choosePhase(POMODORO);
       startTimer();
     }
-
+    console.log(status);
     if (auto.break && phase === SHORTBREAK && !timerStarted && status) {
       choosePhase(SHORTBREAK);
       startTimer();
@@ -245,6 +260,15 @@ const usePomodoroTimer = (
     });
   };
 
+  const resetSession = () => {
+    const confirm = window.confirm(
+      "Do you want to reset your session counter?"
+    );
+    if (!confirm) return;
+    setSession(1);
+    rotationRef.current = 1;
+  };
+
   return {
     phase,
     minutes,
@@ -261,6 +285,7 @@ const usePomodoroTimer = (
     remainingTime,
     setNewPomodoro,
     setAuto,
+    resetSession,
   };
 };
 

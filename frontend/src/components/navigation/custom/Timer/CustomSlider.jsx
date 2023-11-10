@@ -8,9 +8,9 @@ const CustomSlider = ({ slider }) => {
   // keep track of the slide update
 
   const [sliderData, setSliderData] = useState({
-    pomodoro: chosen.newTimer.pomodoro,
-    shortBreak: chosen.newTimer.break,
-    longBreak: chosen.newTimer.longBreak,
+    pomodoro: slider[0].value,
+    shortBreak: slider[1].value,
+    longBreak: slider[2].value,
   });
 
   useEffect(() => {
@@ -18,13 +18,9 @@ const CustomSlider = ({ slider }) => {
     const { pomodoro: pomo, break: sb, longBreak: lb } = chosen.newTimer;
 
     // stop the update at the beginning
-    if (
-      chosen.data === CUSTOM &&
-      pomo === pomodoro &&
-      sb === shortBreak &&
-      lb === longBreak
-    )
-      return;
+    if (chosen.data !== CUSTOM) return;
+    // stop update without new values
+    if (pomo === pomodoro && sb === shortBreak && lb === longBreak) return;
     updateTimer(CUSTOM, pomodoro, shortBreak, longBreak);
   }, [sliderData]);
 

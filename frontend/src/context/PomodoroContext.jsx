@@ -21,8 +21,11 @@ export const PomodoroContextProvider = ({ children }) => {
   const [volume, setVolume] = useState(10);
   const [mute, setMute] = useState(false);
   const [autoPomo, setAutoPomo] = useState(false);
-  const [autoBreak, setAutoBreak] = useState(true);
+  const [autoBreak, setAutoBreak] = useState(false);
   const [longRelaxInterval, setLongRelaxInterval] = useState(4);
+  const [changeToBreak, setChangeToBreak] = useState(0);
+  const [changeToPomo, setChangeToPomo] = useState(0);
+
   // get all the data here
 
   const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
@@ -61,6 +64,7 @@ export const PomodoroContextProvider = ({ children }) => {
 
     if (music !== chosenMusic) {
       const newAudio = new Audio(newMusic);
+      newAudio.volume = volume / 100;
       setAudio(newAudio);
       newAudio.play().catch((e) => {
         console.log("New audio play error");
@@ -100,6 +104,7 @@ export const PomodoroContextProvider = ({ children }) => {
   const togglePomo = () => {
     setAutoPomo((prev) => !prev);
   };
+
   return (
     <PomodoroContext.Provider
       value={{
@@ -121,6 +126,11 @@ export const PomodoroContextProvider = ({ children }) => {
         toggleBreak,
         longRelaxInterval,
         setLongRelaxInterval,
+        // used for skipping phases
+        setChangeToBreak,
+        changeToBreak,
+        setChangeToPomo,
+        changeToPomo,
       }}
     >
       {children}
