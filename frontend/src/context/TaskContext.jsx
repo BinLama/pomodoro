@@ -10,6 +10,7 @@ export const TaskContextProvider = ({ children }) => {
   const createTask = (newTask) => {
     const id = uuid();
     const task = { ...newTask, id };
+    console.log(task);
     setTasks((oldTasks) => [...oldTasks, task]);
     console.log("TASK CREATED");
   };

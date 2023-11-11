@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef, forwardRef } from "react";
 import { BsTrashFill } from "react-icons/bs";
-import { SCROLLHEIGHT } from "../../../utils/constants";
+import { CREATE, SCROLLHEIGHT, UPDATE } from "../../../utils/constants";
 import { useTaskContext } from "../../../hooks/useTasks";
 
+// ref is used for focus on click
 const TaskModal = forwardRef(
   ({ id, close, title = "", note = "", newTask = false }, ref) => {
     const { createTask, updateTask, deleteTask } = useTaskContext();
@@ -12,6 +13,9 @@ const TaskModal = forwardRef(
       note: note,
     });
     const [invalid, setInvalid] = useState(false);
+    const [actionType, setActionType] = useState(null);
+    const [changeCounter, setChangeCounter] = useState(0);
+
     // for auto increasing textarea
     const textareaRef = useRef(null);
 
@@ -31,32 +35,36 @@ const TaskModal = forwardRef(
       const title = pomoTask.title.trim();
       if (title.length <= 0) {
         console.log("INVALID");
-        return false;
+        return true;
       }
-      setPomoTask({ ...pomoTask, title });
-      return true;
+      console.log("VALID");
+      return false;
     };
 
-    const saveBtnClick = () => {
-      const valid = validInput();
-      setInvalid(!valid);
-
-      if (!valid) return;
-      createTask(pomoTask);
-      setPomoTask({
-        title: "",
-        note: "",
-      });
+    useEffect(() => {
+      if (!actionType) return;
+      if (invalid) return;
+      const title = pomoTask.title.trim();
+      const note = pomoTask.note.trim();
+      const newTask = { title, note };
+      switch (actionType) {
+        case CREATE:
+          createTask(newTask);
+          break;
+        case UPDATE:
+          updateTask(id, newTask);
+          break;
+        default:
+          console.log("not a valid case");
+      }
+      setPomoTask({ title: "", note: "" });
       close();
-    };
+    }, [changeCounter]);
 
-    const updateBtnClick = () => {
-      const valid = validInput();
-      setInvalid(!valid);
-
-      if (!valid) return;
-      updateTask(id, pomoTask);
-      close();
+    const taskChanged = () => {
+      const isInvalid = validInput();
+      setInvalid(isInvalid);
+      setChangeCounter((prev) => prev + 1);
     };
 
     return (
@@ -109,16 +117,25 @@ const TaskModal = forwardRef(
             <button type="button" className="btn cancel" onClick={close}>
               Cancel
             </button>
-
             {newTask ? (
-              <button type="button" className="btn save" onClick={saveBtnClick}>
+              <button
+                type="button"
+                className="btn save"
+                onClick={() => {
+                  setActionType(CREATE);
+                  taskChanged();
+                }}
+              >
                 Add
               </button>
             ) : (
               <button
                 type="button"
                 className="btn save"
-                onClick={updateBtnClick}
+                onClick={() => {
+                  setActionType(UPDATE);
+                  taskChanged();
+                }}
               >
                 Save
               </button>

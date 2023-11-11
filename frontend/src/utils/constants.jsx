@@ -10,6 +10,11 @@ const STANDARD = "standard";
 const MEDIUM = "medium";
 const EXTENDED = "extended";
 
+// Action Type
+const CREATE = "create";
+const UPDATE = "update";
+const DELETE = "delete";
+
 export {
   SHORTBREAK,
   LONGBREAK,
@@ -20,4 +25,7 @@ export {
   STANDARD,
   MEDIUM,
   EXTENDED,
+  CREATE,
+  UPDATE,
+  DELETE,
 };
