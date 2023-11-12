@@ -1,11 +1,14 @@
 import "./scss/App.scss";
 import Home from "./pages/Home";
+import { PomodoroContextProvider } from "./context/PomodoroContext";
 
 function App() {
   return (
     <main>
       {/* <Test /> */}
-      <Home />
+      <PomodoroContextProvider>
+        <Home />
+      </PomodoroContextProvider>
     </main>
   );
 }

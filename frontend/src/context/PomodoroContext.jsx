@@ -16,16 +16,30 @@ export const PomodoroContextProvider = ({ children }) => {
     },
   });
 
+  // Sets up what music to play
   const [chosenMusic, setChosenMusic] = useState("bell");
+
+  // Sets up the audio to be played when timer ends
   const [audio, setAudio] = useState(new Audio(sounds[chosenMusic]));
+
+  // controls alarm volume
   const [volume, setVolume] = useState(10);
+  // controls mute and unmute of volume
   const [mute, setMute] = useState(false);
+  // controls auto start pomodoro
   const [autoPomo, setAutoPomo] = useState(false);
+  // controls auto start break
   const [autoBreak, setAutoBreak] = useState(false);
   const [longRelaxInterval, setLongRelaxInterval] = useState(4);
   const [changeToBreak, setChangeToBreak] = useState(0);
   const [changeToPomo, setChangeToPomo] = useState(0);
+  // Control setings
+  const [showSetting, setShowSetting] = useState(false);
 
+  // control toggling of setting
+  const showOrHideSetting = () => {
+    setShowSetting((prev) => !prev);
+  };
   // get all the data here
 
   const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
@@ -131,6 +145,9 @@ export const PomodoroContextProvider = ({ children }) => {
         changeToBreak,
         setChangeToPomo,
         changeToPomo,
+        // control setting,
+        showSetting,
+        showOrHideSetting,
       }}
     >
       {children}

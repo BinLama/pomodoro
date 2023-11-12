@@ -2,12 +2,13 @@ import { useState } from "react";
 import { BiBarChartSquare, BiSliderAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
+import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 // import { Link } from "react-router-dom";
 
-const Navigation = ({ showSetting, showOrHideSetting }) => {
+const Navigation = () => {
   // TODO: show the letters on large screen
   const [largeScreen, setLargeScreen] = useState(false); // used for showing the paragraphs for large screen.
-
+  const { showSetting, showOrHideSetting } = usePomodoroContext();
   return (
     <header className="header">
       <div className="nav">

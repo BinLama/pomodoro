@@ -6,6 +6,7 @@ import { POMODORO, SHORTBREAK, LONGBREAK } from "../../../utils/constants";
 const MAX_CURCUM = 295.301;
 
 const Pomodoro = () => {
+  // Context
   const {
     chosen,
     autoBreak,
@@ -13,7 +14,10 @@ const Pomodoro = () => {
     longRelaxInterval,
     changeToBreak,
     changeToPomo,
+    showOrHideSetting,
   } = usePomodoroContext();
+
+  // POMODORO HOOKS
   const {
     phase,
     minutes,
@@ -31,6 +35,7 @@ const Pomodoro = () => {
     setNewPomodoro,
     setAuto,
     resetSession,
+    maxSession,
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
     chosen.newTimer.break,
@@ -153,7 +158,7 @@ const Pomodoro = () => {
                 seconds
               ).padStart(2, "0")}`}</h1>
 
-              <div className="timer__cntdwn-level">
+              <div className="timer__cntdwn-level" onClick={showOrHideSetting}>
                 {/* TODO: add an on click function that opens up setting */}
                 <div>
                   <p>Level</p>
@@ -165,7 +170,7 @@ const Pomodoro = () => {
                 <div onClick={resetSession}>
                   <span>{`${String(session).padStart(2, "0")}`}</span>
                   {/* TODO:  this should be changed after getting the setting */}
-                  <span> / 10</span>
+                  <span> / {`${String(maxSession).padStart(2, "0")}`}</span>
                 </div>
               </div>
             </div>
