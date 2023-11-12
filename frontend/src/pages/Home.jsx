@@ -12,11 +12,12 @@ const Home = () => {
       {showSetting && (
         <div className="overlay absolute" onClick={showOrHideSetting}></div>
       )}
-
-      <Pomodoro />
-      <TaskContextProvider>
-        <Tasks />
-      </TaskContextProvider>
+      <div className="main__functions">
+        <Pomodoro />
+        <TaskContextProvider>
+          <Tasks />
+        </TaskContextProvider>
+      </div>
     </>
   );
 };

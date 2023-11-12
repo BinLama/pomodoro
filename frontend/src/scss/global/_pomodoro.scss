@@ -8,6 +8,10 @@
   justify-items: center;
   margin: u.rem(10);
 
+  @include u.breakpoint(medium) {
+    margin-inline: auto;
+  }
+
   &__stateSwitch {
     display: flex;
     justify-content: space-between;

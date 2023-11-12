@@ -16,7 +16,7 @@ export const PomodoroContextProvider = ({ children }) => {
     },
   });
 
-  // Sets up what music to play
+  // Sets up what named music to play
   const [chosenMusic, setChosenMusic] = useState("bell");
 
   // Sets up the audio to be played when timer ends
@@ -83,6 +83,7 @@ export const PomodoroContextProvider = ({ children }) => {
       newAudio.play().catch((e) => {
         console.log("New audio play error");
       });
+      setChosenMusic(music);
       return;
     }
     audio.play().catch((e) => {
@@ -100,7 +101,6 @@ export const PomodoroContextProvider = ({ children }) => {
     playAudio(music);
     setChosenMusic(() => {
       const newMusic = music;
-      console.log(newMusic);
       return newMusic;
     });
   };

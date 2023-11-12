@@ -23,7 +23,14 @@ const CustomizeAlarmOptions = () => {
         {customAlarm.choices.map((alarm) => {
           return <SingleAudio key={alarm.id} {...alarm} />;
         })}
-        <div className="audio__selection-div mute" onClick={toggleMute}>
+        <div
+          className={
+            mute
+              ? "audio__selection-div mute selected"
+              : "audio__selection-div mute"
+          }
+          onClick={toggleMute}
+        >
           {!mute ? <BiSolidVolumeMute /> : <BiSolidVolumeFull />}
         </div>
       </div>
