@@ -13,7 +13,7 @@ const Navigation = () => {
     <header className="header">
       <div className="nav">
         <h1 className="nav-h1">Pomodoro</h1>
-        <nav className="nav__container">
+        <nav className="nav__container" style={{ zIndex: showSetting ? 2 : 0 }}>
           <div
             className="nav__setting report"
             onClick={() => {

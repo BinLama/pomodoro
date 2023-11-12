@@ -1,6 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { taskSetting } from "../../../data";
-import SingleTaskSetting from "./SingleTaskTitleSetting";
 import { useTaskContext } from "../../../hooks/useTasks";
 
 const TaskTitle = ({ displaySetting, openAndCloseSetting }) => {
@@ -12,7 +11,10 @@ const TaskTitle = ({ displaySetting, openAndCloseSetting }) => {
   return (
     <div className="tasks__title">
       <h1>Tasks</h1>
-      <div className="tasks__title__button">
+      <div
+        className="tasks__title__button"
+        style={{ zIndex: displaySetting ? 2 : 0 }}
+      >
         <button className="btn" onClick={openAndCloseSetting}>
           <BsThreeDotsVertical />
         </button>

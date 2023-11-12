@@ -7,9 +7,9 @@
   margin: 0 u.rem(10);
   max-width: u.rem(1200);
   justify-content: center;
+  padding-inline: u.rem(20);
 
-
-  @include u.breakpoint("xlarge") {
+  @include u.breakpoint("large") {
     margin: 0 auto;
   }
 }

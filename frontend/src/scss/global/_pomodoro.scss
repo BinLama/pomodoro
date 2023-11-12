@@ -12,6 +12,11 @@
 
   @include u.breakpoint(large) {
     margin-top: u.rem(60);
+    margin-right: u.rem(60);
+  }
+
+  @include u.breakpoint(xlarge) {
+    margin-right: u.rem(200);
   }
 
   &__stateSwitch {
