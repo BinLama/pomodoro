@@ -7,7 +7,7 @@ const SingleAudio = ({ name, music }) => {
     <div
       className={
         chosenMusic === music && !mute
-          ? "audio__selection-div selected"
+          ? "audio__selection-div selected bounce"
           : "audio__selection-div"
       }
       onClick={() => {
