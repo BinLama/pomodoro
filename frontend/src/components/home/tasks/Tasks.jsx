@@ -1,5 +1,5 @@
 import SingleTask from "./SingleTask";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import TaskModal from "./TaskModal";
 import TaskTitle from "./TaskTitle";
 import AddTask from "./AddTask";
@@ -21,6 +21,16 @@ const Tasks = () => {
     getTasks();
   }, []);
 
+  /* SHOW AND HIDE FUNCTIONALITY */
+  const [displaySetting, setDisplaySetting] = useState(false);
+  // showing setting when clicked
+  // closing setting
+  const openAndCloseSetting = () => {
+    setDisplaySetting(!displaySetting);
+  };
+  /* SHOW AND HIDE FUNCTIONALITY END */
+
+  /* DRAG AND DROP FUNCTIONALITY */
   const dragTaskRef = useRef(null);
   const dragOverItemRef = useRef(null);
 
@@ -68,31 +78,18 @@ const Tasks = () => {
     }
   };
 
-  // // handle drag sorting
-  // const handleDragSort = () => {
-  //   if (dragTaskRef.current !== null && dragOverItemRef.current !== null) {
-  //     let _tasks = [...tasks];
-
-  //     // remove and save the dragged item
-  //     const dragItemContent = _tasks.splice(dragTaskRef.current, 1)[0];
-
-  //     // switch the position
-  //     _tasks.splice(dragOverItemRef.current, 0, dragItemContent);
-
-  //     dragTaskRef.current = null;
-  //     dragOverItemRef.current = null;
-
-  //     setTasks(() => _tasks);
-  //   }
-  // };
+  /* DRAG AND DROP FUNCTIONALITY END*/
 
   return (
     <div className="tasks">
-      <TaskTitle />
+      <TaskTitle
+        displaySetting={displaySetting}
+        openAndCloseSetting={openAndCloseSetting}
+      />
       <div className="underline"></div>
-      {/* create an add task button */}
-      {/* add new task here and make them dragable */}
-      {/* move the add task buttom below */}
+      {displaySetting && (
+        <div className="overlay absolute" onClick={openAndCloseSetting}></div>
+      )}
       <div className="tasks__list">
         {/* a single task */}
         <div className="tasks__list__task">

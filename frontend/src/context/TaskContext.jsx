@@ -4,6 +4,8 @@ export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
+  const [oldTasks, setOldTasks] = useState([]);
+  const [hidden, setHidden] = useState(false);
 
   // CRUD for tasks
   // create (should be a dictionary)
@@ -34,6 +36,13 @@ export const TaskContextProvider = ({ children }) => {
         title: "12345678901234567 8901234567890",
         note: "",
         completed: false,
+      },
+      {
+        id: 5,
+        title:
+          "very long title for my task so long that it will take over many spaces",
+        note: "very long task note for my task \n so long that it will take many lines \nto even write this",
+        completed: true,
       },
     ]);
   };
@@ -81,6 +90,72 @@ export const TaskContextProvider = ({ children }) => {
     setShowAddModal(false);
   };
 
+  const markAllTasks = () => {
+    const newTaskList = tasks.map((task) => {
+      if (!task.completed) {
+        return { ...task, completed: true };
+      }
+      return task;
+    });
+
+    console.log("Marked all tasks");
+    setTasks(newTaskList);
+  };
+
+  const unMarkAllTasks = () => {
+    const newTaskList = tasks.map((task) => {
+      if (task.completed) {
+        return { ...task, completed: false };
+      }
+      return task;
+    });
+
+    console.log("unmarked all tasks");
+    setTasks(newTaskList);
+  };
+
+  const hideCompletedTasks = () => {
+    setOldTasks(() => [...tasks]);
+
+    const newTaskList = tasks.filter((task) => {
+      if (!task.completed) {
+        return task;
+      }
+    });
+
+    console.log("hide completed tasks");
+    setTasks(newTaskList);
+  };
+
+  const showHiddenTasks = () => {
+    setTasks([...oldTasks]);
+    setOldTasks([]);
+    console.log("show hidden tasks");
+  };
+
+  const clearAllTasks = () => {
+    const confirm = window.confirm("Do you want to remove all  tasks?");
+
+    if (!confirm) return;
+
+    setTasks([]);
+    setOldTasks([]);
+    console.log("delete all tasks");
+  };
+
+  // show or hide complete task toggle
+  const toggleHidden = () => {
+    setHidden((prev) => {
+      if (prev) {
+        showHiddenTasks();
+        return false;
+      }
+
+      hideCompletedTasks();
+      return true;
+    });
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -94,6 +169,12 @@ export const TaskContextProvider = ({ children }) => {
         addTaskRef,
         closeAddModal,
         showAddModal,
+        // task functions
+        markAllTasks,
+        unMarkAllTasks,
+        clearAllTasks,
+        hidden,
+        toggleHidden,
       }}
     >
       {children}

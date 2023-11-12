@@ -1,5 +1,10 @@
 import { BsArrowClockwise, BsFillAlarmFill, BsTrashFill } from "react-icons/bs";
-import { AiFillCheckCircle } from "react-icons/ai";
+import {
+  AiFillCheckCircle,
+  AiFillEye,
+  AiFillEyeInvisible,
+} from "react-icons/ai";
+import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
 import { v4 as uuidv4 } from "uuid";
 import { BiSolidTimeFive } from "react-icons/bi";
 import {
@@ -19,8 +24,14 @@ import tom_and_jerry_scream from "/sounds/tom_and_jerry_scream.mp3";
 import train_horn from "/sounds/train_horn.mp3";
 
 export const taskSetting = [
-  { id: uuidv4(), icon: <BsTrashFill />, text: "Clear finished tasks" },
+  { id: uuidv4(), icon: <AiFillEyeInvisible />, text: "Hide completed tasks" },
+  { id: uuidv4(), icon: <AiFillEye />, text: "Show hidden tasks" },
   { id: uuidv4(), icon: <AiFillCheckCircle />, text: "Mark all tasks" },
+  {
+    id: uuidv4(),
+    icon: <MdOutlineRadioButtonUnchecked />,
+    text: "Unmark all tasks",
+  },
   {
     id: uuidv4(),
     icon: <BsTrashFill />,

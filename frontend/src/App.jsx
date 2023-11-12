@@ -5,7 +5,6 @@ import { PomodoroContextProvider } from "./context/PomodoroContext";
 function App() {
   return (
     <main>
-      {/* <Test /> */}
       <PomodoroContextProvider>
         <Home />
       </PomodoroContextProvider>
