@@ -4,10 +4,11 @@ import TaskModal from "./TaskModal";
 import { useState } from "react";
 import { useTaskContext } from "../../../hooks/useTasks";
 
-const SingleTask = ({ task }) => {
+const SingleTask = ({ task, onDragStart, onDragEnter, onDragEnd, index }) => {
   const { title, note, id, completed } = task;
   const [edit, setEdit] = useState(false);
 
+  const [moving, setMoving] = useState(false);
   const { updateTask } = useTaskContext();
 
   const showEdit = () => {
@@ -19,7 +20,29 @@ const SingleTask = ({ task }) => {
   };
 
   return (
-    <div className={completed ? "task fade" : "task"}>
+    <div
+      className={completed ? "task fade" : "task"}
+      draggable={!edit}
+      style={{
+        cursor: !edit ? "move" : "auto",
+        opacity: moving ? 0.5 : 1,
+        backgroundColor: moving ? "rgba(203,213,225, 0.5)" : "",
+      }}
+      onDragStart={(e) => {
+        onDragStart(e, index);
+        setMoving(true);
+      }}
+      onDragEnter={(e) => {
+        onDragEnter(e, index);
+      }}
+      onDragEnd={() => {
+        onDragEnd();
+        setMoving(false);
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+      }}
+    >
       {!edit && (
         <div className="task__show">
           <div className="task__info">
