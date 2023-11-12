@@ -1,15 +1,17 @@
 @use "../utils/" as u;
 
 .timer {
+  flex: 1;
   //  need to remove this aftewards
   display: grid;
-  max-width: u.rem(455);
+  max-width: u.rem(520);
   max-height: u.rem(590);
   justify-items: center;
   margin: u.rem(10);
 
-  @include u.breakpoint(medium) {
-    margin-inline: auto;
+
+  @include u.breakpoint(large) {
+    margin-top: u.rem(60);
   }
 
   &__stateSwitch {
@@ -37,6 +39,14 @@
 
       &:disabled {
         cursor: not-allowed;
+      }
+    }
+
+    @include u.breakpoint(large) {
+      font-size: u.rem(20);
+
+      button {
+        width: u.rem(150);
       }
     }
 
@@ -74,6 +84,10 @@
         font-size: u.rem(64);
         font-weight: 600;
         margin-top: u.rem(40);
+
+        @include u.breakpoint(large) {
+          font-size: u.rem(84);
+        }
       }
     }
 
@@ -105,6 +119,16 @@
     &-svg {
       height: u.rem(275);
       width: u.rem(275);
+
+      @include u.breakpoint(medium) {
+        height: u.rem(300);
+        width: u.rem(300);
+      }
+
+      @include u.breakpoint(large) {
+        height: u.rem(350);
+        width: u.rem(350);
+      }
 
       .progress {
         transform: rotate(-90deg);

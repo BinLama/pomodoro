@@ -4,8 +4,27 @@ body {
   font-family: var(--ff);
   font-size: u.rem(16);
   background: hsl(var(--bg));
+
+  display: flex;
+  justify-content: center;
+
+  @include u.breakpoint(medium) {
+    margin: 0 auto
+  }
 }
 
+.main__functions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include u.breakpoint(xlarge) {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: u.rem(20);
+    margin: u.rem(20) u.rem(10);
+  }
+}
 
 .btn {
   display: inline-block;

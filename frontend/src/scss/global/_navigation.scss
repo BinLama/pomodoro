@@ -6,10 +6,8 @@
   align-items: center;
   margin: 0 u.rem(10);
   max-width: u.rem(1200);
+  justify-content: center;
 
-  @include u.breakpoint("medium") {
-    margin: 0 u.rem(20);
-  }
 
   @include u.breakpoint("xlarge") {
     margin: 0 auto;

@@ -1,6 +1,7 @@
 @use "../utils/" as u;
 
 .tasks {
+  flex: 1;
   // background-color: rgb(193, 231, 193);
   color: hsl(var(--blk));
   margin: 0 u.rem(10);
