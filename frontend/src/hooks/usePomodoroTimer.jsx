@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { POMODORO, SHORTBREAK, LONGBREAK } from "../utils/constants";
+import { POMODORO, SHORTBREAK, LONGBREAK, SECONDS } from "../utils/constants";
 import { usePomodoroContext } from "./usePomodoroContext";
 
 /**
@@ -11,14 +11,7 @@ import { usePomodoroContext } from "./usePomodoroContext";
  * @param {boolean} selfBreak The boolean
 
  */
-const usePomodoroTimer = (
-  pomodoro = 25,
-  shortBreak = 5,
-  longBreak = 15,
-  selfPomo,
-  selfBreak,
-  longRelaxInterval
-) => {
+const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
   const [pomoPhases, setPomoPhases] = useState({
     pomodoro: { minutes: pomodoro },
     shortBreak: { minutes: shortBreak },
@@ -27,27 +20,37 @@ const usePomodoroTimer = (
 
   // using pomodoro context to play music
   // TODO: get all the settings data too.
-  const { playAudio, chosenMusic } = usePomodoroContext();
+  const {
+    playAudio,
+    chosenMusic,
+    timerActive,
+    inSession,
+    notInSession,
+    autoPomo,
+    autoBreak,
+    longRelaxInterval,
+  } = usePomodoroContext();
 
   const [phase, setPhase] = useState(POMODORO);
   // Old Phase keeps track of the changes in phases (only updates when new phase changes after timer ends)
-  const [oldPhase, setOldPhase] = useState(POMODORO);
+  const [oldPhase, setOldPhase] = useState(null);
 
   const [minutes, setMinutes] = useState(pomoPhases.pomodoro.minutes);
   const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false); // let the countdonw happen
+  const [isActive, setIsActive] = useState(false); // is when countdown is happening (pause and play)
   const [startTime, setStartTime] = useState(null); // used for calculating delay on timer
   const rotationRef = useRef(1);
-  const [timerStarted, setTimerStarted] = useState(false); // start and pause tracker
+  // const [timerStarted, setTimerStarted] = useState(false); // in the middle of the timer
+  const [rounds, setRounds] = useState(1);
   const [session, setSession] = useState(1);
   const [maxSession, setMaxSession] = useState(10);
-  const [remainingTime, setRemainingTime] = useState(minutes * 60); // keeps track of seconds left (useful for calculating percentage of time passed)
+  const [remainingTime, setRemainingTime] = useState(minutes * SECONDS); // keeps track of seconds left (useful for calculating percentage of time passed)
   const [status, setStatus] = useState(null);
-  const [maxSeconds, setMaxSeconds] = useState(minutes * 60); // max seconds counted
+  const [maxSeconds, setMaxSeconds] = useState(minutes * SECONDS); // max seconds counted
 
   const [auto, setAuto] = useState({
-    start: selfPomo,
-    break: selfBreak,
+    start: autoPomo,
+    break: autoBreak,
   });
 
   useEffect(() => {
@@ -85,28 +88,32 @@ const usePomodoroTimer = (
             rotationRef.current += 1;
           }
           console.log(rotationRef.current, longRelaxInterval);
-          setSession(rotationRef.current);
+          const newSession = Math.round(rotationRef.current / 2);
+
+          setSession(newSession);
           setPhase((oldState) => {
             let newState;
             if (oldState === SHORTBREAK || oldState === LONGBREAK) {
               newState = POMODORO;
+            } else if (
+              newSession % longRelaxInterval === 0 &&
+              newSession !== 0
+            ) {
+              newState = LONGBREAK;
             } else {
-              if (rotationRef.current % longRelaxInterval === 0) {
-                newState = LONGBREAK;
-              } else {
-                newState = SHORTBREAK;
-              }
+              newState = SHORTBREAK;
             }
+
             console.log("timer end change phase:", newState);
             setOldPhase(oldState);
 
             setMinutes(() => {
               const newMin = pomoPhases[newState].minutes;
-              setMaxSeconds(newMin * 60);
+              setMaxSeconds(newMin * SECONDS);
               return newMin;
             });
 
-            setTimerStarted(false);
+            // setTimerStarted(false);
             setRemainingTime(() => {
               return maxSeconds;
             });
@@ -115,7 +122,7 @@ const usePomodoroTimer = (
           });
         } else {
           setMinutes((prevMinutes) => prevMinutes - 1);
-          setSeconds(59);
+          setSeconds(SECONDS - 1);
         }
       } else {
         setSeconds((prevSeconds) => {
@@ -150,16 +157,30 @@ const usePomodoroTimer = (
   }, [isActive, minutes, seconds, startTime]);
 
   useEffect(() => {
-    if (auto.start && phase === POMODORO && !timerStarted && status) {
+    console.log("Got to not in session");
+    notInSession();
+  }, [oldPhase]);
+
+  useEffect(() => {
+    console.log("Auto Start/Break:");
+    if (auto.start && phase === POMODORO && !timerActive && status) {
       choosePhase(POMODORO);
       startTimer();
+      return;
     }
-    console.log(status);
-    if (auto.break && phase === SHORTBREAK && !timerStarted && status) {
+
+    if (auto.break && phase === SHORTBREAK && !timerActive && status) {
       choosePhase(SHORTBREAK);
       startTimer();
+      return;
     }
-  }, [auto.start, auto.break, phase, timerStarted]);
+
+    if (auto.break && phase === LONGBREAK && !timerActive && status) {
+      choosePhase(LONGBREAK);
+      startTimer();
+      return;
+    }
+  }, [auto.start, auto.break, phase, timerActive]);
 
   // FUNCTIONS
   const startTimer = () => {
@@ -169,19 +190,20 @@ const usePomodoroTimer = (
 
     if (status === "play" || status === null) {
       setMaxSeconds(() => {
-        const newMaxSec = minutes * 60;
+        const newMaxSec = minutes * SECONDS;
         setRemainingTime(newMaxSec);
         return newMaxSec;
       });
 
-      setTimerStarted(true);
+      inSession();
+      // setTimerStarted(true);
     }
     setStatus("play");
   };
 
   const pauseTimer = () => {
     setIsActive(false);
-    setStatus("paused");
+    setStatus("pause");
     console.log("Timer Paused");
   };
 
@@ -189,12 +211,13 @@ const usePomodoroTimer = (
     setIsActive(false);
     setMinutes(() => {
       const newMin = pomoPhases[phase].minutes;
-      setMaxSeconds(newMin * 60);
-      setRemainingTime(newMin * 60);
+      setMaxSeconds(newMin * SECONDS);
+      setRemainingTime(newMin * SECONDS);
       return newMin;
     });
     setSeconds(0);
-    setTimerStarted(false);
+    notInSession();
+    // setTimerStarted(false);
     setStatus(null);
     console.log("Timer Reseted");
   };
@@ -215,8 +238,8 @@ const usePomodoroTimer = (
 
       setMinutes(() => {
         const newMin = pomoPhases[nextPhase].minutes;
-        setMaxSeconds(newMin * 60);
-        setRemainingTime(newMin * 60);
+        setMaxSeconds(newMin * SECONDS);
+        setRemainingTime(newMin * SECONDS);
         return newMin;
       });
       setSeconds(0);
@@ -226,30 +249,30 @@ const usePomodoroTimer = (
   const choosePhase = (selectedPhase) => {
     // TODO: create an alert when chaning phase.
     // TODO: thinking of creating a custom hook that will alert me but will also be used for different things in the future.
-    if (timerStarted) {
-      if (!window.confirm("Are you sure you want to change the phase?")) {
-        return;
-      }
-    }
+
+    console.log("Yes change Phase");
     setIsActive(false);
     setPhase(selectedPhase);
     setMinutes(() => {
       const newMin = pomoPhases[selectedPhase].minutes;
-      setMaxSeconds(newMin * 60);
-      setRemainingTime(newMin * 60);
+      setMaxSeconds(newMin * SECONDS);
+      setRemainingTime(newMin * SECONDS);
 
       return newMin;
     });
     setSeconds(0);
-    setTimerStarted(false);
+    notInSession();
+    // setTimerStarted(false);
     setStatus(null);
     console.log("Choose Phase");
+    return true;
   };
 
   const setNewPomodoro = (pomo, brk, longBrk) => {
-    pauseTimer();
-    resetTimer();
+    console.log("SET NEW POMODORO");
     choosePhase(POMODORO);
+    resetTimer();
+    console.log("GOT HERE");
     setPomoPhases(() => {
       const newPhase = {
         pomodoro: { minutes: pomo },
@@ -257,17 +280,20 @@ const usePomodoroTimer = (
         longBreak: { minutes: longBrk },
       };
       setMinutes(pomo);
+      console.log("changing pomoPhase");
       return newPhase;
     });
+    return true;
   };
 
   const resetSession = () => {
     const confirm = window.confirm(
       "Do you want to reset your session counter?"
     );
-    if (!confirm) return;
+    if (!confirm) return false;
     setSession(1);
     rotationRef.current = 1;
+    return true;
   };
 
   return {
@@ -276,7 +302,7 @@ const usePomodoroTimer = (
     seconds,
     isActive,
     session,
-    timerStarted,
+    // timerStarted,
     startTimer,
     pauseTimer,
     resetTimer,

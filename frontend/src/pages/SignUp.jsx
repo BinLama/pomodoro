@@ -11,7 +11,8 @@ const SignUp = () => {
   // const [email, setEmail] = useState("");
   // const [password, setPassword] = useState("");
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
+    // need to send the request to the backend and then use that data to update the global context.
     e.preventDefault();
     console.log("sing up");
   };

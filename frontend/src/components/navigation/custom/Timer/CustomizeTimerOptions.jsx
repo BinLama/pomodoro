@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 import CustomSlider from "./CustomSlider";
 import { CUSTOM } from "../../../../utils/constants";
@@ -24,9 +23,11 @@ const CustomizeTimerOptions = ({
             const pomo = slider[0].value;
             const sb = slider[1].value;
             const lb = slider[2].value;
+
             updateTimer(e.target.value, pomo, sb, lb);
             return;
           }
+          console.log("Updating timer");
           updateTimer(e.target.value, pomodoro, shortBreak, longBreak);
         }}
         id={name}

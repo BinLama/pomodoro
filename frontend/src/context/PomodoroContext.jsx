@@ -1,153 +1,142 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer, useState } from "react";
 import { customFocusLevel, sounds } from "../data";
-import { CUSTOM } from "../utils/constants";
+import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
+import {
+  INITIAL_POMODORO_STATE,
+  pomodoroReducer,
+} from "../reducers/PomodoroReducer";
 
 export const PomodoroContext = createContext();
 
 export const PomodoroContextProvider = ({ children }) => {
-  // keep track of the setting change
-  // pomodoro should call the value and change it.
-  const [chosen, setChosen] = useState({
-    data: customFocusLevel.choices[1].name,
-    newTimer: {
-      pomodoro: customFocusLevel.choices[1].pomodoro,
-      break: customFocusLevel.choices[1].break,
-      longBreak: customFocusLevel.choices[1].longBreak,
-    },
-  });
+  const [state, dispatch] = useReducer(pomodoroReducer, INITIAL_POMODORO_STATE);
 
-  // Sets up what named music to play
-  const [chosenMusic, setChosenMusic] = useState("bell");
-
-  // Sets up the audio to be played when timer ends
-  const [audio, setAudio] = useState(new Audio(sounds[chosenMusic]));
-
-  // controls alarm volume
-  const [volume, setVolume] = useState(10);
-  // controls mute and unmute of volume
-  const [mute, setMute] = useState(false);
-  // controls auto start pomodoro
-  const [autoPomo, setAutoPomo] = useState(false);
-  // controls auto start break
-  const [autoBreak, setAutoBreak] = useState(false);
-  const [longRelaxInterval, setLongRelaxInterval] = useState(4);
-  const [changeToBreak, setChangeToBreak] = useState(0);
-  const [changeToPomo, setChangeToPomo] = useState(0);
-  // Control setings
-  const [showSetting, setShowSetting] = useState(false);
+  // get all the data here
 
   // control toggling of setting
   const showOrHideSetting = () => {
-    setShowSetting((prev) => !prev);
+    dispatch({ type: pomodoroReducerActions.TOGGLE_SETTING });
   };
-  // get all the data here
+
+  const notInSession = () => {
+    dispatch({ type: pomodoroReducerActions.INACTIVE_SESSION });
+  };
+
+  const inSession = () => {
+    dispatch({ type: pomodoroReducerActions.ACTIVE_SESSION });
+  };
 
   const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
     // stop the same update when it's already selected
     if (
-      (type === chosen.data && type !== CUSTOM) ||
+      (type === state.chosen.data && type !== CUSTOM) ||
       (type === CUSTOM &&
-        chosen.newTimer.pomodoro === pomodoro &&
-        chosen.newTimer.break === shortBreak &&
-        chosen.newTimer.longBreak === longBreak)
+        state.chosen.newTimer.pomodoro === pomodoro &&
+        state.chosen.newTimer.break === shortBreak &&
+        state.chosen.newTimer.longBreak === longBreak)
     ) {
       return;
     }
-    console.log("DATA:", pomodoro, shortBreak, longBreak);
-    setChosen((oldTimer) => {
-      const data = {
+    console.log("Timer:", pomodoro, shortBreak, longBreak);
+    let alert;
+    if (state.timerActive) {
+      alert = window.confirm("Are you sure you want to change the phase?");
+
+      if (!alert) {
+        return;
+      }
+      notInSession();
+    }
+
+    dispatch({
+      type: pomodoroReducerActions.UPDATE_TIMER,
+      payload: {
         data: type,
         newTimer: {
-          ...oldTimer.newTimer,
+          ...state.newTimer,
           pomodoro,
           break: shortBreak,
           longBreak,
         },
-      };
-      console.log("Setting chosen", data);
-      return data;
+      },
     });
+
+    console.log("Timer updated");
   };
 
   const playAudio = (music, pomo = false) => {
-    if (mute && pomo) return;
+    if (state.mute && pomo) return;
+    console.log("Play music");
     const newMusic = sounds[music];
-    if (audio) {
-      audio.pause();
+    if (state.audio) {
+      state.audio.pause();
     }
 
-    if (music !== chosenMusic) {
+    if (music !== state.chosenMusic) {
       const newAudio = new Audio(newMusic);
-      newAudio.volume = volume / 100;
-      setAudio(newAudio);
+      newAudio.preload = "auto";
+      newAudio.volume = state.volume / 100;
       newAudio.play().catch((e) => {
         console.log("New audio play error");
       });
-      setChosenMusic(music);
+      dispatch({
+        type: pomodoroReducerActions.PLAY_AUDIO,
+        payload: { audio: newAudio, music: music },
+      });
       return;
     }
-    audio.play().catch((e) => {
-      console.log("Old audio play error");
+
+    state.audio.play().catch((e) => {
+      console.log("old audio play error");
     });
   };
 
   const handleVolumeChange = (loudness) => {
-    setVolume(loudness);
-    audio.volume = loudness / 100;
+    dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
+    state.audio.volume = loudness / 100;
   };
 
   const changeMusic = (music) => {
-    if (mute) setMute(false);
+    dispatch({ type: pomodoroReducerActions.CHANGE_MUSIC, payload: music });
     playAudio(music);
-    setChosenMusic(() => {
-      const newMusic = music;
-      return newMusic;
-    });
   };
 
   const toggleMute = () => {
-    setMute((oldMute) => {
-      return !oldMute;
-    });
+    dispatch({ type: pomodoroReducerActions.TOGGLE_MUTE });
   };
 
   const toggleBreak = () => {
-    setAutoBreak((prev) => !prev);
+    dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_BREAK });
   };
 
   const togglePomo = () => {
-    setAutoPomo((prev) => !prev);
+    dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
   };
 
+  const skipToBreak = () => {
+    dispatch({ type: pomodoroReducerActions.SKIP_TO_BREAK });
+  };
+  const skipToPomo = () => {
+    dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
+  };
+
+  console.log("Pomodoro Context state:", state);
   return (
     <PomodoroContext.Provider
       value={{
-        chosen,
-        setChosen,
+        ...state,
         updateTimer,
         playAudio,
-        mute,
-        setMute,
-        volume,
         handleVolumeChange,
-        chosenMusic,
-        setChosenMusic,
         changeMusic,
         toggleMute,
-        autoPomo,
         togglePomo,
-        autoBreak,
         toggleBreak,
-        longRelaxInterval,
-        setLongRelaxInterval,
-        // used for skipping phases
-        setChangeToBreak,
-        changeToBreak,
-        setChangeToPomo,
-        changeToPomo,
-        // control setting,
-        showSetting,
         showOrHideSetting,
+        skipToBreak,
+        skipToPomo,
+        notInSession,
+        inSession,
       }}
     >
       {children}

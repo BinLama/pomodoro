@@ -15,6 +15,7 @@ const Pomodoro = () => {
     changeToBreak,
     changeToPomo,
     showOrHideSetting,
+    timerActive,
   } = usePomodoroContext();
 
   // POMODORO HOOKS
@@ -27,7 +28,7 @@ const Pomodoro = () => {
     resetTimer,
     skipPhase,
     isActive,
-    timerStarted,
+    // timerStarted,
     session,
     choosePhase,
     remainingTime,
@@ -39,10 +40,7 @@ const Pomodoro = () => {
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
     chosen.newTimer.break,
-    chosen.newTimer.longBreak,
-    autoPomo,
-    autoBreak,
-    longRelaxInterval
+    chosen.newTimer.longBreak
   ); // this sets the pomodoro and break to 1min
 
   useEffect(() => {
@@ -198,7 +196,7 @@ const Pomodoro = () => {
               </button>
             </>
           )}
-          {timerStarted ? (
+          {timerActive ? (
             <>
               <button
                 onClick={resetTimer}

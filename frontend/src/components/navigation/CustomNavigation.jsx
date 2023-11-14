@@ -10,7 +10,7 @@ const DEFAULT = {
 };
 
 const CustomNavigation = () => {
-  const { setChangeToBreak, setChangeToPomo } = usePomodoroContext();
+  const { skipToBreak, skipToPomo } = usePomodoroContext();
   const [showOptions, setShowOptions] = useState(DEFAULT);
 
   const openOptions = (type) => {
@@ -48,20 +48,10 @@ const CustomNavigation = () => {
             );
           })}
           <hr />
-          <p
-            className="options"
-            onClick={() => {
-              setChangeToBreak((prev) => prev + 1);
-            }}
-          >
+          <p className="options" onClick={skipToBreak}>
             Skip to break
           </p>
-          <p
-            className="options"
-            onClick={() => {
-              setChangeToPomo((prev) => prev + 1);
-            }}
-          >
+          <p className="options" onClick={skipToPomo}>
             Skip to Pomodoro
           </p>
         </div>
