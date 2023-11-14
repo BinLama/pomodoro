@@ -11,7 +11,7 @@ export const PomodoroContext = createContext();
 export const PomodoroContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(pomodoroReducer, INITIAL_POMODORO_STATE);
 
-  // get all the data here
+  // TODO: get all the data here
 
   // control toggling of setting
   const showOrHideSetting = () => {

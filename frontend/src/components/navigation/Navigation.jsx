@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiBarChartSquare, BiSliderAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
@@ -7,8 +7,20 @@ import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 
 const Navigation = () => {
   // TODO: show the letters on large screen
-  const [largeScreen, setLargeScreen] = useState(false); // used for showing the paragraphs for large screen.
+  const [width, setWidth] = useState(window.innerWidth);
+  const breakPoint = 900;
+
   const { showSetting, showOrHideSetting } = usePomodoroContext();
+
+  useEffect(() => {
+    const handleResizeWindow = () => setWidth(window.innerWidth);
+    // subscribe to window resize event "onComponentDidMount"
+    window.addEventListener("resize", handleResizeWindow);
+    return () => {
+      // unsubscribe "onComponentDestroy"
+      window.removeEventListener("resize", handleResizeWindow);
+    };
+  }, []);
   return (
     <header className="header">
       <div className="nav">
@@ -21,18 +33,18 @@ const Navigation = () => {
             }}
           >
             <BiBarChartSquare />
-            {largeScreen && <p>Report</p>}
+            {width > breakPoint && <p>Report</p>}
           </div>
           <div className="relative">
             <div className="nav__setting custom" onClick={showOrHideSetting}>
               <BiSliderAlt />
-              {largeScreen && <p>Customize</p>}
+              {width > breakPoint && <p>Customize</p>}
             </div>
             {showSetting && <CustomNavigation />}
           </div>
           <div className="nav__setting login">
             <FaUserCircle />
-            {largeScreen && <p>Login</p>}
+            {width > breakPoint && <p>Login</p>}
           </div>
         </nav>
       </div>

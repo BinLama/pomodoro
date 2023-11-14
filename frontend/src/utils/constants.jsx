@@ -3,7 +3,7 @@ const SHORTBREAK = "shortBreak";
 const POMODORO = "pomodoro";
 const LONGBREAK = "longBreak";
 
-// 1min === 60s
+// TODO change to 60
 const SECONDS = 3;
 
 // Task modal notes auto height change
