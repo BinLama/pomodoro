@@ -3,6 +3,7 @@ import { BiBarChartSquare, BiSliderAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
 import { usePomodoroContext } from "../../hooks/usePomodoroContext";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 
 const Navigation = () => {
@@ -24,17 +25,20 @@ const Navigation = () => {
   return (
     <header className="header">
       <div className="nav">
-        <h1 className="nav-h1">Pomodoro</h1>
+        <Link to="/">
+          <h1 className="nav-h1">Pomodoro</h1>
+        </Link>
         <nav className="nav__container" style={{ zIndex: showSetting ? 2 : 0 }}>
-          <div
+          <Link
             className="nav__setting report"
             onClick={() => {
               alert("reports will be coming in the next patch :)");
             }}
+            to="/report"
           >
             <BiBarChartSquare />
             {width > breakPoint && <p>Report</p>}
-          </div>
+          </Link>
           <div className="relative">
             <div className="nav__setting custom" onClick={showOrHideSetting}>
               <BiSliderAlt />
@@ -42,10 +46,10 @@ const Navigation = () => {
             </div>
             {showSetting && <CustomNavigation />}
           </div>
-          <div className="nav__setting login">
+          <Link className="nav__setting login" to="/signup">
             <FaUserCircle />
             {width > breakPoint && <p>Login</p>}
-          </div>
+          </Link>
         </nav>
       </div>
     </header>

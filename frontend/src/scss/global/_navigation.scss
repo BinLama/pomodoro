@@ -3,15 +3,7 @@
 .header {
   height: u.rem(48);
   display: flex;
-  align-items: center;
   margin: 0 u.rem(10);
-  max-width: u.rem(1200);
-  justify-content: center;
-  padding-inline: u.rem(20);
-
-  @include u.breakpoint("large") {
-    margin: 0 auto;
-  }
 }
 
 .nav {
@@ -28,6 +20,7 @@
   }
 
   &__setting {
+    color: inherit;
     display: flex;
     align-items: center;
     font-size: u.rem(24);
@@ -50,6 +43,7 @@
 
   &-h1 {
     font-size: u.rem(20);
+    color: hsl(var(--blk));
   }
 
 }

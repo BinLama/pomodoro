@@ -4,19 +4,18 @@ body {
   font-family: var(--ff);
   font-size: u.rem(16);
   background: hsl(var(--bg));
+}
 
-  display: flex;
-  justify-content: center;
-
-  @include u.breakpoint(medium) {
-    margin: 0 auto
-  }
+#root {
+  max-width: u.rem(1200);
+  margin: 0 auto;
 }
 
 .main__functions {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 
   @include u.breakpoint(large) {
     flex-direction: row;
