@@ -1,5 +1,6 @@
 import { createContext, useState, useRef } from "react";
 import { v4 as uuid } from "uuid";
+import { mergeArrays } from "../utils/utilityFunc";
 export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
@@ -13,7 +14,7 @@ export const TaskContextProvider = ({ children }) => {
     const id = uuid();
     const task = { ...newTask, id };
     console.log(task);
-    setTasks((oldTasks) => [...oldTasks, task]);
+    setTasks((oldTasks) => [...oldTasks, task].sort((a) => a.completed));
     console.log("TASK CREATED");
   };
 
@@ -21,30 +22,32 @@ export const TaskContextProvider = ({ children }) => {
   const getTasks = () => {
     // query the database to get the tasks
     // TODO: tasks should be received through local host or database.
-    setTasks([
-      { id: 1, title: "task1", note: "task1 note", completed: false },
-      {
-        id: 2,
-        title:
-          "very long title for my task so long that it will take over many spaces",
-        note: "very long task note for my task so long that it will take many lines to even write this",
-        completed: true,
-      },
-      { id: 3, title: "Done", note: "task3 note", completed: false },
-      {
-        id: 4,
-        title: "12345678901234567 8901234567890",
-        note: "",
-        completed: false,
-      },
-      {
-        id: 5,
-        title:
-          "very long title for my task so long that it will take over many spaces",
-        note: "very long task note for my task \n so long that it will take many lines \nto even write this",
-        completed: true,
-      },
-    ]);
+    setTasks(
+      [
+        { id: 1, title: "task1", note: "task1 note", completed: false },
+        {
+          id: 2,
+          title:
+            "very long title for my task so long that it will take over many spaces",
+          note: "very long task note for my task so long that it will take many lines to even write this",
+          completed: true,
+        },
+        { id: 3, title: "Done", note: "task3 note", completed: false },
+        {
+          id: 4,
+          title: "12345678901234567 8901234567890",
+          note: "",
+          completed: false,
+        },
+        {
+          id: 5,
+          title:
+            "very long title for my task so long that it will take over many spaces",
+          note: "very long task note for my task \n so long that it will take many lines \nto even write this",
+          completed: true,
+        },
+      ].sort((a) => a.completed)
+    );
   };
 
   // update
@@ -57,7 +60,7 @@ export const TaskContextProvider = ({ children }) => {
     });
 
     console.log("TASK UPDATED");
-    setTasks(newTaskList);
+    setTasks(newTaskList.sort((a) => a.completed));
   };
 
   // delete
@@ -128,7 +131,10 @@ export const TaskContextProvider = ({ children }) => {
   };
 
   const showHiddenTasks = () => {
-    setTasks([...oldTasks]);
+    // const newTask = [...oldTasks, ...tasks];
+    const newTasks = mergeArrays(oldTasks, tasks);
+    console.log(newTasks);
+    setTasks(newTasks);
     setOldTasks([]);
     console.log("show hidden tasks");
   };

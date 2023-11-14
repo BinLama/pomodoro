@@ -6,8 +6,14 @@
   color: hsl(var(--blk));
   margin: 0 u.rem(10);
 
+
+  @include u.breakpoint(large) {
+    min-width: u.rem(360);
+    max-width: u.rem(500);
+  }
+
   @include u.breakpoint(xlarge) {
-    width: u.rem(500);
+    width: u.rem(500) !important;
   }
 
   &__title {
