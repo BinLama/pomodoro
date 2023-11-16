@@ -12,42 +12,55 @@ import { usePomodoroContext } from "./usePomodoroContext";
 
  */
 const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
+  // using pomodoro context to play music
+  // TODO: get all the settings data too.
+  const {
+    playAudio,
+    chosenMusic,
+    timerActive, // in the middle of the timer
+    inSession,
+    notInSession,
+    autoPomo,
+    autoBreak,
+    longRelaxInterval,
+    chosen,
+  } = usePomodoroContext();
+
   const [pomoPhases, setPomoPhases] = useState({
     pomodoro: { minutes: pomodoro },
     shortBreak: { minutes: shortBreak },
     longBreak: { minutes: longBreak },
   });
 
-  // using pomodoro context to play music
-  // TODO: get all the settings data too.
-  const {
-    playAudio,
-    chosenMusic,
-    timerActive,
-    inSession,
-    notInSession,
-    autoPomo,
-    autoBreak,
-    longRelaxInterval,
-  } = usePomodoroContext();
-
+  console.log(pomoPhases);
   const [phase, setPhase] = useState(POMODORO);
+
   // Old Phase keeps track of the changes in phases (only updates when new phase changes after timer ends)
   const [oldPhase, setOldPhase] = useState(null);
 
   const [minutes, setMinutes] = useState(pomoPhases.pomodoro.minutes);
   const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false); // is when countdown is happening (pause and play)
-  const [startTime, setStartTime] = useState(null); // used for calculating delay on timer
-  const rotationRef = useRef(1);
-  // const [timerStarted, setTimerStarted] = useState(false); // in the middle of the timer
-  const [rounds, setRounds] = useState(1);
-  const [session, setSession] = useState(1);
-  const [maxSession, setMaxSession] = useState(10);
-  const [remainingTime, setRemainingTime] = useState(minutes * SECONDS); // keeps track of seconds left (useful for calculating percentage of time passed)
-  const [status, setStatus] = useState(null);
-  const [maxSeconds, setMaxSeconds] = useState(minutes * SECONDS); // max seconds counted
+  // is when countdown is happening (pause and play)
+  const [isActive, setIsActive] = useState(false);
+  // used for calculating delay on timer
+  const [startTime, setStartTime] = useState(null);
 
+  // how many rounds has been completed (pomodoro and break)
+  const rotationRef = useRef(1);
+
+  const [session, setSession] = useState(1);
+
+  // const [maxSession, setMaxSession] = useState(10);
+  // keeps track of seconds left (useful for calculating percentage of time passed)
+  const [remainingTime, setRemainingTime] = useState(minutes * SECONDS);
+
+  // play, paused, null (paused is used to know if you should reset the timer when start is pressed again)
+  const [status, setStatus] = useState(null);
+
+  // max seconds counted
+  const [maxSeconds, setMaxSeconds] = useState(minutes * SECONDS);
+
+  // if I should auto start break or pomodoro
   const [auto, setAuto] = useState({
     start: autoPomo,
     break: autoBreak,
@@ -157,7 +170,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
   }, [isActive, minutes, seconds, startTime]);
 
   useEffect(() => {
-    console.log("Got to not in session");
+    console.log("Got to end of session");
     notInSession();
   }, [oldPhase]);
 
@@ -187,8 +200,8 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
     console.log("current phase:", phase);
     setStartTime(new Date().getTime());
     setIsActive(true);
-
-    if (status === "play" || status === null) {
+    console.log(status);
+    if (status !== "pause") {
       setMaxSeconds(() => {
         const newMaxSec = minutes * SECONDS;
         setRemainingTime(newMaxSec);
@@ -313,7 +326,6 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
     setNewPomodoro,
     setAuto,
     resetSession,
-    maxSession,
   };
 };
 

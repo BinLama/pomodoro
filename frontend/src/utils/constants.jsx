@@ -34,6 +34,7 @@ const pomodoroReducerActions = {
   SKIP_TO_POMO: "SKIP_TO_POMO",
   ACTIVE_SESSION: "ACTIVE_SESSION",
   INACTIVE_SESSION: "INACTIVE_SESSION",
+  GET_USER_POMO_DATA: "GET_USER_POMO_DATA",
 };
 
 const auth = {

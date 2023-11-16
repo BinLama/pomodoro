@@ -31,6 +31,7 @@ export const INITIAL_POMODORO_STATE = {
   // controls auto start break
   autoBreak: false,
   longRelaxInterval: 4,
+  maxSession: 10,
   changeToBreak: 0,
   changeToPomo: 0,
   showSetting: false,
@@ -39,8 +40,13 @@ export const INITIAL_POMODORO_STATE = {
 
 export const pomodoroReducer = (state, action) => {
   switch (action.type) {
-    case "GET_USER_POMO_DATA":
-      return action.payload;
+    case pomodoroReducerActions.GET_USER_POMO_DATA:
+      const music = new Audio(sounds[action.payload.chosenMusic]);
+      music.volume = action.payload.volume / 100;
+      return {
+        ...action.payload,
+        audio: music,
+      };
     case pomodoroReducerActions.TOGGLE_SETTING:
       return {
         ...state,

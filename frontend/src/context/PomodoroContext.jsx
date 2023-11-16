@@ -1,27 +1,63 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useRef } from "react";
 import { customFocusLevel, sounds } from "../data";
 import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
 import {
   INITIAL_POMODORO_STATE,
   pomodoroReducer,
 } from "../reducers/PomodoroReducer";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const PomodoroContext = createContext();
-
 export const PomodoroContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(pomodoroReducer, INITIAL_POMODORO_STATE);
+  const { user } = useAuthContext();
+  const { setItem, getItem } = useLocalStorage("pomodoroContext");
 
-  // TODO: get all the data here
+  // setting the initial value
+  const initialData = getItem() || INITIAL_POMODORO_STATE;
+  const [state, dispatch] = useReducer(pomodoroReducer, initialData);
+
+  const getAllData = () => {
+    if (!user) {
+      // Get data from local storage
+      const value = getItem();
+      console.log("GET ITEM dispatch");
+      if (value) {
+        dispatch({
+          type: pomodoroReducerActions.GET_USER_POMO_DATA,
+          payload: value,
+        });
+      }
+    } else {
+      // make a call to the database
+    }
+  };
+
+  useEffect(() => {
+    getAllData();
+  }, [user]);
+
+  // Save data to local storage on every dispatch
+  useEffect(() => {
+    if (!user) {
+      // Save updated data to local storage
+      setItem(state);
+    } else {
+      // make a call to the database
+    }
+  }, [state, user, setItem]);
 
   // control toggling of setting
   const showOrHideSetting = () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_SETTING });
   };
 
+  // sets timer to inactive so that I can change the timer even when it's running.
   const notInSession = () => {
     dispatch({ type: pomodoroReducerActions.INACTIVE_SESSION });
   };
 
+  // in the middle of the timer
   const inSession = () => {
     dispatch({ type: pomodoroReducerActions.ACTIVE_SESSION });
   };
@@ -61,6 +97,8 @@ export const PomodoroContextProvider = ({ children }) => {
       },
     });
 
+    console.log(state);
+    // getItem(state)
     console.log("Timer updated");
   };
 
@@ -69,6 +107,7 @@ export const PomodoroContextProvider = ({ children }) => {
     console.log("Play music");
     const newMusic = sounds[music];
     if (state.audio) {
+      console.log("AUDIO PAUSE: ", state.audio);
       state.audio.pause();
     }
 
@@ -79,6 +118,7 @@ export const PomodoroContextProvider = ({ children }) => {
       newAudio.play().catch((e) => {
         console.log("New audio play error");
       });
+
       dispatch({
         type: pomodoroReducerActions.PLAY_AUDIO,
         payload: { audio: newAudio, music: music },
@@ -92,8 +132,9 @@ export const PomodoroContextProvider = ({ children }) => {
   };
 
   const handleVolumeChange = (loudness) => {
-    dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
+    console.log("AUDIO:", state.audio);
     state.audio.volume = loudness / 100;
+    dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
   };
 
   const changeMusic = (music) => {

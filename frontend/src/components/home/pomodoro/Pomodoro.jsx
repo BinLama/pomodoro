@@ -16,6 +16,7 @@ const Pomodoro = () => {
     changeToPomo,
     showOrHideSetting,
     timerActive,
+    maxSession,
   } = usePomodoroContext();
 
   // POMODORO HOOKS
@@ -36,7 +37,6 @@ const Pomodoro = () => {
     setNewPomodoro,
     setAuto,
     resetSession,
-    maxSession,
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
     chosen.newTimer.break,
