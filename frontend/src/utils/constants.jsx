@@ -36,6 +36,12 @@ const pomodoroReducerActions = {
   INACTIVE_SESSION: "INACTIVE_SESSION",
 };
 
+const auth = {
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
+  SIGNUP: "SIGNUP",
+};
+
 export {
   pomodoroReducerActions,
   SHORTBREAK,
@@ -51,4 +57,5 @@ export {
   UPDATE,
   DELETE,
   SECONDS,
+  auth,
 };

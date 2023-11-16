@@ -1,0 +1,19 @@
+@use "../utils/" as u;
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  .lottie {
+    max-width: u.rem(900);
+  }
+
+  .error__btn {
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+}

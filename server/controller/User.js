@@ -57,6 +57,7 @@ const signupUser = async (req, res) => {
       domain: "localhost",
       signed: true,
       path: "/",
+      sameSite: "Lax",
     });
 
     // create a token
@@ -71,9 +72,10 @@ const signupUser = async (req, res) => {
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "Lax",
     });
 
-    res.status(201).json({ username: user.username });
+    res.status(201).json({ status: "success", username: user.username });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -93,11 +95,14 @@ const loginUser = async (req, res) => {
     const user = await login(usernameOrEmail, password);
 
     res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "localhost",
-      signed: true,
       path: "/",
+      domain: "localhost",
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
     });
+
+    // return res.status(200).json({ username: "god0" });
 
     // create a token
     const token = createToken(user.id, user.email, "7d");
@@ -112,12 +117,37 @@ const loginUser = async (req, res) => {
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: "Lax",
     });
 
-    res.status(200).json({ username: user.username });
+    res.status(200).json({ status: "success", username: user.username });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
+  }
+};
+
+const logoutUser = (req, res) => {
+  try {
+    console.log(req.signedCookies[COOKIE_NAME]);
+    res.clearCookie(COOKIE_NAME, {
+      path: "/",
+      domain: "localhost",
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
+    });
+
+    return res
+      .status(200)
+      .json({ status: "success", message: "Logged out..." });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      status: "error",
+      message: "Logout failed",
+      error: error.message,
+    });
   }
 };
 
@@ -209,4 +239,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  logoutUser,
 };

@@ -38,12 +38,17 @@
 
     p {
       font-size: u.rem(16);
+      margin-right: u.rem(5);
     }
   }
 
   &-h1 {
     font-size: u.rem(20);
     color: hsl(var(--blk));
+
+    &:hover {
+      color: hsla(var(--primary), 1);
+    }
   }
 
 }

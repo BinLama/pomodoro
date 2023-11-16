@@ -15,11 +15,16 @@ const colorRoutes = require("./router/color");
 
 // express middlewares
 app.use(express.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // remove this on production
 app.use(morgan("tiny"));
 
-app.use(cookieParser(process.env.COOKIE_SECRET));
+// TODO: remove this
+app.use(cors({ origin: true, credentials: true }));
+
+// remove x-powered-by header to identify express run app
+app.disable("x-powered-by");
 
 // routes
 app.use("/api/v1", authRoutes);

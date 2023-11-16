@@ -1,14 +1,16 @@
+import { auth } from "../utils/constants";
+
 export const INITIAL_AUTH_STATE = {
   user: null,
 };
 
 export const authReducer = (state, action) => {
   switch (action.type) {
-    case "LOGIN":
+    case auth.LOGIN:
       return {
         user: action.payload,
       };
-    case "LOGOUT":
+    case auth.LOGOUT:
       return {
         user: null,
       };

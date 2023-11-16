@@ -4,10 +4,19 @@ import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
 import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 import { Link } from "react-router-dom";
-// import { Link } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 
 const Navigation = () => {
-  // TODO: show the letters on large screen
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+
+  // loggout the user
+  const logoutUser = () => {
+    logout();
+  };
+
+  // show the letters on large screen
   const [width, setWidth] = useState(window.innerWidth);
   const breakPoint = 900;
 
@@ -22,6 +31,7 @@ const Navigation = () => {
       window.removeEventListener("resize", handleResizeWindow);
     };
   }, []);
+
   return (
     <header className="header">
       <div className="nav">
@@ -46,10 +56,18 @@ const Navigation = () => {
             </div>
             {showSetting && <CustomNavigation />}
           </div>
-          <Link className="nav__setting login" to="/signup">
-            <FaUserCircle />
-            {width > breakPoint && <p>Login</p>}
-          </Link>
+          {user ? (
+            <div className="nav__setting login" onClick={logoutUser}>
+              <FaUserCircle />
+              {width > breakPoint && <p>{user}</p>}
+            </div>
+          ) : (
+            <Link className="nav__setting login" to="/login">
+              <FaUserCircle />
+              {width > breakPoint && <p>Login</p>}
+            </Link>
+          )}
+          {/* TODO: show user setting that can show their, profile, delete their info and showUserSetting && <CustomUser /> */}
         </nav>
       </div>
     </header>
