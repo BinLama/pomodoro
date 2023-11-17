@@ -4,22 +4,19 @@ import TaskModal from "./TaskModal";
 import TaskTitle from "./TaskTitle";
 import AddTask from "./AddTask";
 import { useTaskContext } from "../../../hooks/useTasks";
+import { tasksActions } from "../../../utils/constants";
 
 const Tasks = () => {
   const {
     tasks,
-    setTasks,
+    dispatch,
     createTask,
-    getTasks,
     addTaskRef,
     openAddModal,
     closeAddModal,
     showAddModal,
+    hidden,
   } = useTaskContext();
-
-  useEffect(() => {
-    getTasks();
-  }, []);
 
   /* SHOW AND HIDE FUNCTIONALITY */
   const [displaySetting, setDisplaySetting] = useState(false);
@@ -37,7 +34,7 @@ const Tasks = () => {
   // handle drag sorting
   const handleDragStart = (e, index) => {
     dragTaskRef.current = index;
-    setTasks([...tasks]); // Make sure to create a new array to trigger a re-render
+    dispatch({ type: tasksActions.SET_TASKS, payload: tasks }); // Make sure to create a new array to trigger a re-render
     e.dataTransfer.effectAllowed = "move";
   };
 
@@ -56,7 +53,7 @@ const Tasks = () => {
 
         dragTaskRef.current = dragOverItemRef.current;
 
-        setTasks(_tasks);
+        dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
       }
     }
   };
@@ -74,7 +71,7 @@ const Tasks = () => {
       dragTaskRef.current = null;
       dragOverItemRef.current = null;
 
-      setTasks(() => _tasks);
+      dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
     }
   };
 
@@ -94,16 +91,18 @@ const Tasks = () => {
         {/* a single task */}
         <div className="tasks__list__task">
           {tasks.map((task, index) => {
-            return (
-              <SingleTask
-                key={task.id}
-                task={task}
-                onDragStart={handleDragStart}
-                onDragEnter={handleDragEnter}
-                onDragEnd={handleDragEnd}
-                index={index}
-              />
-            );
+            if ((hidden && !task.completed) || !hidden) {
+              return (
+                <SingleTask
+                  key={task.id}
+                  task={task}
+                  onDragStart={handleDragStart}
+                  onDragEnter={handleDragEnter}
+                  onDragEnd={handleDragEnd}
+                  index={index}
+                />
+              );
+            }
           })}
         </div>
 

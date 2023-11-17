@@ -37,6 +37,17 @@ const pomodoroReducerActions = {
   GET_USER_POMO_DATA: "GET_USER_POMO_DATA",
 };
 
+const tasksActions = {
+  SET_TASKS: "SET_TASKS",
+  CREATE_TASK: "CREATE_TASK",
+  UPDATE_TASK: "UPDATE_TASK",
+  DELETE_TASK: "DELETE_TASK",
+  TOGGLE_HIDDEN: "TOGGLE_HIDDEN",
+  DELETE_ALL_TASKS: "DELETE_ALL_TASKS",
+  MARK_ALL_TASKS: "MARK_ALL_TASKS",
+  UNMARK_ALL_TASKS: "UNMARK_ALL_TASKS",
+};
+
 const auth = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
@@ -45,6 +56,7 @@ const auth = {
 
 export {
   pomodoroReducerActions,
+  tasksActions,
   SHORTBREAK,
   LONGBREAK,
   POMODORO,

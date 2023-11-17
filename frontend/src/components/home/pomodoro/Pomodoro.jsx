@@ -29,7 +29,6 @@ const Pomodoro = () => {
     resetTimer,
     skipPhase,
     isActive,
-    // timerStarted,
     session,
     choosePhase,
     remainingTime,

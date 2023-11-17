@@ -17,23 +17,20 @@ export const PomodoroContextProvider = ({ children }) => {
   const initialData = getItem() || INITIAL_POMODORO_STATE;
   const [state, dispatch] = useReducer(pomodoroReducer, initialData);
 
-  const getAllData = () => {
-    if (!user) {
-      // Get data from local storage
-      const value = getItem();
-      console.log("GET ITEM dispatch");
-      if (value) {
-        dispatch({
-          type: pomodoroReducerActions.GET_USER_POMO_DATA,
-          payload: value,
-        });
-      }
-    } else {
-      // make a call to the database
-    }
-  };
-
   useEffect(() => {
+    const getAllData = () => {
+      if (user) {
+        // Get data from database
+        // const value = getItem();
+        // console.log("GET ITEM dispatch");
+        // if (value) {
+        //   dispatch({
+        //     type: pomodoroReducerActions.GET_USER_POMO_DATA,
+        //     payload: value,
+        //   });
+        // }
+      }
+    };
     getAllData();
   }, [user]);
 

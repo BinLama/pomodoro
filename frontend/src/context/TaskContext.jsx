@@ -1,84 +1,87 @@
-import { createContext, useState, useRef } from "react";
+import { createContext, useState, useRef, useEffect, useReducer } from "react";
 import { v4 as uuid } from "uuid";
 import { mergeArrays } from "../utils/utilityFunc";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { INITIAL_TASKS_STATE, tasksReducer } from "../reducers/taskReducers";
+import { tasksActions } from "../utils/constants";
 export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
-  const [oldTasks, setOldTasks] = useState([]);
-  const [hidden, setHidden] = useState(false);
+  const { user } = useAuthContext();
 
-  // CRUD for tasks
-  // create (should be a dictionary)
-  const createTask = (newTask) => {
-    const id = uuid();
-    const task = { ...newTask, id };
-    console.log(task);
-    setTasks((oldTasks) => [...oldTasks, task].sort((a) => a.completed));
-    console.log("TASK CREATED");
-  };
+  // const [hidden, setHidden] = useState(false);
 
-  // read
-  const getTasks = () => {
-    // query the database to get the tasks
-    // TODO: tasks should be received through local host or database.
-    setTasks(
-      [
-        { id: 1, title: "task1", note: "task1 note", completed: false },
-        {
-          id: 2,
-          title:
-            "very long title for my task so long that it will take over many spaces",
-          note: "very long task note for my task so long that it will take many lines to even write this",
-          completed: true,
-        },
-        { id: 3, title: "Done", note: "task3 note", completed: false },
-        {
-          id: 4,
-          title: "12345678901234567 8901234567890",
-          note: "",
-          completed: false,
-        },
-        {
-          id: 5,
-          title:
-            "very long title for my task so long that it will take over many spaces",
-          note: "very long task note for my task \n so long that it will take many lines \nto even write this",
-          completed: true,
-        },
-      ].sort((a) => a.completed)
-    );
-  };
+  // showing add modal
+  const [showAddModal, setShowAddModal] = useState(false);
 
-  // update
-  const updateTask = (id, updatedValue) => {
-    const newTaskList = tasks.map((task) => {
-      if (task.id === id) {
-        return { ...task, ...updatedValue };
-      }
-      return task;
-    });
+  const { setItem, getItem } = useLocalStorage("taskContext");
+  const initialTasks = getItem() || INITIAL_TASKS_STATE;
 
-    console.log("TASK UPDATED");
-    setTasks(newTaskList.sort((a) => a.completed));
-  };
-
-  // delete
-  const deleteTask = (id) => {
-    const newTaskList = tasks.filter((task) => task.id !== id);
-    setTasks(newTaskList);
-    console.log("TASK DELETED");
-  };
+  const [state, dispatch] = useReducer(tasksReducer, initialTasks);
+  const [tasks, setTasks] = useState(initialTasks);
 
   // focus when modal is open
   const addTaskRef = useRef(null);
 
+  useEffect(() => {
+    // initial get task
+    const getTasks = () => {
+      if (user) {
+        // get data from database
+      }
+    };
+    getTasks();
+  }, [user]);
+
+  useEffect(() => {
+    // this is for when user is not logged, when logged in
+    // make request from the function
+    if (!user) {
+      console.log("tasks", state);
+      setItem(state);
+    }
+  }, [state]);
+
+  // CRUD for tasks
+  // create (should be a dictionary)
+  const createTask = (newTask) => {
+    if (!user) {
+      const id = uuid();
+      const task = { ...newTask, id };
+
+      console.log(task);
+      dispatch({ type: tasksActions.CREATE_TASK, payload: task });
+      // setItem
+      // setTasks((prevTasks) => [...prevTasks, task].sort((a) => a.completed));
+      console.log("TASK CREATED");
+    }
+  };
+
+  // update
+  const updateTask = (id, updatedValue) => {
+    if (!user) {
+      dispatch({
+        type: tasksActions.UPDATE_TASK,
+        payload: { id, updatedValue },
+      });
+      console.log("TASK UPDATED");
+    }
+  };
+
+  // delete
+  const deleteTask = (id) => {
+    if (!user) {
+      dispatch({ type: tasksActions.DELETE_TASK, payload: { _id: id } });
+      // const newTaskList = tasks.filter((task) => task.id !== id);
+      // setTasks(newTaskList);
+      console.log("TASK DELETED");
+    }
+  };
+
   const focus = () => {
     addTaskRef.current.focus();
   };
-
-  // showing add modal
-  const [showAddModal, setShowAddModal] = useState(false);
 
   // opening a modal
   const openAddModal = () => {
@@ -94,81 +97,59 @@ export const TaskContextProvider = ({ children }) => {
   };
 
   const markAllTasks = () => {
-    const newTaskList = tasks.map((task) => {
-      if (!task.completed) {
-        return { ...task, completed: true };
-      }
-      return task;
-    });
+    if (!user) {
+      dispatch({ type: tasksActions.MARK_ALL_TASKS });
 
-    console.log("Marked all tasks");
-    setTasks(newTaskList);
+      // const newTaskList = tasks.map((task) => {
+      //   if (!task.completed) {
+      //     return { ...task, completed: true };
+      //   }
+      //   return task;
+      // });
+
+      // setTasks(newTaskList);
+      console.log("Marked all tasks");
+    }
   };
 
   const unMarkAllTasks = () => {
-    const newTaskList = tasks.map((task) => {
-      if (task.completed) {
-        return { ...task, completed: false };
-      }
-      return task;
-    });
-
-    console.log("unmarked all tasks");
-    setTasks(newTaskList);
-  };
-
-  const hideCompletedTasks = () => {
-    setOldTasks(() => [...tasks]);
-
-    const newTaskList = tasks.filter((task) => {
-      if (!task.completed) {
-        return task;
-      }
-    });
-
-    console.log("hide completed tasks");
-    setTasks(newTaskList);
-  };
-
-  const showHiddenTasks = () => {
-    // const newTask = [...oldTasks, ...tasks];
-    const newTasks = mergeArrays(oldTasks, tasks);
-    console.log(newTasks);
-    setTasks(newTasks);
-    setOldTasks([]);
-    console.log("show hidden tasks");
+    if (!user) {
+      dispatch({ type: tasksActions.UNMARK_ALL_TASKS });
+      // const newTaskList = tasks.map((task) => {
+      //   if (task.completed) {
+      //     return { ...task, completed: false };
+      //   }
+      //   return task;
+      // });
+      console.log("unmarked all tasks");
+      // setTasks(newTaskList);
+    }
   };
 
   const clearAllTasks = () => {
-    const confirm = window.confirm("Do you want to remove all  tasks?");
+    if (!user) {
+      const confirm = window.confirm("Do you want to remove all  tasks?");
 
-    if (!confirm) return;
+      if (!confirm) return;
 
-    setTasks([]);
-    setOldTasks([]);
-    console.log("delete all tasks");
+      dispatch({ type: tasksActions.DELETE_ALL_TASKS });
+      console.log("delete all tasks");
+    }
   };
 
   // show or hide complete task toggle
   const toggleHidden = () => {
-    setHidden((prev) => {
-      if (prev) {
-        showHiddenTasks();
-        return false;
-      }
-
-      hideCompletedTasks();
-      return true;
-    });
+    if (!user) {
+      dispatch({ type: tasksActions.TOGGLE_HIDDEN });
+    }
   };
 
   return (
     <TaskContext.Provider
       value={{
-        tasks,
-        setTasks,
+        ...state,
+        dispatch,
         createTask,
-        getTasks,
         updateTask,
         deleteTask,
         openAddModal,
@@ -179,7 +160,6 @@ export const TaskContextProvider = ({ children }) => {
         markAllTasks,
         unMarkAllTasks,
         clearAllTasks,
-        hidden,
         toggleHidden,
       }}
     >
