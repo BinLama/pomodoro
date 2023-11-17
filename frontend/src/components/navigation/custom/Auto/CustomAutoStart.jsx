@@ -4,7 +4,7 @@ const CustomAutoStart = () => {
   const { autoPomo, autoBreak, togglePomo, toggleBreak } = usePomodoroContext();
   return (
     <div className="auto__start-options">
-      <div className="auto__start-options_div" onClick={togglePomo}>
+      <div className="auto__start-options_div">
         <p>Auto Start pomodoro</p>
         <div className="toggle">
           <label className="switch">
@@ -13,7 +13,7 @@ const CustomAutoStart = () => {
           </label>
         </div>
       </div>
-      <div className="auto__start-options_div" onClick={toggleBreak}>
+      <div className="auto__start-options_div">
         <p>Auto Start break</p>
         <div className="toggle">
           <label className="switch">

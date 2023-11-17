@@ -1,3 +1,5 @@
+import { useAuthContext } from "../hooks/useAuthContext";
+
 export const mergeArrays = (arr1, arr2) => {
   return arr1.reduce((acc, b) => {
     const idx = acc.findIndex((item) => item.id === b.id); //look for the acc has the same id while iterating array1

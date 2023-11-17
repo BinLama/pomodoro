@@ -1,12 +1,12 @@
 import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 
 const SingleAudio = ({ name, music }) => {
-  const { changeMusic, chosenMusic, mute } = usePomodoroContext();
+  const { changeMusic, study_start_sound, mute } = usePomodoroContext();
 
   return (
     <div
       className={
-        chosenMusic === music && !mute
+        study_start_sound === music && !mute
           ? "audio__selection-div selected bounce"
           : "audio__selection-div"
       }

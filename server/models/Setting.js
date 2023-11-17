@@ -34,25 +34,15 @@ const Setting = sequelize.define(
       allowNull: false,
       defaultValue: 4,
     },
-    break_end_reminder: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 30,
-    },
-    study_end_reminder: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 30,
-    },
     auto_break: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: 0,
     },
     auto_study: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 1,
+      defaultValue: 0,
     },
     study_start_sound: {
       type: DataTypes.STRING,
@@ -63,6 +53,21 @@ const Setting = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "key_chimes",
+    },
+    volume: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 100,
+    },
+    level: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "standard",
+    },
+    mute: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {

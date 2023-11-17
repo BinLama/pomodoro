@@ -1,5 +1,5 @@
-import { createContext, useEffect, useReducer, useRef } from "react";
-import { customFocusLevel, sounds } from "../data";
+import { createContext, useEffect, useReducer } from "react";
+import { sounds } from "../data";
 import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
 import {
   INITIAL_POMODORO_STATE,
@@ -8,9 +8,44 @@ import {
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAuthContext } from "../hooks/useAuthContext";
 
+// for setting up patch request from setting
+const settingPatchRequest = async (pomoAxios, data, _id) => {
+  console.log("GOT TO SETTING PATCH");
+  try {
+    const response = await pomoAxios.patch(`/setting/${_id}`, data, {
+      withCredentials: true,
+      credentials: "include",
+    });
+
+    if (response.status === 200) {
+      const data = await response.data;
+      console.log("POMODORO UPDATE: ", data);
+    }
+  } catch (err) {
+    if (err.response) {
+      // server responded with status other than 200 range
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
+
+      if (err.response.status === 404) {
+        alert("Error: Page not found");
+      }
+    } else if (err.request) {
+      // request was made but no response
+      console.error(err.request);
+    } else {
+      console.error(err.message);
+    }
+  }
+};
+// creating context
 export const PomodoroContext = createContext();
+
+// creating provider
 export const PomodoroContextProvider = ({ children }) => {
-  const { user } = useAuthContext();
+  // provider start
+  const { user, authAxios: pomoAxios } = useAuthContext();
   const { setItem, getItem } = useLocalStorage("pomodoroContext");
 
   // setting the initial value
@@ -18,7 +53,7 @@ export const PomodoroContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(pomodoroReducer, initialData);
 
   useEffect(() => {
-    const getAllData = () => {
+    const getAllData = async () => {
       if (!user) {
         // call this dispatch because audio is object and I need to make it into a audio file.
         const value = getItem();
@@ -29,8 +64,83 @@ export const PomodoroContextProvider = ({ children }) => {
           });
         }
       } else {
+        try {
+          const response = await pomoAxios.get("/setting", {
+            withCredentials: true,
+            credentials: "include",
+          });
+          if (response.status === 200) {
+            const data = await response.data;
+            console.log(data);
+
+            const {
+              auto_break,
+              auto_study,
+              max_pomodoro_session,
+              study_time,
+              relax_time,
+              long_relax_time,
+              long_relax_interval,
+              mute,
+              level,
+              volume,
+              study_start_sound,
+              rest_start_sound,
+              id,
+            } = data.setting;
+
+            const setting = {
+              id,
+              chosen: {
+                data: level,
+                newTimer: {
+                  pomodoro: study_time,
+                  break: relax_time,
+                  longBreak: long_relax_time,
+                },
+              },
+              study_start_sound,
+              rest_start_sound,
+              auido: new Audio(sounds[study_start_sound]),
+              restAudio: new Audio(sounds[rest_start_sound]),
+              volume,
+              mute,
+              autoPomo: auto_study,
+              autoBreak: auto_break,
+              longRelaxInterval: long_relax_interval,
+              maxSession: max_pomodoro_session,
+              changeToBreak: 0,
+              changeToPomo: 0,
+              showSetting: false,
+              timerActive: false,
+            };
+
+            console.log("SETTING: ", setting);
+            dispatch({
+              type: pomodoroReducerActions.GET_USER_POMO_DATA,
+              payload: setting,
+            });
+          }
+        } catch (err) {
+          if (err.response) {
+            // server responded with status other than 200 range
+            console.log(err.response.data);
+            console.log(err.response.status);
+            console.log(err.response.headers);
+
+            if (err.response.status === 404) {
+              alert("Error: Page not found");
+            }
+          } else if (err.request) {
+            // request was made but no response
+            console.error(err.request);
+          } else {
+            console.error(err.message);
+          }
+        }
       }
     };
+    console.log("GETCH DATA");
     getAllData();
   }, [user]);
 
@@ -59,7 +169,7 @@ export const PomodoroContextProvider = ({ children }) => {
     dispatch({ type: pomodoroReducerActions.ACTIVE_SESSION });
   };
 
-  const updateTimer = (type, pomodoro, shortBreak, longBreak) => {
+  const updateTimer = async (type, pomodoro, shortBreak, longBreak) => {
     // stop the same update when it's already selected
     if (
       (type === state.chosen.data && type !== CUSTOM) ||
@@ -94,8 +204,16 @@ export const PomodoroContextProvider = ({ children }) => {
       },
     });
 
-    console.log(state);
-    // getItem(state)
+    if (user) {
+      const newData = {
+        level: type,
+        study_time: pomodoro,
+        relax_time: shortBreak,
+        long_relax_time: longBreak,
+      };
+      await settingPatchRequest(pomoAxios, newData, state.id);
+    }
+
     console.log("Timer updated");
   };
 
@@ -108,7 +226,7 @@ export const PomodoroContextProvider = ({ children }) => {
       state.audio.pause();
     }
 
-    if (music !== state.chosenMusic) {
+    if (music !== state.study_start_sound) {
       const newAudio = new Audio(newMusic);
       newAudio.preload = "auto";
       newAudio.volume = state.volume / 100;
@@ -128,32 +246,111 @@ export const PomodoroContextProvider = ({ children }) => {
     });
   };
 
-  const handleVolumeChange = (loudness) => {
+  const handleVolumeChange = async (loudness) => {
     console.log("AUDIO:", state.audio);
     state.audio.volume = loudness / 100;
     dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
+    if (user) {
+      const newData = { volume: loudness };
+      await settingPatchRequest(newData, state.id);
+    }
   };
 
-  const changeMusic = (music) => {
+  const changeMusic = async (music) => {
     dispatch({ type: pomodoroReducerActions.CHANGE_MUSIC, payload: music });
     playAudio(music);
+    if (user) {
+      const newData = {
+        mute: false,
+        study_start_sound: music,
+      };
+
+      await settingPatchRequest(pomoAxios, newData, state.id);
+    }
   };
 
-  const toggleMute = () => {
+  const toggleMute = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_MUTE });
+    if (user) {
+      const newData = {
+        mute: !state.mute,
+      };
+      await settingPatchRequest(pomoAxios, newData, state.id);
+    }
   };
 
-  const toggleBreak = () => {
+  const toggleBreak = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_BREAK });
+    if (user) {
+      const newData = {
+        auto_break: !state.autoBreak,
+      };
+      await settingPatchRequest(pomoAxios, newData, state.id);
+      // Now, update the local state with the response from the server
+      try {
+        const response = await pomoAxios.get(`/setting`, {
+          withCredentials: true,
+          credentials: "include",
+        });
+
+        if (response.status === 200) {
+          const data = await response.data;
+
+          // Extract the necessary values from the response
+          const { auto_break } = data.setting;
+
+          // Update the local state with the new values
+          dispatch({
+            type: pomodoroReducerActions.TOGGLE_AUTO_BREAK_SUCCESS,
+            payload: { autoBreak: auto_break },
+          });
+        }
+      } catch (err) {
+        // Handle errors
+        console.error("Error updating state after togglePomo:", err);
+      }
+    }
   };
 
-  const togglePomo = () => {
+  const togglePomo = async () => {
+    console.log("TOGGLE POMO");
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
+    if (user) {
+      const newData = {
+        auto_study: !state.autoPomo,
+      };
+      await settingPatchRequest(pomoAxios, newData, state.id);
+
+      // Now, update the local state with the response from the server
+      try {
+        const response = await pomoAxios.get(`/setting`, {
+          withCredentials: true,
+          credentials: "include",
+        });
+
+        if (response.status === 200) {
+          const data = await response.data;
+
+          // Extract the necessary values from the response
+          const { auto_study } = data.setting;
+
+          // Update the local state with the new values
+          dispatch({
+            type: pomodoroReducerActions.TOGGLE_AUTO_POMO_SUCCESS,
+            payload: { autoPomo: auto_study },
+          });
+        }
+      } catch (err) {
+        // Handle errors
+        console.error("Error updating state after togglePomo:", err);
+      }
+    }
   };
 
   const skipToBreak = () => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_BREAK });
   };
+
   const skipToPomo = () => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
   };

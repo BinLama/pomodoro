@@ -1,7 +1,8 @@
 import { customFocusLevel, sounds } from "../data";
 import { pomodoroReducerActions } from "../utils/constants";
-
+import { v4 as uuidv4 } from "uuid";
 export const INITIAL_POMODORO_STATE = {
+  id: uuidv4(),
   // keep track of the setting change
   // pomodoro should call the value and change it.
   chosen: {
@@ -14,11 +15,16 @@ export const INITIAL_POMODORO_STATE = {
   },
 
   // Sets up what named music to play
-  chosenMusic: "bell",
+  study_start_sound: "bell",
 
-  // Sets up the audio to be played when timer ends
+  // music to play when resting
+  rest_start_sound: "digital_alarm",
+
+  // Sets up the audio to be played when study timer ends
   audio: new Audio(sounds["bell"]),
 
+  // for when rest starts
+  restAudio: new Audio(sounds["digital_alarm"]),
   // controls alarm volume
   volume: 10,
 
@@ -41,7 +47,7 @@ export const INITIAL_POMODORO_STATE = {
 export const pomodoroReducer = (state, action) => {
   switch (action.type) {
     case pomodoroReducerActions.GET_USER_POMO_DATA:
-      const music = new Audio(sounds[action.payload.chosenMusic]);
+      const music = new Audio(sounds[action.payload.study_start_sound]);
       music.volume = action.payload.volume / 100;
       return {
         ...action.payload,
@@ -61,7 +67,7 @@ export const pomodoroReducer = (state, action) => {
       return {
         ...state,
         audio: action.payload.audio,
-        chosenMusic: action.payload.music,
+        study_start_sound: action.payload.music,
       };
     case pomodoroReducerActions.CHANGE_VOLUME:
       return {
@@ -72,7 +78,7 @@ export const pomodoroReducer = (state, action) => {
       return {
         ...state,
         mute: false,
-        chosenMusic: action.payload,
+        study_start_sound: action.payload,
       };
     case pomodoroReducerActions.TOGGLE_MUTE:
       return {
@@ -88,6 +94,17 @@ export const pomodoroReducer = (state, action) => {
       return {
         ...state,
         autoPomo: !state.autoPomo,
+      };
+    case pomodoroReducerActions.TOGGLE_AUTO_POMO_SUCCESS:
+      return {
+        ...state,
+        autoPomo: action.payload.autoPomo,
+      };
+
+    case pomodoroReducerActions.TOGGLE_AUTO_BREAK_SUCCESS:
+      return {
+        ...state,
+        autoBreak: action.payload.autoBreak,
       };
     case pomodoroReducerActions.SKIP_TO_BREAK:
       return {

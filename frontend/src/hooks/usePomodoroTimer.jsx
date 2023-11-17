@@ -16,14 +16,13 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
   // TODO: get all the settings data too.
   const {
     playAudio,
-    chosenMusic,
+    study_start_sound,
     timerActive, // in the middle of the timer
     inSession,
     notInSession,
     autoPomo,
     autoBreak,
     longRelaxInterval,
-    chosen,
   } = usePomodoroContext();
 
   const [pomoPhases, setPomoPhases] = useState({
@@ -90,7 +89,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
           }
 
           // play audio
-          playAudio(chosenMusic, true);
+          playAudio(study_start_sound, true);
 
           // updating phase only when state changes from one to another
           if (
