@@ -19,16 +19,16 @@ export const PomodoroContextProvider = ({ children }) => {
 
   useEffect(() => {
     const getAllData = () => {
-      if (user) {
-        // Get data from database
-        // const value = getItem();
-        // console.log("GET ITEM dispatch");
-        // if (value) {
-        //   dispatch({
-        //     type: pomodoroReducerActions.GET_USER_POMO_DATA,
-        //     payload: value,
-        //   });
-        // }
+      if (!user) {
+        // call this dispatch because audio is object and I need to make it into a audio file.
+        const value = getItem();
+        if (value) {
+          dispatch({
+            type: pomodoroReducerActions.GET_USER_POMO_DATA,
+            payload: value,
+          });
+        }
+      } else {
       }
     };
     getAllData();
