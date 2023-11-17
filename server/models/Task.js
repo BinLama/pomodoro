@@ -13,9 +13,13 @@ const Task = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
     },
-    task: {
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    note: {
+      type: DataTypes.STRING,
+      defaultValue: "",
     },
   },
   {

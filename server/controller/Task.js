@@ -24,10 +24,11 @@ const getAllTask = async (req, res) => {
 const createTask = async (req, res) => {
   try {
     const { id: UserId } = req.user;
-    const { task } = req.body;
+    const { title, note } = req.body;
 
     const newTask = await Task.create({
-      task,
+      title,
+      note,
       UserId: UserId,
     });
 
@@ -35,7 +36,11 @@ const createTask = async (req, res) => {
       return res.status(404).json({ error: "Task creation failed" });
     }
 
-    res.status(200).json({ task: newTask });
+    const { id, completed, note: taskNote, title: taskTitle } = newTask;
+
+    res
+      .status(200)
+      .json({ task: { id, completed, title: taskTitle, note: taskNote } });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -60,8 +65,22 @@ const updateTask = async (req, res) => {
     }
 
     const updatedNewtask = await task.update(req.body);
-
-    res.status(200).json({ task: updatedNewtask });
+    const {
+      id: updatedTaskId,
+      completed,
+      note: taskNote,
+      title: taskTitle,
+    } = updatedNewtask;
+    res
+      .status(200)
+      .json({
+        task: {
+          id: updatedTaskId,
+          completed,
+          title: taskTitle,
+          note: taskNote,
+        },
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
