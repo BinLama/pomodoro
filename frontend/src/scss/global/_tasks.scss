@@ -4,12 +4,13 @@
   flex: 1;
   // background-color: rgb(193, 231, 193);
   color: hsl(var(--blk));
-  margin: 0 u.rem(10);
-
+  width: 100%;
+  padding-inline: u.rem(10);
 
   @include u.breakpoint(large) {
     min-width: u.rem(360);
     max-width: u.rem(500);
+    padding-inline: 0;
   }
 
   @include u.breakpoint(xlarge) {
