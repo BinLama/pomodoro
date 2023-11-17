@@ -5,8 +5,8 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 const Login = () => {
   const [form, setForm] = useState({
-    usernameOrEmail: "",
-    password: "",
+    usernameOrEmail: import.meta.env.VITE_LOGIN_NAME || "",
+    password: import.meta.env.VITE_LOGIN_PW || "",
   });
 
   const { user } = useAuthContext();

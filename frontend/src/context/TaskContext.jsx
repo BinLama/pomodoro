@@ -17,9 +17,7 @@ export const TaskContextProvider = ({ children }) => {
 
   const { setItem, getItem } = useLocalStorage("taskContext");
   const initialTasks = getItem() || INITIAL_TASKS_STATE;
-
   const [state, dispatch] = useReducer(tasksReducer, initialTasks);
-  const [tasks, setTasks] = useState(initialTasks);
 
   // focus when modal is open
   const addTaskRef = useRef(null);
@@ -52,8 +50,6 @@ export const TaskContextProvider = ({ children }) => {
 
       console.log(task);
       dispatch({ type: tasksActions.CREATE_TASK, payload: task });
-      // setItem
-      // setTasks((prevTasks) => [...prevTasks, task].sort((a) => a.completed));
       console.log("TASK CREATED");
     }
   };
@@ -73,8 +69,6 @@ export const TaskContextProvider = ({ children }) => {
   const deleteTask = (id) => {
     if (!user) {
       dispatch({ type: tasksActions.DELETE_TASK, payload: { _id: id } });
-      // const newTaskList = tasks.filter((task) => task.id !== id);
-      // setTasks(newTaskList);
       console.log("TASK DELETED");
     }
   };
@@ -99,15 +93,6 @@ export const TaskContextProvider = ({ children }) => {
   const markAllTasks = () => {
     if (!user) {
       dispatch({ type: tasksActions.MARK_ALL_TASKS });
-
-      // const newTaskList = tasks.map((task) => {
-      //   if (!task.completed) {
-      //     return { ...task, completed: true };
-      //   }
-      //   return task;
-      // });
-
-      // setTasks(newTaskList);
       console.log("Marked all tasks");
     }
   };
@@ -115,14 +100,7 @@ export const TaskContextProvider = ({ children }) => {
   const unMarkAllTasks = () => {
     if (!user) {
       dispatch({ type: tasksActions.UNMARK_ALL_TASKS });
-      // const newTaskList = tasks.map((task) => {
-      //   if (task.completed) {
-      //     return { ...task, completed: false };
-      //   }
-      //   return task;
-      // });
       console.log("unmarked all tasks");
-      // setTasks(newTaskList);
     }
   };
 

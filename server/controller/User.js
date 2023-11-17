@@ -102,8 +102,6 @@ const loginUser = async (req, res) => {
       sameSite: "Lax",
     });
 
-    // return res.status(200).json({ username: "god0" });
-
     // create a token
     const token = createToken(user.id, user.email, "7d");
 
