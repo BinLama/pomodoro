@@ -72,6 +72,8 @@ const Tasks = () => {
       dragOverItemRef.current = null;
 
       dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
+
+      // TODO connect to server here.
     }
   };
 

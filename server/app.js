@@ -27,6 +27,9 @@ app.use(cors({ origin: true, credentials: true }));
 app.disable("x-powered-by");
 
 // routes
+app.get("/", (_, res) => {
+  res.status(200).json({ msg: "this is a server..." });
+});
 app.use("/api/v1", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/task", taskRoutes);
