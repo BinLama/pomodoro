@@ -7,16 +7,19 @@ const CustomSlider = ({ slider }) => {
   const { chosen, updateTimer } = usePomodoroContext();
   // keep track of the slide update
 
-  const [sliderData, setSliderData] = useState({
-    pomodoro: slider[0].value,
-    shortBreak: slider[1].value,
-    longBreak: slider[2].value,
+  const [sliderData, setSliderData] = useState(() => {
+    return {
+      // TODO: should be getting the lastest value not the set value from the previous set.
+      pomodoro: slider[0].value,
+      shortBreak: slider[1].value,
+      longBreak: slider[2].value,
+    };
   });
 
   useEffect(() => {
     const { pomodoro, shortBreak, longBreak } = sliderData;
     const { pomodoro: pomo, break: sb, longBreak: lb } = chosen.newTimer;
-
+    console.log("custom Slider", chosen, sliderData);
     // stop the update at the beginning
     if (chosen.data !== CUSTOM) return;
     // stop update without new values

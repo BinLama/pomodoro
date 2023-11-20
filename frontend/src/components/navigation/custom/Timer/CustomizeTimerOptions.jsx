@@ -19,15 +19,16 @@ const CustomizeTimerOptions = ({
         type="radio"
         value={name}
         onChange={(e) => {
+          // TODO: get the data from another place instead of ../data so that when the timer is updated by clicking on the radio, it updates to the actual value.
           if (type === CUSTOM) {
             const pomo = slider[0].value;
             const sb = slider[1].value;
             const lb = slider[2].value;
-
+            console.log("getting teh slider value");
             updateTimer(e.target.value, pomo, sb, lb);
             return;
           }
-          console.log("Updating timer");
+          console.log("Updating timer on customize tiemr options");
           updateTimer(e.target.value, pomodoro, shortBreak, longBreak);
         }}
         id={name}

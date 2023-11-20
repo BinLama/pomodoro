@@ -26,7 +26,7 @@ const authenticateDatabase = async () => {
 const syncModels = async () => {
   try {
     // alter is true cause model is changing
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: false });
     console.log("Models synchronized with the database.");
   } catch (error) {
     console.error("Error syncing models with the database:", error);
