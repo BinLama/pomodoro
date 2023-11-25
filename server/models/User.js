@@ -90,14 +90,17 @@ const login = async (usernameOrEmail, password) => {
     });
 
     if (!user) {
-      throw new Error("User not found");
+      await bcrypt.compare(password, "");
+      console.log("user not found");
+      throw new Error("Please enter correct credentials");
     }
 
     // compare password with the hashed password
     const passwordMatch = await bcrypt.compare(password, user.hash_pw);
 
     if (!passwordMatch) {
-      throw new Error("Incorrect Password");
+      console.log("incorrect password");
+      throw new Error("Please enter correct credentials");
     }
 
     return user;

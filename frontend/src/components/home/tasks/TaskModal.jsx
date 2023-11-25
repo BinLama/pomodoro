@@ -12,6 +12,7 @@ const TaskModal = forwardRef(
       title: title,
       note: note,
     });
+
     const [invalid, setInvalid] = useState(false);
     const [actionType, setActionType] = useState(null);
     const [changeCounter, setChangeCounter] = useState(0);
@@ -57,7 +58,7 @@ const TaskModal = forwardRef(
         default:
           console.log("not a valid case");
       }
-      setPomoTask({ title: "", note: "" });
+      setPomoTask({ title: "", note: "", position: -1 });
       close();
     }, [changeCounter]);
 
