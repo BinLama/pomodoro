@@ -1,6 +1,8 @@
 #### TODO:
 
-- [ ] implement cookies and Oauth
+- [ ] create test for all the routers, models, and functions
+- [ ] automate the tests and create a ci/cd pipeline.
+- [ ] implement Oauth
 
 ## Start:
 
