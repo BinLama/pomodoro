@@ -9,9 +9,9 @@
     "color": {},
     "sessions": [{ "completed": 1 }],
     "tasks": [
-      { "task": "Wash Face" },
-      { "task": "Focus on finishing the work" },
-      { "task": "Get a job" }
+      { "title": "Wash Face" },
+      { "title": "Focus on finishing the work" },
+      { "title": "Get a job" }
     ]
   },
   {
@@ -24,9 +24,9 @@
     "color": {},
     "sessions": [{ "completed": 1 }],
     "tasks": [
-      { "task": "Wash Face" },
-      { "task": "Focus on finishing the work" },
-      { "task": "Get a job" }
+      { "title": "Wash Face" },
+      { "title": "Focus on finishing the work" },
+      { "title": "Get a job" }
     ]
   },
   {
@@ -39,9 +39,9 @@
     "color": {},
     "sessions": [{ "completed": 1 }],
     "tasks": [
-      { "task": "Wash Face" },
-      { "task": "Focus on finishing the work" },
-      { "task": "Get a job" }
+      { "title": "Wash Face" },
+      { "title": "Focus on finishing the work" },
+      { "title": "Get a job" }
     ]
   },
   {
@@ -54,9 +54,9 @@
     "color": {},
     "sessions": [{ "completed": 1 }],
     "tasks": [
-      { "task": "Wash Face" },
-      { "task": "Focus on finishing the work" },
-      { "task": "Get a job" }
+      { "title": "Wash Face" },
+      { "title": "Focus on finishing the work" },
+      { "title": "Get a job" }
     ]
   }
 ]

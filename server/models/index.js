@@ -1,6 +1,3 @@
-// data
-const info = require("../data.json");
-
 // database
 const sequelize = require("../db/db");
 
@@ -26,7 +23,7 @@ const authenticateDatabase = async () => {
 const syncModels = async () => {
   try {
     // alter is true cause model is changing
-    await sequelize.sync({ force: false });
+    await sequelize.sync();
     console.log("Models synchronized with the database.");
   } catch (error) {
     console.error("Error syncing models with the database:", error);
@@ -80,6 +77,12 @@ const makeConnection = () => {
     Session.belongsTo(User, {
       onDelete: "CASCADE",
     });
+
+    // Assign instances to the User Model
+    User.associations.setting = User.setting;
+    User.associations.color = User.color;
+    User.associations.tasks = User.tasks;
+    User.associations.sessions = User.sessions;
   } catch (error) {
     console.error("Error creating association:", error);
     throw new Error(`Error creating association: ${error.message}`);
@@ -95,49 +98,6 @@ const dbStart = async () => {
   } catch (error) {
     console.error(error);
   }
-
-  // create user in sign up
-  // await User.bulkCreate(info, {
-  //   include: [User.setting, User.color, User.tasks, User.sessions],
-  // });
-
-  // DELETE QUERY
-  // User.destroy({
-  //   where: {
-  //     f_name: "first",
-  //   },
-  // });
-
-  // CREATE QUERY
-  // const user = User.create(
-  //   {
-  //     username: "please",
-  //     f_name: "first",
-  //     l_name: "last",
-  //     email: "firstlast@place.place",
-  //     hash_pw: "123456",
-  //     setting: {},
-  //     color: {},
-  //     sessions: [{ completed: 1 }],
-  //     tasks: [
-  //       { task: "Wash Face" },
-  //       { task: "Focus on finishing the work" },
-  //       { task: "Get a job" },
-  //     ],
-  //   },
-  //   {
-  //     include: [User.setting, User.color, User.tasks, User.sessions],
-  //   }
-  // );
-  // console.log(user);
-
-  // const oneUser = await User.findOne({
-  //   where: { email: "garpBeatTheShitOutOfMe@foosha.village" },
-  // });
-  // console.log(oneUser);
-  // const oneSetting = await Setting.findOne({ where: { UserId: null } });
-  // console.log(oneSetting);
-  // oneUser.setSetting(oneSetting);
 };
 
 module.exports = {

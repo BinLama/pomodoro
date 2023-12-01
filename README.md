@@ -1,5 +1,43 @@
 ## Client:
 
+#### RUN:
+
+This is a React/Nodejs/Sequelize/MySQL/SCSS based Pomodoro Project. Feel free to clone it and use it for you own use.
+
+- Running the frontend:
+
+```bash
+
+foo@bar: ~$ cd frontend
+foo@bar/frontend: ~$ npm install && npm run dev
+```
+
+- Running the server:
+
+```bash
+
+foo@bar: ~$ cd server
+foo@bar/server: ~$ npm install && npm run dev
+```
+
+##### Server Notes:
+
+- Be sure to provide any env variables needed. The env variables that I am using are as follows:
+
+```
+TEST_DB_USER
+TEST_DB_PASSWORD
+TEST_DB_DATABASE
+TEST_DB_HOST
+TEST_DB_PORT
+JWT_SECRET
+COOKIE_SECRET
+```
+
+You will need to provide atleast these variables for the server to run properly on your localhost.
+
+Server uses port: 5000 and frontend uses port: 5173
+
 #### TODO:
 
 - [ ] refactor the frontend using react

@@ -3,10 +3,10 @@ const dbConfig = require("../config/dbConfig");
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const connectionType = process.env.NODE_ENV || "test";
+const env = process.env.NODE_ENV || "test";
+const config = dbConfig[env];
 
-const { database, username, password, host, port, dialect } =
-  dbConfig[connectionType];
+const { database, username, password, host, port, dialect } = config;
 
 const sequelize = new Sequelize(database, username, password, {
   dialect,

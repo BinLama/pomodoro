@@ -21,9 +21,8 @@ const Task = sequelize.define(
       type: DataTypes.STRING,
       defaultValue: "",
     },
-    lexorank: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    position: {
+      type: DataTypes.INTEGER,
     },
   },
   {
