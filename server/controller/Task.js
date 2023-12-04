@@ -100,6 +100,7 @@ const updateTask = async (req, res) => {
         .json({ status: STATUS.ERROR, error: `No task with id: ${id}` });
     }
 
+    console.log(req.body);
     removeKeyEndsWith(req.body, "Position");
 
     let newData = undefined;

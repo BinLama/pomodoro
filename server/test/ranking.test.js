@@ -1,1 +1,1 @@
-const { getLastPosition, getNewInsertPosition } = require("../utils/ranking");
+// need to perform sequelize test

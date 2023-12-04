@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1701730962450" clover="3.2.0">
+  <project timestamp="1701730962451" name="All files">
+    <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4" elements="21" coveredelements="21" complexity="0" loc="13" ncloc="13" packages="1" files="2" classes="2"/>
+    <file name="isEmail.js" path="C:\Users\Bin\Desktop\Web Development\Projects\pomodoro\server\utils\isEmail.js">
+      <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="2" count="7" type="stmt"/>
+      <line num="5" count="7" type="stmt"/>
+      <line num="8" count="1" type="stmt"/>
+    </file>
+    <file name="removeKey.js" path="C:\Users\Bin\Desktop\Web Development\Projects\pomodoro\server\utils\removeKey.js">
+      <metrics statements="9" coveredstatements="9" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
+      <line num="1" count="2" type="stmt"/>
+      <line num="2" count="9" type="stmt"/>
+      <line num="5" count="2" type="stmt"/>
+      <line num="6" count="6" type="cond" truecount="2" falsecount="0"/>
+      <line num="7" count="5" type="stmt"/>
+      <line num="8" count="5" type="stmt"/>
+      <line num="10" count="5" type="stmt"/>
+      <line num="11" count="16" type="cond" truecount="2" falsecount="0"/>
+      <line num="15" count="2" type="stmt"/>
+    </file>
+  </project>
+</coverage>

@@ -78,6 +78,14 @@ foo@bar/server: ~$ bash seeders.sh
 foo@bar/server: ~$ bash seeders.sh undo name_of_your_file
 ```
 
+#### TEST:
+
+Testing using Jest
+
+```bash
+foo@bar/server: ~$ npm test
+```
+
 #### TODO:
 
 - [ ] refactor the frontend using react
