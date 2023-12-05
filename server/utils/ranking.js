@@ -9,6 +9,21 @@ const {
   POSITION_UPDATE_NUMBER,
 } = require("./constants");
 
+/**
+ * get max task position
+ * @returns {number} new postion that hasn't been used.
+ */
+const createNewPositions = async () => {
+  const prevMaxPosition = (await getTaskPoistions()).result;
+  const newPosition = prevMaxPosition[0].max_position + POSITION_ADD_INCREMENT;
+
+  return newPosition;
+};
+
+/**
+ * get max task position
+ * @returns {string} max position that has been taken so far
+ */
 const getTaskPoistions = async () => {
   try {
     const maxPosition = await sequelize.query(
@@ -21,6 +36,10 @@ const getTaskPoistions = async () => {
   }
 };
 
+/**
+ * get all tasks sorted by their position
+ * @returns {string} returns all tasks sorted by position
+ */
 const getTaskOrderedByPosition = async () => {
   try {
     const allTasks = await sequelize.query(
@@ -33,6 +52,10 @@ const getTaskOrderedByPosition = async () => {
   }
 };
 
+/**
+ * update single position
+ * @returns {string} returns all tasks sorted by position
+ */
 const updateSinglePosition = async (task) => {
   try {
     const singleTaskUpdate = await sequelize.query(
@@ -48,13 +71,12 @@ const updateSinglePosition = async (task) => {
   }
 };
 
-const createNewPositions = async () => {
-  const prevMaxPosition = (await getTaskPoistions()).result;
-  const newPosition = prevMaxPosition[0].max_position + POSITION_ADD_INCREMENT;
-
-  return newPosition;
-};
-
+/**
+ * drag and drop update position;
+ * @param {number or undefined} prevElPosition - position of the task that is above the current task
+ * @param {number or undefined} nextElPosition - position of the task that is below the current task
+ * @returns {object} containing the update success parameter and the new position
+ */
 const updatedPosition = (prevElPosition, nextElPosition) => {
   let currElPosition;
 
@@ -84,6 +106,13 @@ const updatedPosition = (prevElPosition, nextElPosition) => {
   return { update: false };
 };
 
+/**
+ * check if current value overlaps with any preious or next value
+ * @param {number} currElPosition - position of the current task
+ * @param {number} prevElPosition - position of the task that is above the current task
+ * @param {number} nextElPosition - position of the task that is below the current task
+ * @returns {object} nothing but updates the data internally so that it has a proper structure when queried again.
+ */
 const checkIfOverlap = async (
   currElPosition,
   prevElPosition,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1701730962450" clover="3.2.0">
-  <project timestamp="1701730962451" name="All files">
-    <metrics statements="13" coveredstatements="13" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4" elements="21" coveredelements="21" complexity="0" loc="13" ncloc="13" packages="1" files="2" classes="2"/>
+<coverage generated="1701744625160" clover="3.2.0">
+  <project timestamp="1701744625160" name="All files">
+    <metrics statements="30" coveredstatements="30" conditionals="17" coveredconditionals="16" methods="7" coveredmethods="7" elements="54" coveredelements="53" complexity="0" loc="30" ncloc="30" packages="1" files="3" classes="3"/>
     <file name="isEmail.js" path="C:\Users\Bin\Desktop\Web Development\Projects\pomodoro\server\utils\isEmail.js">
       <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <line num="1" count="1" type="stmt"/>
@@ -20,6 +20,26 @@
       <line num="10" count="5" type="stmt"/>
       <line num="11" count="16" type="cond" truecount="2" falsecount="0"/>
       <line num="15" count="2" type="stmt"/>
+    </file>
+    <file name="tokenManager.js" path="C:\Users\Bin\Desktop\Web Development\Projects\pomodoro\server\utils\tokenManager.js">
+      <metrics statements="17" coveredstatements="17" conditionals="13" coveredconditionals="12" methods="3" coveredmethods="3"/>
+      <line num="1" count="1" type="stmt"/>
+      <line num="10" count="1" type="stmt"/>
+      <line num="11" count="7" type="cond" truecount="5" falsecount="0"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="15" count="4" type="stmt"/>
+      <line num="16" count="4" type="stmt"/>
+      <line num="18" count="4" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="29" count="4" type="stmt"/>
+      <line num="30" count="4" type="cond" truecount="4" falsecount="0"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="32" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="34" count="2" type="cond" truecount="1" falsecount="1"/>
+      <line num="35" count="2" type="stmt"/>
+      <line num="38" count="4" type="stmt"/>
+      <line num="40" count="1" type="stmt"/>
     </file>
   </project>
 </coverage>
