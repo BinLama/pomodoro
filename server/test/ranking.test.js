@@ -1,1 +1,3 @@
-// need to perform sequelize test
+/**
+ * @BinLama TODO: need to perform sequelize test
+ */
