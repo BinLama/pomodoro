@@ -97,6 +97,7 @@ const dbStart = async () => {
     await syncModels();
   } catch (error) {
     console.error(error);
+    throw new Error("cannot connect to database");
   }
 };
 
