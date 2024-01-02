@@ -1,5 +1,7 @@
 #### TODO:
 
+- [ ] fix the mysql workbench. Create connections and populate the data.
+- [ ] run previous migrations.
 - [ ] create test for all the routers, models, and functions
 - [ ] automate the tests and create a ci/cd pipeline.
 - [ ] implement Oauth
