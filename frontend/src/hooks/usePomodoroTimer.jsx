@@ -16,7 +16,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
   // TODO: get all the settings data too.
   const {
     playAudio,
-    study_start_sound,
+    studyStartSound,
     timerActive, // in the middle of the timer
     inSession,
     notInSession,
@@ -89,7 +89,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
           }
 
           // play audio
-          playAudio(study_start_sound, true);
+          playAudio(studyStartSound, true);
 
           // updating phase only when state changes from one to another
           if (

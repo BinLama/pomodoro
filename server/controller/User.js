@@ -7,7 +7,7 @@ const { COOKIE_NAME, STATUS } = require("../utils/constants");
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: { exclude: ["hash_pw"] },
+      attributes: { exclude: ["hashPw"] },
     });
 
     if (!users) {
@@ -28,9 +28,9 @@ const getAllUsers = async (req, res) => {
 // signup users
 const signupUser = async (req, res) => {
   try {
-    let { f_name, l_name, username, email, password } = req.body;
+    let { fName, lName, username, email, password } = req.body;
 
-    if (!(f_name && l_name && email && password && username)) {
+    if (!(fName && lName && email && password && username)) {
       return res.status(400).json({
         status: STATUS.ERROR,
         error: "Not all information was provided",
@@ -75,7 +75,7 @@ const signupUser = async (req, res) => {
       sameSite: "Lax",
     });
 
-    const user = await signup(f_name, l_name, email, password, username);
+    const user = await signup(fName, lName, email, password, username);
 
     // create a token
     const token = createToken(user.id, user.email, "7d");
@@ -178,7 +178,7 @@ const getUser = async (req, res) => {
     const { id } = req.user;
 
     const user = await User.findByPk(id, {
-      attributes: { exclude: ["hash_pw"] },
+      attributes: { exclude: ["hashPw"] },
     });
 
     if (!user) {
@@ -236,9 +236,9 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.user;
 
-    const { f_name, l_name, username } = req.body;
+    const { fName, lName, username } = req.body;
 
-    if (f_name === "" || l_name === "" || username === "") {
+    if (fName === "" || lName === "" || username === "") {
       return res.status(400).json({
         status: STATUS.ERROR,
         error: `Please insert proper information`,
@@ -247,7 +247,7 @@ const updateUser = async (req, res) => {
 
     // first find the user
     const user = await User.findByPk(id, {
-      attributes: { exclude: ["hash_pw"] },
+      attributes: { exclude: ["hashPw"] },
     });
 
     if (!user) {

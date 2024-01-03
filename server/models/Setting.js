@@ -9,47 +9,47 @@ const Setting = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    study_time: {
+    studyTime: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 25,
     },
-    relax_time: {
+    relaxTime: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 5,
     },
-    long_relax_time: {
+    longRelaxTime: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 15,
     },
-    max_pomodoro_session: {
+    maxPomodoroSession: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 5,
     },
-    long_relax_interval: {
+    longRelaxInterval: {
       type: DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 4,
     },
-    auto_break: {
+    autoBreak: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0,
     },
-    auto_study: {
+    autoStudy: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0,
     },
-    study_start_sound: {
+    studyStartSound: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "digital_alarm",
     },
-    rest_start_sound: {
+    restStartSound: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: "key_chimes",

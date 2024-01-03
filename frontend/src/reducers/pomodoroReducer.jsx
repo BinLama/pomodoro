@@ -15,10 +15,10 @@ export const INITIAL_POMODORO_STATE = {
   },
 
   // Sets up what named music to play
-  study_start_sound: "bell",
+  studyStartSound: "bell",
 
   // music to play when resting
-  rest_start_sound: "digital_alarm",
+  restStartSound: "digital_alarm",
 
   // Sets up the audio to be played when study timer ends
   audio: new Audio(sounds["bell"]),
@@ -47,7 +47,7 @@ export const INITIAL_POMODORO_STATE = {
 export const pomodoroReducer = (state, action) => {
   switch (action.type) {
     case pomodoroReducerActions.GET_USER_POMO_DATA:
-      const music = new Audio(sounds[action.payload.study_start_sound]);
+      const music = new Audio(sounds[action.payload.studyStartSound]);
       music.volume = action.payload.volume / 100;
       return {
         ...action.payload,
@@ -67,7 +67,7 @@ export const pomodoroReducer = (state, action) => {
       return {
         ...state,
         audio: action.payload.audio,
-        study_start_sound: action.payload.music,
+        studyStartSound: action.payload.music,
       };
     case pomodoroReducerActions.CHANGE_VOLUME:
       return {
@@ -78,14 +78,14 @@ export const pomodoroReducer = (state, action) => {
       return {
         ...state,
         mute: false,
-        study_start_sound: action.payload,
+        studyStartSound: action.payload,
       };
     case pomodoroReducerActions.TOGGLE_MUTE:
       return {
         ...state,
         mute: !state.mute,
       };
-    case pomodoroReducerActions.TOGGLE_AUTO_BREAK:
+    case pomodoroReducerActions.TOGGLE_autoBreak:
       return {
         ...state,
         autoBreak: !state.autoBreak,
@@ -101,7 +101,7 @@ export const pomodoroReducer = (state, action) => {
         autoPomo: action.payload.autoPomo,
       };
 
-    case pomodoroReducerActions.TOGGLE_AUTO_BREAK_SUCCESS:
+    case pomodoroReducerActions.TOGGLE_autoBreak_SUCCESS:
       return {
         ...state,
         autoBreak: action.payload.autoBreak,

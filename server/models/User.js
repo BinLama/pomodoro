@@ -11,11 +11,11 @@ const User = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    f_name: {
+    fName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    l_name: {
+    lName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -33,11 +33,11 @@ const User = sequelize.define(
       allowNull: false,
       unique: true,
     },
-    hash_pw: {
+    hashPw: {
       type: DataTypes.STRING,
       allowNull: false,
       set(value) {
-        this.setDataValue("hash_pw", hashIt(value));
+        this.setDataValue("hashPw", hashIt(value));
       },
     },
   },
@@ -46,16 +46,16 @@ const User = sequelize.define(
   }
 );
 
-const signup = async (f_name, l_name, email, password, username) => {
+const signup = async (fName, lName, email, password, username) => {
   try {
     // create the user
     const user = await User.create(
       {
         username: username,
-        f_name: f_name,
-        l_name: l_name,
+        fName: fName,
+        lName: lName,
         email: email,
-        hash_pw: password,
+        hashPw: password,
         setting: {},
         color: {},
       },
@@ -66,7 +66,7 @@ const signup = async (f_name, l_name, email, password, username) => {
 
     const newUser = Object.fromEntries(
       Object.entries(user.dataValues).filter(([key, val]) => {
-        if (key != "hash_pw") {
+        if (key != "hashPw") {
           return [key, val];
         }
       })
@@ -85,7 +85,7 @@ const login = async (usernameOrEmail, password) => {
       where: {
         [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
       },
-      attributes: ["email", "username", "id", "hash_pw"],
+      attributes: ["email", "username", "id", "hashPw"],
     });
 
     if (!user) {
@@ -95,7 +95,7 @@ const login = async (usernameOrEmail, password) => {
     }
 
     // compare password with the hashed password
-    const passwordMatch = await bcrypt.compare(password, user.hash_pw);
+    const passwordMatch = await bcrypt.compare(password, user.hashPw);
 
     if (!passwordMatch) {
       console.log("incorrect password");

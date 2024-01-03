@@ -1,10 +1,10 @@
 [
   {
-    "f_name": "harry",
-    "l_name": "potter",
+    "fName": "harry",
+    "lName": "potter",
     "email": "youAreAWizardHARRY@hogwarts.edu",
     "username": "harryDPotter",
-    "hash_pw": "harryIsTheB3stWiz4rD",
+    "hashPw": "harryIsTheB3stWiz4rD",
     "setting": {},
     "color": {},
     "sessions": [{ "completed": 1 }],
@@ -15,11 +15,11 @@
     ]
   },
   {
-    "f_name": "bill",
-    "l_name": "money",
+    "fName": "bill",
+    "lName": "money",
     "email": "likemy@sshole.cum",
     "username": "billLikeMon3y",
-    "hash_pw": "passTheBillAndGetM0n3y!",
+    "hashPw": "passTheBillAndGetM0n3y!",
     "setting": {},
     "color": {},
     "sessions": [{ "completed": 1 }],
@@ -30,11 +30,11 @@
     ]
   },
   {
-    "f_name": "Luffy",
-    "l_name": "Monkey",
+    "fName": "Luffy",
+    "lName": "Monkey",
     "email": "garpBeatTheShitOutOfMe@foosha.village",
     "username": "MonkeyDLuffy",
-    "hash_pw": "IamStupid123",
+    "hashPw": "IamStupid123",
     "setting": {},
     "color": {},
     "sessions": [{ "completed": 1 }],
@@ -45,11 +45,11 @@
     ]
   },
   {
-    "f_name": "Usopp",
-    "l_name": "God",
+    "fName": "Usopp",
+    "lName": "God",
     "email": "GodDUsopp@gecko.island",
     "username": "IwillBeHiding",
-    "hash_pw": "10TONhamm3RSmasH",
+    "hashPw": "10TONhamm3RSmasH",
     "setting": {},
     "color": {},
     "sessions": [{ "completed": 1 }],

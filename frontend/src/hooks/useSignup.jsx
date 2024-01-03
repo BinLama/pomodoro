@@ -13,15 +13,15 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
-  const signup = async (f_name, l_name, username, email, password) => {
+  const signup = async (fName, lName, username, email, password) => {
     setIsLoading(true);
     setError(false);
     try {
       const response = await authAxios.post(
         "/signup",
         {
-          f_name,
-          l_name,
+          fName,
+          lName,
           username,
           email,
           password,
