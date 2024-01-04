@@ -1,4 +1,4 @@
-const { isValidPassword } = require("../utils/validPassword");
+const { isValidPassword } = require("../../../utils/validPassword.js");
 
 test("return false if given an empty string", () => {
   const password = "";

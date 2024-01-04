@@ -1,4 +1,4 @@
-const { validateEmail } = require("../utils/isEmail");
+const { validateEmail } = require("../../../utils/isEmail.js");
 // emailValidation.test.js
 
 describe("checking for valid email", () => {

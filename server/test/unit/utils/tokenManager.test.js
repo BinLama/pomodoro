@@ -1,6 +1,9 @@
 require("dotenv").config();
 
-const { validateToken, createToken } = require("../utils/tokenManager");
+const {
+  validateToken,
+  createToken,
+} = require("../../../utils/tokenManager.js");
 const jwt = require("jsonwebtoken");
 
 // Mock process.env.JWT_SECRET

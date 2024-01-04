@@ -1,5 +1,5 @@
 const supertest = require("supertest");
-const { app } = require("../app");
+const { app } = require("../../../app.js");
 
 describe("POST /api/v1/signup", () => {
   describe("given firstname, lastname, username, email, password", () => {
