@@ -1,7 +1,11 @@
 const request = require("supertest");
-const { app } = require("../../../app.js");
+const { createServer } = require("../../../app.js");
+const { dbStart } = require("../../../models/index.js");
+const app = createServer();
 
 describe("POST /api/v1/signup", () => {
+  let seed;
+  beforeEach(async () => (seed = await dbStart()));
   describe("given firstname, lastname, username, email, password", () => {
     // should save the user info
     // respond with json object containing userid
@@ -17,9 +21,9 @@ describe("POST /api/v1/signup", () => {
       };
 
       const response = await request(app).post("/api/v1/signup").send(userData);
-      console.log(response);
-      // should respond wiht 200 status code
-      expect(response.statusCode).toBe(200);
+      // console.log(response);
+      // should respond wiht 201 status code
+      expect(response.statusCode).toBe(201);
     });
   });
 

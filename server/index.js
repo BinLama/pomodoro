@@ -1,9 +1,10 @@
-const { app } = require("./app");
+const { createServer } = require("./app");
 const { dbStart } = require("./models/index");
 require("dotenv").config();
 
 // constant values
 const PORT = process.env.PORT || 5000;
+const app = createServer();
 
 // start function
 const start = async () => {
