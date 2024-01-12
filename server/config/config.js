@@ -9,6 +9,7 @@ module.exports = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "mysql",
+    migrationStorageTableName: "migration",
   },
   test: {
     database: process.env.TEST_DB_DATABASE,
@@ -17,6 +18,7 @@ module.exports = {
     host: process.env.TEST_DB_HOST,
     port: process.env.TEST_DB_PORT,
     dialect: "mysql",
+    migrationStorageTableName: "migration",
     logging: (...msg) => console.log(msg),
   },
   production: {
@@ -26,5 +28,6 @@ module.exports = {
     host: process.env.PRODUCTION_DB_HOST,
     port: process.env.PRODUCTION_DB_PORT,
     dialect: "mysql",
+    migrationStorageTableName: "migration",
   },
 };

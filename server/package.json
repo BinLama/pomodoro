@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node",
     "dev": "nodemon ",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "migration:create": "npx sequelize-cli migration:create",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:rollback": "npx sequelize-cli db:migrate:undo"
   },
   "keywords": [],
   "author": "",

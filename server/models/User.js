@@ -1,111 +1,67 @@
-const { DataTypes, Op } = require("sequelize");
-const sequelize = require("../db/db");
+"use strict";
+const { Model } = require("sequelize");
 const { hashIt } = require("../utils/hash");
-const bcrypt = require("bcrypt");
 
-const User = sequelize.define(
-  "User",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    fName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notNull: true,
-        isEmail: true,
-      },
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    hashPw: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      set(value) {
-        this.setDataValue("hashPw", hashIt(value));
-      },
-    },
-  },
-  {
-    tableName: "users",
-  }
-);
-
-const signup = async (fName, lName, email, password, username) => {
-  try {
-    // create the user
-    const user = await User.create(
-      {
-        username: username,
-        fName: fName,
-        lName: lName,
-        email: email,
-        hashPw: password,
-        setting: {},
-        color: {},
-      },
-      {
-        include: [User.setting, User.color],
-      }
-    );
-
-    const newUser = Object.fromEntries(
-      Object.entries(user.dataValues).filter(([key, val]) => {
-        if (key != "hashPw") {
-          return [key, val];
-        }
-      })
-    );
-
-    return newUser;
-  } catch (error) {
-    throw new Error(`Error during signup: ${error.message}`);
-  }
-};
-
-const login = async (usernameOrEmail, password) => {
-  try {
-    // create the user
-    const user = await User.findOne({
-      where: {
-        [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-      },
-      attributes: ["email", "username", "id", "hashPw"],
-    });
-
-    if (!user) {
-      await bcrypt.compare(password, "");
-      console.log("user not found");
-      throw new Error("Please enter correct credentials");
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
     }
-
-    // compare password with the hashed password
-    const passwordMatch = await bcrypt.compare(password, user.hashPw);
-
-    if (!passwordMatch) {
-      console.log("incorrect password");
-      throw new Error("Please enter correct credentials");
-    }
-
-    return user;
-  } catch (error) {
-    throw new Error(`Login failed: ${error.message}`);
   }
+  User.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      fName: {
+        type: DataTypes.STRING,
+      },
+      lName: {
+        type: DataTypes.STRING,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          notNull: true,
+          isEmail: true,
+        },
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      hooks: {
+        beforeCreate: (user, options) => {
+          const hashedPassword = hashIt(user.password);
+          user.password = hashedPassword;
+        },
+        beforeUpdate: (user, options) => {
+          const hashedPassword = hashIt(user.password);
+          user.password = hashedPassword;
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+      tableName: "users",
+    }
+  );
+  return User;
 };
-
-module.exports = { User, signup, login };

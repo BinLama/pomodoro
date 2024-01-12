@@ -28,7 +28,7 @@ function createServer() {
   app.disable("x-powered-by");
 
   // routes
-  app.get("/", (req, res) => {
+  app.get("/", (_, res) => {
     res.status(200).json({ msg: "this is a server..." });
   });
   app.use("/api/v1", authRoutes);
@@ -37,6 +37,7 @@ function createServer() {
   app.use("/api/v1/setting", settingRoutes);
   app.use("/api/v1/session", sessionRoutes);
   app.use("/api/v1/color", colorRoutes);
+  return app;
 }
 
 module.exports = { createServer };
