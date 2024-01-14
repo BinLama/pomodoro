@@ -1,13 +1,8 @@
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class Setting extends Model {
-    static associate(models) {
-      // define association here
-      // this.belongsTo
-    }
-  }
-  Setting.init(
+  const Setting = sequelize.define(
+    "setting",
     {
       id: {
         type: DataTypes.UUID,
@@ -76,9 +71,18 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      sequelize,
-      modelName: "Setting",
       tableName: "settings",
+      freezeTableName: true,
     }
   );
+
+  // Setting.associate = function (models) {
+  //   // associations can be defined here
+  //   Setting.user = Setting.belongsTo(models.user, {
+  //     foreignKey: "userId",
+  //     onDelete: "CASCADE",
+  //   });
+  // };
+
+  return Setting;
 };

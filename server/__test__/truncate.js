@@ -1,13 +1,13 @@
-const { User } = require("../models/index.js");
+const models = require("../models");
 
 /**
  * Delete all the data that is on the database
  */
-const truncateData = async () => {
-  await User.destroy({
-    where: {},
-    force: true,
-  });
+module.exports = async () => {
+  return await Promise.all(
+    Object.keys(models).map((key) => {
+      if (["sequelize", "Sequelize"].includes(key)) return;
+      return models[key].destroy({ where: {}, force: true, logging: false });
+    })
+  );
 };
-
-module.exports = truncateData;

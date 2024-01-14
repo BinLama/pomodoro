@@ -1,19 +1,9 @@
 "use strict";
-const { Model } = require("sequelize");
 const { hashIt } = require("../utils/hash");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
+  const User = sequelize.define(
+    "user",
     {
       id: {
         type: DataTypes.UUID,
@@ -22,9 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       fName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       lName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -43,25 +35,34 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
-    },
-    {
-      hooks: {
-        beforeCreate: (user, options) => {
-          const hashedPassword = hashIt(user.password);
-          user.password = hashedPassword;
-        },
-        beforeUpdate: (user, options) => {
-          const hashedPassword = hashIt(user.password);
-          user.password = hashedPassword;
+        set(value) {
+          this.setDataValue("password", hashIt(value));
         },
       },
     },
     {
-      sequelize,
-      modelName: "User",
       tableName: "users",
+      freezeTableName: true,
     }
   );
+
+  User.associate = (models) => {
+    User.setting = User.hasOne(models.setting, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+    // User.hasOne(models.Color, {
+    //   foreignKey: "userId",
+    //   onDelete: "CASCADE",
+    // });
+    User.task = User.hasMany(models.task, {
+      // foreignKey: "userId",
+      // onDelete: "CASCADE",
+    });
+    // User.hasMany(models.Session, {
+    //   foreignKey: "userId",
+    //   onDelete: "CASCADE",
+    // });
+  };
   return User;
 };

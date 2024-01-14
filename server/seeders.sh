@@ -8,7 +8,7 @@ then
   npx sequelize-cli seed:generate --name $NAME
 elif [ "$TYPE" = "undo" ]; then
   # name should be the name of the whole file including the .js
-  npx sequelize-cli db:seed:undo --seed $NAME --config ./config/dbConfig.js
+  npx sequelize-cli db:seed:undo --seed $NAME --config ./config/config.js
 else
-  npx sequelize-cli db:seed:all --config ./config/dbConfig.js
+  npx sequelize-cli db:seed:all --config ./config/config.js
 fi

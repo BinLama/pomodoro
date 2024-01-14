@@ -1,22 +1,24 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../db/db");
+"use strict";
+const { Model } = require("sequelize");
 
-const Session = sequelize.define(
-  "sessions",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+module.exports = (sequelize, DataTypes) => {
+  const Session = sequelize.define(
+    "session",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      completed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: 1,
+      },
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: 1,
-    },
-  },
-  {
-    tableName: "session",
-  }
-);
+    {
+      tableName: "sessions",
+    }
+  );
 
-module.exports = Session;
+  return Session;
+};

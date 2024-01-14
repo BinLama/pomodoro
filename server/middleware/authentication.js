@@ -1,50 +1,5 @@
-const { DataTypes, Op } = require("sequelize");
-const sequelize = require("../db/db");
-const { hashIt } = require("../utils/hash");
-const bcrypt = require("bcrypt");
-
-const User = sequelize.define(
-  "User",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
-    },
-    fName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        notNull: true,
-        isEmail: true,
-      },
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    hashPw: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      set(value) {
-        this.setDataValue("hashPw", hashIt(value));
-      },
-    },
-  },
-  {
-    tableName: "users",
-  }
-);
+// this is a duplicate of /controller/user.js
+// might need to remove but I think fractoring it is better.
 
 const signup = async (fName, lName, email, password, username) => {
   try {
@@ -107,5 +62,3 @@ const login = async (usernameOrEmail, password) => {
     throw new Error(`Login failed: ${error.message}`);
   }
 };
-
-module.exports = { User, signup, login };

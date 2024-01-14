@@ -1,125 +1,12 @@
-// // database
-// const sequelize = require("../db/db");
-
-// // db models
-// const { User, signup, login } = require("./User");
-// const Setting = require("./Setting");
-// const Color = require("./Color");
-// const Task = require("./Task");
-// const Session = require("./Session");
-
-// // authenticate the database
-// const authenticateDatabase = async () => {
-//   try {
-//     await sequelize.authenticate();
-//     console.log("Database connection has been established successfully.");
-//   } catch (error) {
-//     console.error("Unable to connect to the database:", error);
-//     throw new Error(`Unable to connect to the database: ${error.message}`);
-//   }
-// };
-
-// // sync the models
-// const syncModels = async () => {
-//   try {
-//     // alter is true cause model is changing
-//     await sequelize.sync();
-//     console.log("Models synchronized with the database.");
-//   } catch (error) {
-//     console.error("Error syncing models with the database:", error);
-//     throw new Error(`Error syncing models with the database: ${error.message}`);
-//   }
-// };
-
-// // create models associations
-// const makeConnection = () => {
-//   try {
-//     // One to One User and Setting
-//     User.setting = User.hasOne(Setting, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-//     Setting.belongsTo(User, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-
-//     // One to One User and Color
-//     User.color = User.hasOne(Color, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-//     Color.belongsTo(User, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-
-//     // One to Many User and Task (many task)
-//     User.tasks = User.hasMany(Task, {
-//       onDelete: "CASCADE",
-//     });
-//     Task.belongsTo(User, {
-//       onDelete: "CASCADE",
-//     });
-
-//     // One to many User and Session (many Session)
-//     User.sessions = User.hasMany(Session, {
-//       onDelete: "CASCADE",
-//     });
-//     Session.belongsTo(User, {
-//       onDelete: "CASCADE",
-//     });
-
-//     // Assign instances to the User Model
-//     User.associations.setting = User.setting;
-//     User.associations.color = User.color;
-//     User.associations.tasks = User.tasks;
-//     User.associations.sessions = User.sessions;
-//   } catch (error) {
-//     console.error("Error creating association:", error);
-//     throw new Error(`Error creating association: ${error.message}`);
-//   }
-// };
-
-// const dbStart = async () => {
-//   try {
-//     await authenticateDatabase();
-//     makeConnection();
-//     console.log("Create Model Connection");
-//     await syncModels();
-//   } catch (error) {
-//     console.error(error);
-//     throw new Error("cannot connect to database");
-//   }
-// };
-
-// module.exports = {
-//   sequelize,
-//   dbStart,
-//   User,
-//   signup,
-//   login,
-//   Setting,
-//   Session,
-//   Color,
-//   Task,
-// };
-
 "use strict";
-
+// console.log("GOT TO INDEX");
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 
 const env = process.env.NODE_ENV || "development";
+
+console.log(`ENV: ${env}`);
 
 const basename = path.basename(__filename);
 const config = require(__dirname + "/../config/config.js")[env];
@@ -128,8 +15,11 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
+  // console.log("GOT TO ENV VAL");
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
+  // console.log("SEQUELIZE init");
+  // console.log(`Config var: ${JSON.stringify(config)}`);
   sequelize = new Sequelize(database, username, password, {
     dialect,
     host,
@@ -146,6 +36,7 @@ if (config.use_env_variable) {
   });
 }
 
+// console.log("SEQUELIZE", sequelize);
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
@@ -156,6 +47,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
+    // console.log("FINDING MODELS");
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
@@ -163,13 +55,77 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//     // console.log(db[modelName].associate(db));
+//   }
+// });
+
+// describing associations
+const makeConnection = () => {
+  const {
+    user: User,
+    setting: Setting,
+    task: Task,
+    color: Color,
+    session: Session,
+  } = db;
+  try {
+    // One to One user and Setting
+    User.setting = User.hasOne(Setting, {
+      onDelete: "CASCADE",
+    });
+    Setting.user = Setting.belongsTo(User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    // One to Many user and Task (many task)
+    User.tasks = User.hasMany(Task, {
+      onDelete: "CASCADE",
+    });
+    Task.belongsTo(User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    // One to One User and Color
+    User.color = User.hasOne(Color, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    Color.belongsTo(User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    // One to many User and Session (many Session)
+    User.sessions = User.hasMany(Session, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+    Session.belongsTo(User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE",
+    });
+
+    // Assign instances to the User Model
+    User.associations.setting = User.setting;
+    User.associations.color = User.color;
+    User.associations.tasks = User.tasks;
+    User.associations.sessions = User.sessions;
+  } catch (error) {
+    console.error("Error creating association:", error);
+    throw new Error(`Error creating association: ${error.message}`);
   }
-});
+};
+
+makeConnection();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// console.log("GOT HERE");
 module.exports = db;
