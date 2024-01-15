@@ -46,23 +46,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.associate = (models) => {
-    User.setting = User.hasOne(models.setting, {
-      foreignKey: "userId",
-      onDelete: "CASCADE",
-    });
-    // User.hasOne(models.Color, {
-    //   foreignKey: "userId",
-    //   onDelete: "CASCADE",
-    // });
-    User.task = User.hasMany(models.task, {
-      // foreignKey: "userId",
-      // onDelete: "CASCADE",
-    });
-    // User.hasMany(models.Session, {
-    //   foreignKey: "userId",
-    //   onDelete: "CASCADE",
-    // });
-  };
   return User;
 };

@@ -76,13 +76,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // Setting.associate = function (models) {
-  //   // associations can be defined here
-  //   Setting.user = Setting.belongsTo(models.user, {
-  //     foreignKey: "userId",
-  //     onDelete: "CASCADE",
-  //   });
-  // };
-
   return Setting;
 };
