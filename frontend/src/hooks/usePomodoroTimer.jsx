@@ -31,7 +31,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
     longBreak: { minutes: longBreak },
   });
 
-  console.log(pomoPhases);
+  // console.log(pomoPhases);
   const [phase, setPhase] = useState(POMODORO);
 
   // Old Phase keeps track of the changes in phases (only updates when new phase changes after timer ends)
