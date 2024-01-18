@@ -11,12 +11,17 @@ module.exports = {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
+        validate: {
+          isUUID: 4,
+        },
       },
       fName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       lName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,

@@ -1,4 +1,5 @@
-const { Session } = require("../models");
+const models = require("../models");
+const Session = models.session;
 
 const getAllSessions = async (req, res) => {
   try {

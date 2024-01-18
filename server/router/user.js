@@ -5,12 +5,10 @@ const {
   updateUser,
   getAllUsers,
 } = require("../controller/User");
-const requireAuth = require("../middleware/requireAuth");
-
+const {
+  validateRegisterInput,
+} = require("../middleware/validation.middleware");
 const userRouter = express.Router();
-
-// require auth for all user routes
-userRouter.use(requireAuth);
 
 // get all user
 userRouter.get("/all", getAllUsers);

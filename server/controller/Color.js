@@ -1,4 +1,5 @@
-const { Color } = require("../models");
+const models = require("../models");
+const Color = models.color;
 
 const getColorSetting = async (req, res) => {
   try {

@@ -1,7 +1,7 @@
 const express = require("express");
 const { getUserSetting, updateUserSetting } = require("../controller/Setting");
 
-const requireAuth = require("../middleware/requireAuth");
+const requireAuth = require("../middleware/auth.middleware");
 
 const settingRouter = express.Router();
 

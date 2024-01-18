@@ -1,4 +1,5 @@
-const { Setting } = require("../models");
+const models = require("../models");
+const Setting = models.setting;
 
 const getUserSetting = async (req, res) => {
   try {

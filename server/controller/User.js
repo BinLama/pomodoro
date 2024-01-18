@@ -1,13 +1,14 @@
-const { User } = require("../models/index");
 const { validateEmail } = require("../utils/isEmail");
 const { Op } = require("sequelize");
 const { createToken } = require("../utils/tokenManager");
 const { COOKIE_NAME, STATUS } = require("../utils/constants");
+const models = require("../models");
+const User = models.user;
 
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: { exclude: ["hashPw"] },
+      attributes: { exclude: ["password"] },
     });
 
     if (!users) {
@@ -17,83 +18,6 @@ const getAllUsers = async (req, res) => {
     }
 
     return res.status(200).json({ status: STATUS.SUCCESS, user: users });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
-  }
-};
-
-// signup users
-const signupUser = async (req, res) => {
-  try {
-    let { fName, lName, username, email, password } = req.body;
-
-    if (!(fName && lName && email && password && username)) {
-      return res.status(400).json({
-        status: STATUS.ERROR,
-        error: "Not all information was provided",
-      });
-    }
-
-    if (!validateEmail(email)) {
-      return res
-        .status(400)
-        .json({ status: STATUS.ERROR, error: `Please enter a proper email.` });
-    }
-
-    if (password.length < 9) {
-      return res
-        .status(400)
-        .json({ status: STATUS.ERROR, error: "Please add a longer password" });
-    }
-
-    username = username.trim();
-    email = email.trim();
-
-    // check if email or username exits on the server
-    const usernameOrEmailExists = await User.findOne({
-      where: {
-        [Op.or]: [{ email: email }, { username: username }],
-      },
-      attributes: ["email", "username"],
-    });
-
-    if (usernameOrEmailExists) {
-      return res
-        .status(409)
-        .json({ status: STATUS.ERROR, error: `User already exists.` });
-    }
-
-    // remove cookie either way
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "localhost",
-      signed: true,
-      path: "/",
-      sameSite: "Lax",
-    });
-
-    const user = await signup(fName, lName, email, password, username);
-
-    // create a token
-    const token = createToken(user.id, user.email, "7d");
-
-    // create a cookie
-    const expires = new Date();
-    expires.setDate(expires.getDate() + 7);
-
-    res.cookie(COOKIE_NAME, token, {
-      path: "/",
-      domain: "localhost",
-      expires,
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-    });
-
-    res.status(201).json({ status: STATUS.SUCCESS, username: user.username });
   } catch (error) {
     console.log(error);
     res
@@ -178,7 +102,7 @@ const getUser = async (req, res) => {
     const { id } = req.user;
 
     const user = await User.findByPk(id, {
-      attributes: { exclude: ["hashPw"] },
+      attributes: { exclude: ["password"] },
     });
 
     if (!user) {
@@ -272,7 +196,7 @@ const updateUser = async (req, res) => {
 };
 
 // user sequelize requests
-const signup = async (fName, lName, email, password, username) => {
+const createUser = async ({ fName, lName, email, password, username }) => {
   try {
     // create the user
     const user = await User.create(
@@ -281,7 +205,7 @@ const signup = async (fName, lName, email, password, username) => {
         fName: fName,
         lName: lName,
         email: email,
-        hashPw: password,
+        password: password,
         setting: {},
         color: {},
       },
@@ -292,7 +216,7 @@ const signup = async (fName, lName, email, password, username) => {
 
     const newUser = Object.fromEntries(
       Object.entries(user.dataValues).filter(([key, val]) => {
-        if (key != "hashPw") {
+        if (key != "password") {
           return [key, val];
         }
       })
@@ -311,7 +235,7 @@ const login = async (usernameOrEmail, password) => {
       where: {
         [Op.or]: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
       },
-      attributes: ["email", "username", "id", "hashPw"],
+      attributes: ["email", "username", "id", "password"],
     });
 
     if (!user) {
@@ -336,7 +260,6 @@ const login = async (usernameOrEmail, password) => {
 
 module.exports = {
   getAllUsers,
-  signupUser,
   loginUser,
   getUser,
   updateUser,

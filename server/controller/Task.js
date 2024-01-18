@@ -1,4 +1,3 @@
-const { Task } = require("../models/index");
 const { STATUS } = require("../utils/constants");
 const {
   createNewPositions,
@@ -6,6 +5,8 @@ const {
   checkIfOverlap,
 } = require("../utils/ranking");
 const { removeKeyEndsWith } = require("../utils/removeKey");
+const models = require("../models");
+const Task = models.task;
 
 const getAllTask = async (req, res) => {
   try {

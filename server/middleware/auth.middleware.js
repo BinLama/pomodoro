@@ -1,14 +1,25 @@
-const jwt = require("jsonwebtoken");
-const { User } = require("../models");
-const { COOKIE_NAME } = require("../utils/constants");
+"use strict";
+
 const { validateToken } = require("../utils/tokenManager");
+const { COOKIE_NAME } = require("../utils/constants");
+
+const models = require("../models");
+const { UnauthenticatedError } = require("../errors/customErrors");
+const User = models.user;
 
 // check if the user is authenticated.
-const requireAuth = async (req, res, next) => {
+/**
+ * check if the user is authenticated middleware.
+ * @param {object} req
+ * @param {object} res
+ * @param {function} next
+ *
+ */
+const authenticateUser = async (req, res, next) => {
   const token = req.signedCookies.auth_token;
 
   if (!token) {
-    return res.status(401).json({ error: "Authorization token required" });
+    throw new UnauthenticatedError("Authorization token required");
   }
 
   try {
@@ -22,6 +33,7 @@ const requireAuth = async (req, res, next) => {
       attributes: ["id"], // Specify the fields you want to retrieve
     });
 
+    // add user id to the req value
     req.user = user.dataValues;
 
     next();
@@ -38,4 +50,4 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
-module.exports = requireAuth;
+module.exports = authenticateUser;

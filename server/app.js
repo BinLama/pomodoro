@@ -5,13 +5,17 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const morgan = require("morgan");
 
-// express middle routes
+// routers
 const userRoutes = require("./router/user");
-const authRoutes = require("./router/auth");
+const authRoutes = require("./router/auth.route");
 const taskRoutes = require("./router/task");
 const settingRoutes = require("./router/setting");
 const sessionRoutes = require("./router/session");
 const colorRoutes = require("./router/color");
+
+// middleware
+const authenticateUser = require("./middleware/auth.middleware");
+const errorHandlerMiddleware = require("./middleware/errorHandler.middleware");
 
 function createServer() {
   // express middlewares
@@ -31,12 +35,16 @@ function createServer() {
   app.get("/", (_, res) => {
     res.status(200).json({ msg: "this is a server..." });
   });
-  app.use("/api/v1", authRoutes);
-  app.use("/api/v1/user", userRoutes);
+  app.use("/api/v1/user", authenticateUser, userRoutes);
   app.use("/api/v1/task", taskRoutes);
   app.use("/api/v1/setting", settingRoutes);
   app.use("/api/v1/session", sessionRoutes);
   app.use("/api/v1/color", colorRoutes);
+  app.use("/api/v1/auth", authRoutes);
+
+  // error handler
+  app.use(errorHandlerMiddleware);
+
   return app;
 }
 

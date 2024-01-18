@@ -21,20 +21,20 @@ const createToken = (id, email, expiresIn) => {
 /**
  * Validate the user sent tokens
  * @param {Token} token
- * @param {string}
  * @returns {object} decodedToken.id - user's id used for finding him
  * @source { https://stackoverflow.com/questions/64471965/mocking-jsonwebtoken-module-with-jest }
  */
 const validateToken = (token) => {
-  const callback = (err, decodedToken) => {
-    if (err === null && decodedToken.id) {
-      return decodedToken;
+  const customErrors = (err, decoded) => {
+    if (err === null && decoded.id) {
+      return decoded;
     } else if (err.name === "TokenExpiredError") {
       throw new Error("TokenExpiredError");
     } else if (err.name === "JsonWebTokenError") {
       throw new Error("JsonWebTokenError");
     }
   };
-  return jwt.verify(token, process.env.JWT_SECRET, callback);
+  return jwt.verify(token, process.env.JWT_SECRET, customErrors);
 };
+
 module.exports = { validateToken, createToken };

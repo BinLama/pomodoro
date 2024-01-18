@@ -16,7 +16,7 @@ describe("checking the association between User and other tables", () => {
   afterAll(async () => {
     await truncate();
     await models.sequelize.close();
-  });
+  }, 30000);
 
   test("create a new user with only user info", async () => {
     // await models.sequelize.sync({ logging: false });
