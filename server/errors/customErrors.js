@@ -16,11 +16,11 @@ class BadRequestError extends Error {
   }
 }
 
-class UnauthenticatedError extends Error {
+class ForbiddenError extends Error {
   constructor(message) {
     super(message);
-    this.name = "UnauthenticatedError";
-    this.statusCode = StatusCodes.UNAUTHORIZED;
+    this.name = "ForbiddenError";
+    this.statusCode = StatusCodes.FORBIDDEN;
   }
 }
 
@@ -28,7 +28,7 @@ class UnauthorizedError extends Error {
   constructor(message) {
     super(message);
     this.name = "UnauthorizedError";
-    this.statusCode = StatusCodes.FORBIDDEN;
+    this.statusCode = StatusCodes.UNAUTHORIZED;
   }
 }
 
@@ -43,7 +43,7 @@ class ConflictError extends Error {
 module.exports = {
   NotFoundError,
   BadRequestError,
-  UnauthenticatedError,
+  ForbiddenError,
   UnauthorizedError,
   ConflictError,
 };

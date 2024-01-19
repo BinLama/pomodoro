@@ -9,6 +9,8 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_AUTH_STATE);
 
   useEffect(() => {
+    // checking the authentication of the token
+    // should resign the token if the user is the correct one
     checkAuthentication();
   }, []);
 

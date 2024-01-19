@@ -12,7 +12,7 @@ const User = models.user;
  * check if the user is authenticated middleware.
  * @param {object} req
  * @param {object} res
- * @param {function} next
+ * @param {function} next it will go to next handler (most likely a controller)
  *
  */
 const authenticateUser = async (req, res, next) => {
@@ -38,7 +38,6 @@ const authenticateUser = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
       domain: "localhost",

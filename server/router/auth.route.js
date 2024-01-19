@@ -3,8 +3,12 @@ const express = require("express");
 const authRouter = express.Router();
 
 // controllers
-const { loginUser, logoutUser } = require("../controller/User");
-const { checkUserToken, register } = require("../controller/auth.controller");
+const {
+  checkUserToken,
+  logoutUser,
+  register,
+  loginUser,
+} = require("../controller/auth.controller");
 
 // middleware
 const {

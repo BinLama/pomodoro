@@ -41,21 +41,26 @@ const validateRegisterInput = withValidationErrors([
     .notEmpty()
     .withMessage("username is required")
     .isLength({ min: 5 })
-    .withMessage("username should be longer than 5 words"),
-  // .custom(async (username) => {
-  //   const user = await User.findOne({
-  //     where: { username: username },
-  //     attributes: ["username"],
-  //   });
-  //   if (user) {
-  //     throw new ConflictError("username already exists");
-  //   }
-  // })
+    .withMessage("username should be longer than 5 words")
+    .custom(async (username) => {
+      const user = await User.findOne({
+        where: { username: username },
+        attributes: ["username"],
+      });
+      if (user) {
+        throw new ConflictError("username already exists");
+      }
+    }),
   body("password")
     .notEmpty()
     .withMessage("password is required")
     .isLength({ min: 9 })
     .withMessage("password must be at least 9 characters long"),
+]);
+
+const validateLoginInput = withValidationErrors([
+  body("usernameOrEmail").notEmpty().withMessage("username is not provided"),
+  body("password").notEmpty().withMessage("password is required"),
 ]);
 
 module.exports = { withValidationErrors, validateRegisterInput };
