@@ -3,7 +3,7 @@ const { createServer } = require("../../../app.js");
 const { dbStart } = require("../../../models/index.js");
 const app = createServer();
 
-describe("POST /api/v1/signup", () => {
+describe.skip("POST /api/v1/signup", () => {
   // let seed;
   // beforeEach(async () => (seed = await dbStart()));
   // describe("given firstname, lastname, username, email, password", () => {

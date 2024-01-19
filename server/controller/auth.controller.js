@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const { COOKIE_NAME, STATUS, EXPIRE_TIME } = require("../utils/constants");
 const { Op } = require("sequelize");
 const { StatusCodes } = require("http-status-codes");
@@ -23,9 +22,7 @@ const Color = models.color;
  *
  * @return {object} object with all user info
  */
-
 // TODO: test this code by reloading the webpage after login.
-
 const checkUserToken = async (req, res) => {
   const token = req.signedCookies[COOKIE_NAME];
 
@@ -73,7 +70,6 @@ const checkUserToken = async (req, res) => {
  * @return {object} it will be a res object
  * containing user information
  */
-
 const register = async (req, res) => {
   try {
     // remove cookie either way
@@ -88,11 +84,11 @@ const register = async (req, res) => {
     const user = await createUser(req.body);
 
     // create a token
-    const token = createToken(user.id, user.email, "7d");
+    const token = createToken(user.id, user.email, `${EXPIRE_TIME}d`);
 
     // create a cookie
     const expires = new Date();
-    expires.setDate(expires.getDate() + 7);
+    expires.setDate(expires.getDate() + EXPIRE_TIME);
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
@@ -122,7 +118,6 @@ const register = async (req, res) => {
  * @return {object} it will be a res object
  * containing user information
  */
-
 const loginUser = async (req, res) => {
   try {
     // no matter what, clear the cookies
@@ -137,11 +132,11 @@ const loginUser = async (req, res) => {
     const user = await login(req.body);
 
     // create a token
-    const token = createToken(user.id, user.email, "7d");
+    const token = createToken(user.id, user.email, `${EXPIRE_TIME}d`);
 
     // create a cookie
     const expires = new Date();
-    expires.setDate(expires.getDate() + 7);
+    expires.setDate(expires.getDate() + EXPIRE_TIME);
 
     res.cookie(COOKIE_NAME, token, {
       path: "/",
@@ -250,7 +245,6 @@ const createUser = async ({ fName, lName, email, password, username }) => {
  *
  * @return {object} new user with their data
  */
-
 const login = async ({ usernameOrEmail, password }) => {
   try {
     // create the user

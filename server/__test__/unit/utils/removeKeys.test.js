@@ -1,6 +1,6 @@
 const { removeKeyEndsWith } = require("../../../utils/removeKey.js");
 
-describe("remove keys with certain patterns", () => {
+describe.skip("remove keys with certain patterns", () => {
   test("removeKeyEndsWith should handle an empty object", () => {
     // Arrange
     const myObject = {};

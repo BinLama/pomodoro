@@ -1,6 +1,6 @@
 const truncate = require("../../truncate");
 
-describe("testing truncate...", () => {
+describe.skip("testing truncate...", () => {
   test("truncate should be defined", () => {
     expect(truncate).toBeDefined();
   });

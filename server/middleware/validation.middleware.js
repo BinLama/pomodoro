@@ -21,8 +21,8 @@ const withValidationErrors = (validateValues) => {
 };
 
 const validateRegisterInput = withValidationErrors([
-  body("fName").notEmpty().withMessage("first name is empty"),
-  body("lName").notEmpty().withMessage("last name is required"),
+  body("fName").notEmpty().withMessage("first name is empty").escape(),
+  body("lName").notEmpty().withMessage("last name is required").escape(),
   body("email")
     .notEmpty()
     .withMessage("email is required")
@@ -51,7 +51,7 @@ const validateRegisterInput = withValidationErrors([
         throw new ConflictError("username already exists");
       }
     }),
-  body("password")
+  body("password") // TODO: need to add check for password
     .notEmpty()
     .withMessage("password is required")
     .isLength({ min: 9 })

@@ -1,6 +1,3 @@
-const { validateEmail } = require("../utils/isEmail");
-const { Op } = require("sequelize");
-const { createToken } = require("../utils/tokenManager");
 const { COOKIE_NAME, STATUS } = require("../utils/constants");
 const models = require("../models");
 const User = models.user;

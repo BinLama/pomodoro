@@ -1,5 +1,4 @@
 "use strict";
-// console.log("GOT TO INDEX");
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
@@ -13,30 +12,21 @@ const config = require(__dirname + "/../config/config.js")[env];
 const { database, username, password, host, port, dialect } = config;
 const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  // console.log("GOT TO ENV VAL");
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  // console.log("SEQUELIZE init");
-  // console.log(`Config var: ${JSON.stringify(config)}`);
-  sequelize = new Sequelize(database, username, password, {
-    dialect,
-    host,
-    port,
-    define: {
-      freezeTableName: true,
-    },
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 30000,
-      acquire: 60000,
-    },
-  });
-}
+const sequelize = new Sequelize(database, username, password, {
+  dialect,
+  host,
+  port,
+  define: {
+    freezeTableName: true,
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 30000,
+    acquire: 60000,
+  },
+});
 
-// console.log("SEQUELIZE", sequelize);
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
@@ -47,20 +37,12 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach((file) => {
-    // console.log("FINDING MODELS");
     const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
     );
     db[model.name] = model;
   });
-
-// Object.keys(db).forEach((modelName) => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//     // console.log(db[modelName].associate(db));
-//   }
-// });
 
 // describing associations
 const makeConnection = () => {
@@ -127,5 +109,4 @@ makeConnection();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-// console.log("GOT HERE");
 module.exports = db;
