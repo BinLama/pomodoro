@@ -13,6 +13,7 @@ const {
 // middleware
 const {
   validateRegisterInput,
+  validateLoginInput,
 } = require("../middleware/validation.middleware");
 // check auth
 // authRouter.route("/check_auth").get(checkUserToken);
@@ -21,7 +22,7 @@ const {
 authRouter.route("/signup").post(validateRegisterInput, register);
 
 // login route
-authRouter.route("/login").post(loginUser);
+authRouter.route("/login").post(validateLoginInput, loginUser);
 
 // logout route
 authRouter.route("/logout").post(logoutUser);

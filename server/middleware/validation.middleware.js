@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const { BadRequestError, ConflictError } = require("../errors/customErrors");
 const models = require("../models");
+const { isValidPassword } = require("../utils/validPassword");
 const User = models.user;
 
 const withValidationErrors = (validateValues) => {
@@ -55,7 +56,13 @@ const validateRegisterInput = withValidationErrors([
     .notEmpty()
     .withMessage("password is required")
     .isLength({ min: 9 })
-    .withMessage("password must be at least 9 characters long"),
+    .withMessage("password must be at least 9 characters long")
+    .custom(async (password) => {
+      if (!isValidPassword(password))
+        throw new Error(
+          "password should contain at least 9 characters, alphanumerical values and special characters"
+        );
+    }),
 ]);
 
 const validateLoginInput = withValidationErrors([
@@ -63,4 +70,8 @@ const validateLoginInput = withValidationErrors([
   body("password").notEmpty().withMessage("password is required"),
 ]);
 
-module.exports = { withValidationErrors, validateRegisterInput };
+module.exports = {
+  withValidationErrors,
+  validateRegisterInput,
+  validateLoginInput,
+};

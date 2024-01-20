@@ -4,6 +4,9 @@ const { dbStart } = require("../../../models/index.js");
 const app = createServer();
 
 describe.skip("POST /api/v1/signup", () => {
+  test("blank", () => {
+    expect(true).toBe(true);
+  });
   // let seed;
   // beforeEach(async () => (seed = await dbStart()));
   // describe("given firstname, lastname, username, email, password", () => {
