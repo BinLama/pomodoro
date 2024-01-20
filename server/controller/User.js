@@ -1,7 +1,18 @@
-const { COOKIE_NAME, STATUS } = require("../utils/constants");
+const { STATUS } = require("../utils/constants");
+const { StatusCodes } = require("http-status-codes");
+
+// models
 const models = require("../models");
 const User = models.user;
 
+/**
+ * return all the users that have signed up
+ * this path should be deleted later
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} all the users that is found on the server
+ */
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.findAll({
@@ -10,19 +21,29 @@ const getAllUsers = async (req, res) => {
 
     if (!users) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: `No users found` });
     }
 
-    return res.status(200).json({ status: STATUS.SUCCESS, user: users });
+    return res
+      .status(StatusCodes.OK)
+      .json({ status: STATUS.SUCCESS, user: users });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
 
+/**
+ * find a user that is logged in and provide their
+ * information.
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} single user
+ */
 const getUser = async (req, res) => {
   try {
     const { id } = req.user;
@@ -33,19 +54,27 @@ const getUser = async (req, res) => {
 
     if (!user) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: `No user with id: ${id}` });
     }
 
-    res.status(200).json({ status: STATUS.SUCCESS, user: user });
+    res.status(StatusCodes.OK).json({ status: STATUS.SUCCESS, user: user });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
 
+/**
+ * find a user that is logged in and delete their
+ * information.
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} deleted user information
+ */
 const deleteUser = async (req, res) => {
   // have to be very careful with deleting a user.
   // first need to validate of it's the proper user
@@ -59,7 +88,7 @@ const deleteUser = async (req, res) => {
 
     if (!user) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: `No user with id: ${id}` });
     }
 
@@ -67,56 +96,63 @@ const deleteUser = async (req, res) => {
       where: {
         id: id,
       },
-      force: true,
     });
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       status: STATUS.SUCCESS,
       user: `User with id: ${id} has been successfully deleted.`,
     });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
 
+/**
+ * find a user that is logged in and update their
+ * information. It should not update email or password.
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} updated user information
+ */
 const updateUser = async (req, res) => {
   try {
     const { id } = req.user;
 
-    const { fName, lName, username } = req.body;
+    const { password, email } = req.body;
 
-    if (fName === "" || lName === "" || username === "") {
-      return res.status(400).json({
+    if (password || email) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
         status: STATUS.ERROR,
-        error: `Please insert proper information`,
+        error: "Some information provided cannot be changed directly",
       });
     }
-
     // first find the user
     const user = await User.findByPk(id, {
-      attributes: { exclude: ["hashPw"] },
+      attributes: { exclude: ["password"] },
     });
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(StatusCodes.NOT_FOUND).json({
         status: STATUS.ERROR,
         error: `User with id: ${id} not found.`,
       });
     }
 
-    const updatedOldUser = await user.update(req.body);
+    const updatedOldUser = await user.update(req.body, {
+      exclude: ["password"],
+    });
 
-    console.log(updatedOldUser);
     return res
-      .status(200)
+      .status(StatusCodes.OK)
       .json({ status: STATUS.SUCCESS, user: updatedOldUser });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };

@@ -70,8 +70,24 @@ const validateLoginInput = withValidationErrors([
   body("password").notEmpty().withMessage("password is required"),
 ]);
 
+const validateUpdateInput = withValidationErrors([
+  body("fName")
+    .notEmpty()
+    .withMessage("first name should be provided")
+    .optional(),
+  body("lName")
+    .notEmpty()
+    .withMessage("last name should be provided")
+    .optional(),
+  body("username")
+    .notEmpty()
+    .withMessage("username should be provided")
+    .optional(),
+]);
+
 module.exports = {
   withValidationErrors,
   validateRegisterInput,
   validateLoginInput,
+  validateUpdateInput,
 };

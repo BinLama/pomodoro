@@ -6,7 +6,7 @@ const app = express();
 const morgan = require("morgan");
 
 // routers
-const userRoutes = require("./router/user");
+const userRoutes = require("./router/user.route");
 const authRoutes = require("./router/auth.route");
 const taskRoutes = require("./router/task");
 const settingRoutes = require("./router/setting");
