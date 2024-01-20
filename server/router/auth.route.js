@@ -15,6 +15,7 @@ const {
   validateRegisterInput,
   validateLoginInput,
 } = require("../middleware/validation.middleware");
+const authenticateUser = require("../middleware/auth.middleware");
 // check auth
 // authRouter.route("/check_auth").get(checkUserToken);
 
@@ -25,6 +26,6 @@ authRouter.route("/signup").post(validateRegisterInput, register);
 authRouter.route("/login").post(validateLoginInput, loginUser);
 
 // logout route
-authRouter.route("/logout").post(logoutUser);
+authRouter.route("/logout").post(authenticateUser, logoutUser);
 
 module.exports = authRouter;

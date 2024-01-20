@@ -4,7 +4,8 @@ const { validateToken } = require("../utils/tokenManager");
 const { COOKIE_NAME } = require("../utils/constants");
 
 const models = require("../models");
-const { UnauthenticatedError } = require("../errors/customErrors");
+const { UnauthorizedError } = require("../errors/customErrors");
+const { StatusCodes } = require("http-status-codes");
 const User = models.user;
 
 // check if the user is authenticated.
@@ -18,11 +19,10 @@ const User = models.user;
 const authenticateUser = async (req, res, next) => {
   const token = req.signedCookies.auth_token;
 
-  if (!token) {
-    throw new UnauthenticatedError("Authorization token required");
-  }
-
   try {
+    if (!token) {
+      throw new UnauthorizedError("Authorization token required");
+    }
     const decodedToken = validateToken(token);
     const { id: userId } = decodedToken;
 
@@ -44,8 +44,9 @@ const authenticateUser = async (req, res, next) => {
       signed: true,
       path: "/",
     });
-    res.redirect("/api/v1/login");
-    res.status(401).json({ error: "Request is not authorized" });
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ error: "Request is not authorized" });
   }
 };
 
