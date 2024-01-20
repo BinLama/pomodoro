@@ -5,7 +5,10 @@ const {
   checkIfOverlap,
 } = require("../utils/ranking");
 const { removeKeyEndsWith } = require("../utils/removeKey");
+
+// models
 const models = require("../models");
+const { StatusCodes } = require("http-status-codes");
 const Task = models.task;
 
 const getAllTask = async (req, res) => {
@@ -20,16 +23,18 @@ const getAllTask = async (req, res) => {
     });
 
     if (!tasks) {
-      return res.status(404).json({
+      return res.status(StatusCodes.NOT_FOUND).json({
         status: STATUS.ERROR,
         error: `No tasks for user with id: ${id}`,
       });
     }
-    return res.status(200).json({ status: STATUS.SUCCESS, task: tasks });
+    return res
+      .status(StatusCodes.OK)
+      .json({ status: STATUS.SUCCESS, task: tasks });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
@@ -53,7 +58,7 @@ const createTask = async (req, res) => {
     // task failed
     if (!newTask) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: "Task creation failed" });
     }
 
@@ -66,14 +71,14 @@ const createTask = async (req, res) => {
       position,
     } = newTask;
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       status: STATUS.SUCCESS,
       task: { id, completed, title: taskTitle, note: taskNote, position },
     });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
@@ -97,7 +102,7 @@ const updateTask = async (req, res) => {
 
     if (!task) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: `No task with id: ${id}` });
     }
 
@@ -130,7 +135,7 @@ const updateTask = async (req, res) => {
       position,
     } = updatedNewtask;
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       status: STATUS.SUCCESS,
       task: {
         id: updatedTaskId,
@@ -143,7 +148,7 @@ const updateTask = async (req, res) => {
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };
@@ -163,20 +168,20 @@ const deleteTask = async (req, res) => {
 
     if (!task) {
       return res
-        .status(404)
+        .status(StatusCodes.NOT_FOUND)
         .json({ status: STATUS.ERROR, error: `No task with id: ${id}` });
     }
 
     await task.destroy({ force: true });
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       status: STATUS.SUCCESS,
       task: `Task with id: ${id} has been successfully deleted.`,
     });
   } catch (error) {
     console.log(error);
     res
-      .status(500)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ status: STATUS.ERROR, error: "Internal Server Error" });
   }
 };

@@ -37,7 +37,9 @@ const getTaskPoistions = async () => {
 };
 
 /**
- * get all tasks sorted by their position
+ * get all tasks and their row number
+ * sorted by their position
+ *
  * @returns {string} returns all tasks sorted by position
  */
 const getTaskOrderedByPosition = async () => {
