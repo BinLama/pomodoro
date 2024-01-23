@@ -24,18 +24,10 @@ const authenticateUser = async (req, res, next) => {
       throw new UnauthorizedError("Authorization token required");
     }
     const decodedToken = validateToken(token);
-    const { id: userId } = decodedToken;
-
-    // const user = await User.findOne({
-    //   where: {
-    //     id: userId,
-    //   },
-    //   attributes: ["id"], // Specify the fields you want to retrieve
-    // });
+    const { id } = decodedToken;
 
     // add user id to the req value
-    req.user = { userId };
-    console.log(req.user);
+    req.user = { id };
     next();
   } catch (error) {
     res.clearCookie(COOKIE_NAME, {

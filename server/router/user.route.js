@@ -9,13 +9,9 @@ const {
 } = require("../controller/User");
 
 // middleware
-const authenticateUser = require("../middleware/auth.middleware");
 const { validateUpdateInput } = require("../middleware/validation.middleware");
 
 const userRouter = express.Router();
-
-// only logged in user can access this
-userRouter.use(authenticateUser);
 
 // get all user
 userRouter.get("/all", getAllUsers);
@@ -26,7 +22,7 @@ userRouter.get("/all", getAllUsers);
 userRouter
   .route("/")
   .get(getUser)
-  .delete(deleteUser)
+  // .delete(deleteUser)
   .patch(validateUpdateInput, updateUser);
 
 module.exports = userRouter;

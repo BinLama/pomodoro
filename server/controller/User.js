@@ -55,15 +55,15 @@ const getUser = async (req, res) => {
     if (!user) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: `No user with id: ${id}` });
+        .json({ msg: `No user with id: ${id}` });
     }
 
-    res.status(StatusCodes.OK).json({ status: STATUS.SUCCESS, user: user });
+    res.status(StatusCodes.OK).json({ user });
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
@@ -122,14 +122,6 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.user;
 
-    const { password, email } = req.body;
-
-    if (password || email) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: STATUS.ERROR,
-        error: "Some information provided cannot be changed directly",
-      });
-    }
     // first find the user
     const user = await User.findByPk(id, {
       attributes: { exclude: ["password"] },
@@ -146,14 +138,12 @@ const updateUser = async (req, res) => {
       exclude: ["password"],
     });
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, user: updatedOldUser });
+    return res.status(StatusCodes.OK).json({ user: updatedOldUser });
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 

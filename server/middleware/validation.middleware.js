@@ -83,6 +83,23 @@ const validateUpdateInput = withValidationErrors([
     .notEmpty()
     .withMessage("username should be provided")
     .optional(),
+  body("password")
+    .isEmpty()
+    .not()
+    .withMessage("password cannot be changed directly")
+    .optional(),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format")
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ where: { email } });
+      if (user && user.id.toString() !== req.user.id) {
+        throw new BadRequestError("email alreaady exists");
+      }
+    })
+    .optional(),
 ]);
 
 module.exports = {
