@@ -1,8 +1,13 @@
-const { body, validationResult } = require("express-validator");
-const { BadRequestError, ConflictError } = require("../errors/customErrors");
+const { body, param, validationResult } = require("express-validator");
+const {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} = require("../errors/customErrors");
 const models = require("../models");
 const { isValidPassword } = require("../utils/validPassword");
 const User = models.user;
+const Color = models.color;
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -12,6 +17,14 @@ const withValidationErrors = (validateValues) => {
 
       if (!errors.isEmpty()) {
         const errorMessage = errors.array().map((error) => error.msg);
+
+        if (errorMessage[0].endsWith("already exists")) {
+          throw new ConflictError(errorMessage);
+        }
+
+        if (errorMessage[0].startsWith("no ")) {
+          throw new NotFoundError(errorMessage);
+        }
 
         throw new BadRequestError(errorMessage);
       }
@@ -70,7 +83,7 @@ const validateLoginInput = withValidationErrors([
   body("password").notEmpty().withMessage("password is required"),
 ]);
 
-const validateUpdateInput = withValidationErrors([
+const validateUserUpdate = withValidationErrors([
   body("fName")
     .notEmpty()
     .withMessage("first name should be provided")
@@ -96,15 +109,26 @@ const validateUpdateInput = withValidationErrors([
     .custom(async (email, { req }) => {
       const user = await User.findOne({ where: { email } });
       if (user && user.id.toString() !== req.user.id) {
-        throw new BadRequestError("email alreaady exists");
+        throw new ConflictError("email already exists");
       }
     })
     .optional(),
+]);
+
+const validateColorUpdate = withValidationErrors([]);
+
+const validateColorIdParam = withValidationErrors([
+  param("id").custom(async (value) => {
+    const color = await Color.findByPk(value);
+    if (!color) throw new NotFoundError(`no color with id ${value}`);
+  }),
 ]);
 
 module.exports = {
   withValidationErrors,
   validateRegisterInput,
   validateLoginInput,
-  validateUpdateInput,
+  validateUserUpdate,
+  validateColorUpdate,
+  validateColorIdParam,
 };

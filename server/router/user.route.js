@@ -9,7 +9,7 @@ const {
 } = require("../controller/User");
 
 // middleware
-const { validateUpdateInput } = require("../middleware/validation.middleware");
+const { validateUserUpdate } = require("../middleware/validation.middleware");
 
 const userRouter = express.Router();
 
@@ -23,6 +23,6 @@ userRouter
   .route("/")
   .get(getUser)
   // .delete(deleteUser)
-  .patch(validateUpdateInput, updateUser);
+  .patch(validateUserUpdate, updateUser);
 
 module.exports = userRouter;
