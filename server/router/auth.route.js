@@ -4,7 +4,6 @@ const authRouter = express.Router();
 
 // controllers
 const {
-  checkUserToken,
   logoutUser,
   register,
   loginUser,
@@ -16,6 +15,7 @@ const {
   validateLoginInput,
 } = require("../middleware/validation.middleware");
 const authenticateUser = require("../middleware/auth.middleware");
+
 // check auth
 // authRouter.route("/check_auth").get(checkUserToken);
 

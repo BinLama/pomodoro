@@ -1,14 +1,14 @@
 "use strict";
-
 const { validateToken } = require("../utils/tokenManager");
 const { COOKIE_NAME } = require("../utils/constants");
 
-const models = require("../models");
 const { UnauthorizedError } = require("../errors/customErrors");
 const { StatusCodes } = require("http-status-codes");
+
+// models
+const models = require("../models");
 const User = models.user;
 
-// check if the user is authenticated.
 /**
  * check if the user is authenticated middleware.
  * @param {object} req

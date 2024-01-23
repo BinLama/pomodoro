@@ -9,12 +9,9 @@ const {
 } = require("../controller/Task");
 
 // middleware
-const requireAuth = require("../middleware/auth.middleware");
+const authenticateUser = require("../middleware/auth.middleware");
 
 const taskRouter = express.Router();
-
-// require auth for all task route
-taskRouter.use(requireAuth);
 
 // get all task
 taskRouter.route("/").get(getAllTask).post(createTask);
