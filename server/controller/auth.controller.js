@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 
 // models
 const models = require("../models");
+const { ForbiddenError } = require("../errors/customErrors");
 const User = models.user;
 const Setting = models.setting;
 const Color = models.color;
@@ -72,41 +73,14 @@ const checkUserToken = async (req, res) => {
  */
 const register = async (req, res) => {
   try {
-    // remove cookie either way
-    res.clearCookie(COOKIE_NAME, {
-      httpOnly: true,
-      domain: "localhost",
-      signed: true,
-      path: "/",
-      sameSite: "Lax",
-    });
-
-    const user = await createUser(req.body);
-
-    // create a token
-    const token = createToken(user.id, user.email, `${EXPIRE_TIME}d`);
-
-    // create a cookie
-    const expires = new Date();
-    expires.setDate(expires.getDate() + EXPIRE_TIME);
-
-    res.cookie(COOKIE_NAME, token, {
-      path: "/",
-      domain: "localhost",
-      expires,
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-    });
-
-    return res
-      .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, username: user.username });
+    await createUser(req.body);
+    return res.status(StatusCodes.CREATED).json({ msg: "user created" });
   } catch (error) {
     console.log(error);
-    res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+    res.status(StatusCodes.BAD_REQUEST).json({
+      msg: error.message,
+      error: "Internal Server Error",
+    });
   }
 };
 
@@ -120,15 +94,6 @@ const register = async (req, res) => {
  */
 const loginUser = async (req, res) => {
   try {
-    // no matter what, clear the cookies
-    res.clearCookie(COOKIE_NAME, {
-      path: "/",
-      domain: "localhost",
-      httpOnly: true,
-      signed: true,
-      sameSite: "Lax",
-    });
-
     const user = await login(req.body);
 
     // create a token
@@ -139,22 +104,20 @@ const loginUser = async (req, res) => {
     expires.setDate(expires.getDate() + EXPIRE_TIME);
 
     res.cookie(COOKIE_NAME, token, {
-      path: "/",
-      domain: "localhost",
       expires,
       httpOnly: true,
       signed: true,
       sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
     });
 
-    return res
+    res
       .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, username: user.username });
+      .json({ status: STATUS.SUCCESS, msg: "user loged in" });
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({
-      status: STATUS.ERROR,
-      message: "Login error",
+      msg: error.message,
       error: "Internal Server Error",
     });
   }
@@ -168,25 +131,18 @@ const loginUser = async (req, res) => {
  */
 const logoutUser = (req, res) => {
   try {
-    console.log(req.signedCookies[COOKIE_NAME]);
-
     // remove the cookie to logout
     res.clearCookie(COOKIE_NAME, {
-      path: "/",
-      domain: "localhost",
       httpOnly: true,
       signed: true,
       sameSite: "Lax",
     });
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, message: "Logged out..." });
+    return res.status(StatusCodes.OK).json({ msg: "user logged out" });
   } catch (error) {
     console.log(error);
     res.status(StatusCodes.BAD_REQUEST).json({
-      status: STATUS.ERROR,
-      message: "Logout failed",
+      msg: error.message,
       error: "Internal Server Error",
     });
   }
@@ -255,17 +211,11 @@ const login = async ({ usernameOrEmail, password }) => {
       attributes: ["email", "username", "id", "password"],
     });
 
-    if (!user) {
-      console.log("user not found");
-      throw new Error("Please enter correct credentials");
-    }
+    // find valid user and compare password with the hashed password
+    const isValidUser = user && (await bcrypt.compare(password, user.password));
 
-    // compare password with the hashed password
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      console.log("incorrect password");
-      throw new Error("Please enter correct credentials");
+    if (!isValidUser) {
+      throw new ForbiddenError("Please enter correct credentials");
     }
 
     return user;

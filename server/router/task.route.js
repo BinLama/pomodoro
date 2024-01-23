@@ -8,9 +8,6 @@ const {
   deleteTask,
 } = require("../controller/Task");
 
-// middleware
-const authenticateUser = require("../middleware/auth.middleware");
-
 const taskRouter = express.Router();
 
 // get all task

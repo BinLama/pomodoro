@@ -26,26 +26,25 @@ const authenticateUser = async (req, res, next) => {
     const decodedToken = validateToken(token);
     const { id: userId } = decodedToken;
 
-    const user = await User.findOne({
-      where: {
-        id: userId,
-      },
-      attributes: ["id"], // Specify the fields you want to retrieve
-    });
+    // const user = await User.findOne({
+    //   where: {
+    //     id: userId,
+    //   },
+    //   attributes: ["id"], // Specify the fields you want to retrieve
+    // });
 
     // add user id to the req value
-    req.user = user.dataValues;
-
+    req.user = { userId };
+    console.log(req.user);
     next();
   } catch (error) {
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
       signed: true,
-      path: "/",
     });
+
     res
-      .status(StatusCodes.UNAUTHORIZED)
+      .status(StatusCodes.FORBIDDEN)
       .json({ error: "Request is not authorized" });
   }
 };
