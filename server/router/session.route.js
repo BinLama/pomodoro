@@ -1,5 +1,8 @@
 const express = require("express");
-const { getAllSessions, createNewSession } = require("../controller/Session");
+const {
+  getAllSessions,
+  createNewSession,
+} = require("../controller/session.controller");
 
 const sessionRouter = express.Router();
 

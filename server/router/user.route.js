@@ -6,7 +6,7 @@ const {
   deleteUser,
   updateUser,
   getAllUsers,
-} = require("../controller/User");
+} = require("../controller/user.controller");
 
 // middleware
 const { validateUserUpdate } = require("../middleware/validation.middleware");

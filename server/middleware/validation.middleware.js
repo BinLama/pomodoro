@@ -34,6 +34,8 @@ const withValidationErrors = (validateValues) => {
   ];
 };
 
+/****** User validation start ******/
+
 const validateRegisterInput = withValidationErrors([
   body("fName").notEmpty().withMessage("first name is empty").escape(),
   body("lName").notEmpty().withMessage("last name is required").escape(),
@@ -114,15 +116,27 @@ const validateUserUpdate = withValidationErrors([
     })
     .optional(),
 ]);
+/****** User validation end ******/
 
-const validateColorUpdate = withValidationErrors([]);
+/****** Color validation start ******/
+const validateColorUpdate = withValidationErrors([
+  body("color").notEmpty().withMessage("color is required"),
+]);
 
 const validateColorIdParam = withValidationErrors([
-  param("id").custom(async (value) => {
-    const color = await Color.findByPk(value);
+  param("id").custom(async (value, { req }) => {
+    const color = await Color.findOne({
+      where: {
+        id: value,
+        userId: req.user.id,
+      },
+    });
+
     if (!color) throw new NotFoundError(`no color with id ${value}`);
   }),
 ]);
+
+/****** Color validation end ******/
 
 module.exports = {
   withValidationErrors,

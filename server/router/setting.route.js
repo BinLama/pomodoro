@@ -1,5 +1,8 @@
 const express = require("express");
-const { getUserSetting, updateUserSetting } = require("../controller/Setting");
+const {
+  getUserSetting,
+  updateUserSetting,
+} = require("../controller/setting.controller");
 
 const settingRouter = express.Router();
 
