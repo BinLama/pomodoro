@@ -4,10 +4,14 @@ const {
   ConflictError,
   NotFoundError,
 } = require("../errors/customErrors");
-const models = require("../models");
 const { isValidPassword } = require("../utils/validPassword");
+
+// models
+const models = require("../models");
 const User = models.user;
 const Color = models.color;
+const Session = models.session;
+const Setting = models.setting;
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -119,30 +123,114 @@ const validateUserUpdate = withValidationErrors([
 /****** User validation end ******/
 
 /****** Color validation start ******/
+
+const validateColorIdParam = withValidationErrors([
+  param("id")
+    .notEmpty()
+    .withMessage("id is required")
+    .custom(async (value, { req }) => {
+      const color = await Color.findOne({
+        where: {
+          id: value,
+          userId: req.user.id,
+        },
+      });
+
+      if (!color) throw new NotFoundError(`no color with id ${value}`);
+    }),
+]);
+
 const validateColorUpdate = withValidationErrors([
   body("color").notEmpty().withMessage("color is required"),
 ]);
 
-const validateColorIdParam = withValidationErrors([
-  param("id").custom(async (value, { req }) => {
-    const color = await Color.findOne({
-      where: {
-        id: value,
-        userId: req.user.id,
-      },
-    });
+/****** Color validation end ******/
 
-    if (!color) throw new NotFoundError(`no color with id ${value}`);
-  }),
+/****** Setting validation start ******/
+const validateSettingIdParam = withValidationErrors([
+  param("id")
+    .notEmpty()
+    .withMessage("id is required")
+    .custom(async (value, { req }) => {
+      const setting = await Setting.findOne({
+        where: {
+          id: value,
+          userId: req.user.id,
+        },
+      });
+
+      if (!setting) throw new NotFoundError(`no setting with id ${value}`);
+    }),
 ]);
 
-/****** Color validation end ******/
+const validateSettingUpdate = withValidationErrors([
+  body("studyTime")
+    .isInt({ min: 1, max: 60 })
+    .withMessage("study time should be between 1 and 60 min")
+    .optional(),
+  body("relaxTime")
+    .isInt({ min: 1, max: 60 })
+    .withMessage("relax time should be between 1 and 60 min")
+    .optional(),
+  body("longRelaxTime")
+    .isInt({ min: 1, max: 60 })
+    .withMessage("long relax time should be between 1 and 60 min")
+    .optional(),
+  body("maxPomodoroSession")
+    .isInt({ min: 1 })
+    .withMessage("you should aim to complete at least one session")
+    .optional(),
+  body("longRelaxInterval")
+    .isInt({ max: 10 })
+    .withMessage("you should take a long break after at most 10 sessions")
+    .optional(),
+  body("autoBreak")
+    .isInt({ min: 0, max: 1 })
+    .withMessage("auto break should either be 0 or 1")
+    .optional(),
+  body("autoStudy")
+    .isInt({ min: 0, max: 1 })
+    .withMessage("auto study should either be 0 or 1")
+    .optional(),
+  body("studyStartSound")
+    .notEmpty()
+    .withMessage("study sound is required")
+    .isString()
+    .withMessage("study sound should be string")
+    .toLowerCase()
+    .optional(),
+  body("restStartSound")
+    .notEmpty()
+    .withMessage("rest sound is required")
+    .isString()
+    .withMessage("rest sound should be string")
+    .toLowerCase()
+    .optional(),
+  body("volume")
+    .isInt({ min: 1, max: 100 })
+    .withMessage("volume should be between 1 and 100 percent")
+    .optional(),
+  body("level")
+    .notEmpty()
+    .withMessage("level is required")
+    .isString()
+    .withMessage("level sound should be string")
+    .toLowerCase()
+    .optional(),
+  body("mute")
+    .isInt({ min: 0, max: 1 })
+    .withMessage("mute should either be 0 or 1")
+    .optional(),
+]);
+/****** Setting validation end ******/
 
 module.exports = {
   withValidationErrors,
   validateRegisterInput,
   validateLoginInput,
   validateUserUpdate,
-  validateColorUpdate,
   validateColorIdParam,
+  validateColorUpdate,
+  validateSettingIdParam,
+  validateSettingUpdate,
 };

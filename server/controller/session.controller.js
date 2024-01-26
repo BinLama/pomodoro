@@ -1,43 +1,54 @@
+const { StatusCodes } = require("http-status-codes");
 const models = require("../models");
 const Session = models.session;
 
+/**
+ * We use session to keep track of pomodoro
+ * session that we have completed
+ *
+ * so, if you finish one pomodoro then you will have
+ * 1 completed session with create and update date.
+ */
+
 const getAllSessions = async (req, res) => {
   try {
-    const { id } = req.user;
+    const { id: userId } = req.user;
 
     const session = await Session.findAll({
       where: {
-        UserId: id,
+        userId,
       },
     });
 
     if (!session) {
-      return res.status(404).json({ error: `No session for id ${id}` });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: `No session for id ${userId}` });
     }
 
     res.status(200).json({ session });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
 const createNewSession = async (req, res) => {
   try {
-    const { id: UserId } = req.user;
+    const { id: userId } = req.user;
 
     const session = await Session.create({
-      UserId,
+      userId,
     });
 
-    if (!session) {
-      return res.status(404).json({ error: `No session with id: ${UserId}` });
-    }
-
-    res.status(200).json({ session });
+    res.status(StatusCodes.CREATED).json({ session });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 

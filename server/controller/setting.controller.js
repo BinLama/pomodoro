@@ -1,6 +1,14 @@
+const { StatusCodes } = require("http-status-codes");
 const models = require("../models");
 const Setting = models.setting;
 
+/**
+ * get the setting for the user that is logged in.
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} updated user setting
+ */
 const getUserSetting = async (req, res) => {
   try {
     const { id: UserId } = req.user;
@@ -12,38 +20,42 @@ const getUserSetting = async (req, res) => {
     });
 
     if (!setting) {
-      return res.status(404).json({ error: `No settings found` });
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: `No settings found` });
     }
 
-    res.status(200).json({ setting });
+    res.status(StatusCodes.OK).json({ setting });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
+/**
+ * update the setting for the user that is logged in.
+ * Updated values can be setting values..
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} updated user setting
+ */
 const updateUserSetting = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: UserId } = req.user;
 
-    const setting = await Setting.findOne({
-      where: {
-        id,
-        UserId,
-      },
-    });
+    const setting = await Setting.findByPk(id);
 
-    if (!setting) {
-      return res.status(404).json({ error: `No setting with id: ${id}` });
-    }
+    await setting.update(req.body);
 
-    const updatedSetting = await setting.update(req.body);
-
-    res.status(200).json({ setting: updatedSetting });
+    res.status(StatusCodes.OK).json({ msg: "setting updated" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
