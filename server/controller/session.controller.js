@@ -3,11 +3,11 @@ const models = require("../models");
 const Session = models.session;
 
 /**
- * We use session to keep track of pomodoro
  * session that we have completed
  *
- * so, if you finish one pomodoro then you will have
- * 1 completed session with create and update date.
+ * @param {object} req
+ * @param {object} res
+ * @return {object} get all user sessions
  */
 
 const getAllSessions = async (req, res) => {
@@ -34,6 +34,15 @@ const getAllSessions = async (req, res) => {
       .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
+
+/**
+ * We use session to keep track of pomodoro
+ * session that we have completed
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} create new user session
+ */
 
 const createNewSession = async (req, res) => {
   try {

@@ -10,7 +10,7 @@ const { isValidPassword } = require("../utils/validPassword");
 const models = require("../models");
 const User = models.user;
 const Color = models.color;
-const Session = models.session;
+const Task = models.task;
 const Setting = models.setting;
 
 const withValidationErrors = (validateValues) => {
@@ -224,6 +224,50 @@ const validateSettingUpdate = withValidationErrors([
 ]);
 /****** Setting validation end ******/
 
+/****** Task validation start ******/
+const validateTaskCreate = withValidationErrors([
+  body("title").notEmpty().withMessage("title is required"),
+]);
+
+const validateTaskIdParam = withValidationErrors([
+  param("id")
+    .notEmpty()
+    .withMessage("id is required")
+    .custom(async (value, { req }) => {
+      const task = await Task.findOne({
+        where: {
+          id: value,
+          userId: req.user.id,
+        },
+      });
+
+      if (!task) throw new NotFoundError(`no task with id ${value}`);
+    }),
+]);
+
+const validateTaskUpdate = withValidationErrors([
+  body("completed")
+    .notEmpty()
+    .withMessage("completed is required")
+    .isInt({ min: 0, max: 1 })
+    .withMessage("completed should be either 0 or 1")
+    .optional(),
+  body("title")
+    .notEmpty()
+    .withMessage("title is required")
+    .isString()
+    .withMessage("title should be stirng")
+    .optional(),
+  body("note")
+    .notEmpty()
+    .withMessage("note is required")
+    .isString()
+    .withMessage("note should be string")
+    .optional(),
+]);
+
+/****** Task validation end ******/
+
 module.exports = {
   withValidationErrors,
   validateRegisterInput,
@@ -233,4 +277,7 @@ module.exports = {
   validateColorUpdate,
   validateSettingIdParam,
   validateSettingUpdate,
+  validateTaskCreate,
+  validateTaskIdParam,
+  validateTaskUpdate,
 };

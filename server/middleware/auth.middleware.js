@@ -17,7 +17,7 @@ const User = models.user;
  *
  */
 const authenticateUser = async (req, res, next) => {
-  const token = req.signedCookies.auth_token;
+  const token = req.signedCookies[COOKIE_NAME];
 
   try {
     if (!token) {

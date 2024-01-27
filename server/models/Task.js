@@ -1,4 +1,8 @@
 "use strict";
+
+/**
+ * TODO: need to add urgent and important columns
+ */
 module.exports = (sequelize, DataTypes) => {
   const Task = sequelize.define(
     "task",

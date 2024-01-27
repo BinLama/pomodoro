@@ -11,23 +11,25 @@ const models = require("../models");
 const { StatusCodes } = require("http-status-codes");
 const Task = models.task;
 
+/**
+ * get all task that I have
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} returns a list of all tasks
+ */
 const getAllTask = async (req, res) => {
   try {
-    const { id } = req.user;
-    console.log(id);
+    const { id: userId } = req.user;
+
     const tasks = await Task.findAll({
       where: {
-        UserId: id,
+        userId,
       },
       order: [["position"]],
     });
 
-    if (!tasks) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        status: STATUS.ERROR,
-        error: `No tasks for user with id: ${id}`,
-      });
-    }
     return res
       .status(StatusCodes.OK)
       .json({ status: STATUS.SUCCESS, task: tasks });
@@ -35,154 +37,165 @@ const getAllTask = async (req, res) => {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
-// create task
+/**
+ * create a new task with it's position auto populated.
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} returns task created message
+ */
 const createTask = async (req, res) => {
   try {
-    const { id: UserId } = req.user;
+    const { id: userId } = req.user;
     const { title, note } = req.body;
 
     // gettting the new available position number
-    const newTaskPosition = await createNewPositions();
+    // const newTaskPosition = await createNewPositions();
 
     const newTask = await Task.create({
       title,
-      note,
-      UserId: UserId,
-      position: newTaskPosition,
+      note: note || "",
+      userId,
+      position: 0, // change the position to be based on the new task position
     });
 
     // task failed
     if (!newTask) {
       return res
         .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: "Task creation failed" });
+        .json({ error: "Task creation failed" });
     }
 
-    // destructor for things we need
-    const {
-      id,
-      completed,
-      note: taskNote,
-      title: taskTitle,
-      position,
-    } = newTask;
-
     res.status(StatusCodes.OK).json({
-      status: STATUS.SUCCESS,
-      task: { id, completed, title: taskTitle, note: taskNote, position },
+      msg: "task created",
     });
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
-// edit task
+/**
+ * update the task based on it's id
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} return msg task updated
+ */
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: UserId } = req.user;
+    const { id: userId } = req.user;
 
-    const prevElPosition = req.body.prevElPosition;
-    const nextElPosition = req.body.nextElPosition;
-    const newPosition = updatedPosition(prevElPosition, nextElPosition);
+    // const prevElPosition = req.body.prevElPosition;
+    // const nextElPosition = req.body.nextElPosition;
+    // const newPosition = updatedPosition(prevElPosition, nextElPosition);
 
-    const task = await Task.findOne({
+    const newTask = { ...req.body };
+    delete newTask.position;
+
+    // removeKeyEndsWith(req.body, "Position");
+
+    // let newData = undefined;
+    // if (newPosition.update) {
+    //   newData = { ...req.body, position: newPosition.position };
+    // } else {
+    //   newData = { ...req.body };
+    // }
+
+    await Task.update(newTask, {
       where: {
         id,
-        UserId,
+        userId,
       },
     });
 
-    if (!task) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: `No task with id: ${id}` });
-    }
-
-    console.log(req.body);
-    removeKeyEndsWith(req.body, "Position");
-
-    let newData = undefined;
-    if (newPosition.update) {
-      newData = { ...req.body, position: newPosition.position };
-    } else {
-      newData = { ...req.body };
-    }
-
-    const updatedNewtask = await task.update(newData);
-
     // check if index overLaps
-    if (newPosition.update) {
-      await checkIfOverlap(
-        newPosition.position,
-        prevElPosition,
-        nextElPosition
-      );
-    }
-
-    const {
-      id: updatedTaskId,
-      completed,
-      note: taskNote,
-      title: taskTitle,
-      position,
-    } = updatedNewtask;
+    // if (newPosition.update) {
+    //   await checkIfOverlap(
+    //     newPosition.position,
+    //     prevElPosition,
+    //     nextElPosition
+    //   );
+    // }
 
     res.status(StatusCodes.OK).json({
-      status: STATUS.SUCCESS,
-      task: {
-        id: updatedTaskId,
-        completed,
-        title: taskTitle,
-        note: taskNote,
-        position,
-      },
+      msg: "task updated",
     });
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
 
+/**
+ * update the task based on it's id
+ * but update only it's position (used for drag and drop)
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} return updated task
+ */
+const updateTaskPosition = async (req, res) => {};
+
+/**
+ * delete the task based on it's id
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} return msg task deleted.
+ */
 const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: UserId } = req.user;
-    console.log(id, UserId);
+    const { id: userId } = req.user;
 
-    const task = await Task.findOne({
+    // const task = await Task.findOne({
+    //   where: {
+    //     id,
+    //     UserId,
+    //   },
+    // });
+
+    // if (!task) {
+    //   return res
+    //     .status(StatusCodes.NOT_FOUND)
+    //     .json({ error: `No task with id: ${id}` });
+    // }
+
+    await Task.destroy({
       where: {
         id,
-        UserId,
+        userId,
       },
     });
 
-    if (!task) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: `No task with id: ${id}` });
-    }
-
-    await task.destroy({ force: true });
-
     res.status(StatusCodes.OK).json({
-      status: STATUS.SUCCESS,
       task: `Task with id: ${id} has been successfully deleted.`,
     });
   } catch (error) {
     console.log(error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+      .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
-module.exports = { getAllTask, createTask, updateTask, deleteTask };
+module.exports = {
+  getAllTask,
+  createTask,
+  updateTask,
+  deleteTask,
+  updateTaskPosition,
+};
