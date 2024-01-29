@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   const authAxios = axios.create({
-    baseURL: "http://localhost:5000/api/v1",
+    baseURL: "http://localhost:5000/api/v1/auth",
   });
 
   const checkAuthentication = async () => {

@@ -10,7 +10,7 @@
 - [x] Build a navigation
 - [ ] Create a task list (with CURD operations)
 - [x] Save them all in local storage if they are not logged in
-- [ ] tell give them a small warning about persistence of data
+- [ ] give them a small warning about persistence of data
 - [ ] Create settings or customize (that should first be able to change the pomodoro timer levels, then set up ararms)
 
 ### TODO POMODORO:
@@ -27,3 +27,7 @@
 ### TODO MORE:
 
 - [ ] add a 4 sided column and create a 7 habits important and urgent tabs. (make sure all the data have those tags too.)
+
+### BUG Report:
+
+- [ ] after the pomodoro is finished, when resetting the countdown line, it resets to completed status instead of starting.

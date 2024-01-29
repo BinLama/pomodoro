@@ -17,7 +17,7 @@ const {
 const authenticateUser = require("../middleware/auth.middleware");
 
 // check auth
-// authRouter.route("/check_auth").get(checkUserToken);
+authRouter.route("/check_auth").get(authenticateUser);
 
 // signup route
 authRouter.route("/signup").post(validateRegisterInput, register);

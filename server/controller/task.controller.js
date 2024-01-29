@@ -84,6 +84,7 @@ const createTask = async (req, res) => {
 
 /**
  * update the task based on it's id
+ * except it's position
  *
  * @param {object} req
  * @param {object} req
@@ -141,13 +142,60 @@ const updateTask = async (req, res) => {
 /**
  * update the task based on it's id
  * but update only it's position (used for drag and drop)
+ * TODO: need to implement the position calculation
  *
  * @param {object} req
  * @param {object} req
  *
  * @return {object} return updated task
  */
-const updateTaskPosition = async (req, res) => {};
+const updateTaskPosition = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { id: userId } = req.user;
+
+    // const prevElPosition = req.body.prevElPosition;
+    // const nextElPosition = req.body.nextElPosition;
+    // const newPosition = updatedPosition(prevElPosition, nextElPosition);
+
+    const newTask = { ...req.body };
+    // delete newTask.position;
+
+    // removeKeyEndsWith(req.body, "Position");
+
+    // let newData = undefined;
+    // if (newPosition.update) {
+    //   newData = { ...req.body, position: newPosition.position };
+    // } else {
+    //   newData = { ...req.body };
+    // }
+
+    await Task.update(newTask, {
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    // check if index overLaps
+    // if (newPosition.update) {
+    //   await checkIfOverlap(
+    //     newPosition.position,
+    //     prevElPosition,
+    //     nextElPosition
+    //   );
+    // }
+
+    res.status(StatusCodes.OK).json({
+      msg: "task position updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
+  }
+};
 
 /**
  * delete the task based on it's id
@@ -161,19 +209,6 @@ const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { id: userId } = req.user;
-
-    // const task = await Task.findOne({
-    //   where: {
-    //     id,
-    //     UserId,
-    //   },
-    // });
-
-    // if (!task) {
-    //   return res
-    //     .status(StatusCodes.NOT_FOUND)
-    //     .json({ error: `No task with id: ${id}` });
-    // }
 
     await Task.destroy({
       where: {

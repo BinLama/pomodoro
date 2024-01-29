@@ -6,6 +6,7 @@ const {
   createTask,
   updateTask,
   deleteTask,
+  updateTaskPosition,
 } = require("../controller/task.controller");
 const {
   validateTaskCreate,
@@ -21,5 +22,6 @@ taskRouter
   .route("/:id")
   .patch(validateTaskIdParam, validateTaskUpdate, updateTask)
   .delete(validateTaskIdParam, deleteTask);
+taskRouter.post("/position/:id", validateTaskIdParam, updateTaskPosition);
 
 module.exports = taskRouter;
