@@ -199,6 +199,11 @@ export const PomodoroContextProvider = ({ children }) => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_SETTING });
   };
 
+  // hide setting
+  const hideSetting = () => {
+    dispatch({ type: pomodoroReducerActions.HIDE_SETTING });
+  };
+
   // sets timer to inactive so that I can change the timer even when it's running.
   const notInSession = () => {
     dispatch({ type: pomodoroReducerActions.INACTIVE_SESSION });
@@ -412,6 +417,7 @@ export const PomodoroContextProvider = ({ children }) => {
         togglePomo,
         toggleBreak,
         showOrHideSetting,
+        hideSetting,
         skipToBreak,
         skipToPomo,
         notInSession,

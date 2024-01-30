@@ -60,6 +60,11 @@ export const pomodoroReducer = (state, action) => {
         ...state,
         showSetting: !state.showSetting,
       };
+    case pomodoroReducerActions.HIDE_SETTING:
+      return {
+        ...state,
+        showSetting: false,
+      };
     case pomodoroReducerActions.UPDATE_TIMER:
       return {
         ...state,
