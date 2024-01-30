@@ -99,7 +99,8 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
           ) {
             rotationRef.current += 1;
           }
-          console.log(rotationRef.current, longRelaxInterval);
+          console.log(`current rotation: ${rotationRef.current}\n
+          long relax: ${longRelaxInterval}`);
           const newSession = Math.round(rotationRef.current / 2);
 
           setSession(newSession);

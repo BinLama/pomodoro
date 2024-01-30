@@ -38,22 +38,22 @@ const Pomodoro = () => {
     resetSession,
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
-    chosen.newTimer.break,
+    chosen.newTimer.shortBreak,
     chosen.newTimer.longBreak
-  ); // this sets the pomodoro and break to 1min
+  ); // this sets the pomodoro and shortBreak to 1min
 
   useEffect(() => {
     console.log("GOT to reset chosen");
     setNewPomodoro(
       chosen.newTimer.pomodoro,
-      chosen.newTimer.break,
+      chosen.newTimer.shortBreak,
       chosen.newTimer.longBreak
     );
   }, [chosen]);
 
   useEffect(() => {
     setAuto(() => {
-      const newAuto = { start: autoPomo, break: autoBreak };
+      const newAuto = { start: autoPomo, shortBreak: autoBreak };
       return newAuto;
     });
   }, [autoBreak, autoPomo]);

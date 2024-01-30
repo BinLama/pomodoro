@@ -1,5 +1,5 @@
-import { createContext, useEffect, useReducer } from "react";
-import { sounds } from "../data";
+import { createContext, useEffect, useReducer, useState } from "react";
+import { customFocusLevel, sounds } from "../data";
 import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
 import {
   INITIAL_POMODORO_STATE,
@@ -39,24 +39,56 @@ const settingPatchRequest = async (pomoAxios, data, _id) => {
     }
   }
 };
-// creating context
+
+/**
+ * creating react context
+ */
 export const PomodoroContext = createContext();
 
-// creating provider
+/**
+ * setting up react provider
+ *
+ * @param {props} children
+ */
 export const PomodoroContextProvider = ({ children }) => {
-  // provider start
-  const { user, authAxios: pomoAxios } = useAuthContext();
+  // localstorage for setting state
   const { setItem, getItem } = useLocalStorage("pomodoroContext");
 
-  // setting the initial value
+  // localstorage for custom slider
+  const { setItem: setSlider, getItem: getSlider } =
+    useLocalStorage("customSlider");
+
+  // check if user is logged in
+  const { user, authAxios: pomoAxios } = useAuthContext();
+
   const initialData = getItem() || INITIAL_POMODORO_STATE;
+
   const [state, dispatch] = useReducer(pomodoroReducer, initialData);
 
+  // need to set up initial value to not get uncontrolled error
+  const [sliderData, setSliderData] = useState(
+    getSlider() || {
+      pomodoro: customFocusLevel.choices[5].slider[0].value,
+      shortBreak: customFocusLevel.choices[5].slider[1].value,
+      longBreak: customFocusLevel.choices[5].slider[2].value,
+    }
+  );
+
+  /**
+   * Getting all the setting data when the user log's in
+   * or when the window loads
+   */
   useEffect(() => {
     const getAllData = async () => {
       if (!user) {
-        // call this dispatch because audio is object and I need to make it into a audio file.
+        /**
+         * Get setting avlue from the local storage if available
+         */
         const value = getItem();
+        /**
+         * call this dispatch because audio is object and I need to make it into a audio file.
+         *
+         */
         if (value) {
           dispatch({
             type: pomodoroReducerActions.GET_USER_POMO_DATA,
@@ -64,6 +96,10 @@ export const PomodoroContextProvider = ({ children }) => {
           });
         }
       } else {
+        /**
+         * user has logged in so have access to user
+         * access the user's setting
+         */
         try {
           const response = await pomoAxios.get("/setting", {
             withCredentials: true,
@@ -89,13 +125,17 @@ export const PomodoroContextProvider = ({ children }) => {
               id,
             } = data.setting;
 
+            /**
+             * Creating new setting and converting audio object
+             * to audio files
+             */
             const setting = {
               id,
               chosen: {
                 data: level,
                 newTimer: {
                   pomodoro: studyTime,
-                  break: relaxTime,
+                  shortBreak: relaxTime,
                   longBreak: longRelaxTime,
                 },
               },
@@ -175,7 +215,7 @@ export const PomodoroContextProvider = ({ children }) => {
       (type === state.chosen.data && type !== CUSTOM) ||
       (type === CUSTOM &&
         state.chosen.newTimer.pomodoro === pomodoro &&
-        state.chosen.newTimer.break === shortBreak &&
+        state.chosen.newTimer.shortBreak === shortBreak &&
         state.chosen.newTimer.longBreak === longBreak)
     ) {
       return;
@@ -198,7 +238,7 @@ export const PomodoroContextProvider = ({ children }) => {
         newTimer: {
           ...state.newTimer,
           pomodoro,
-          break: shortBreak,
+          shortBreak: shortBreak,
           longBreak,
         },
       },
@@ -217,6 +257,10 @@ export const PomodoroContextProvider = ({ children }) => {
     console.log("Timer updated");
   };
 
+  /**
+   * play timer ending audio
+   *
+   */
   const playAudio = (music, pomo = false) => {
     if (state.mute && pomo) return;
     console.log("Play music");
@@ -355,7 +399,7 @@ export const PomodoroContextProvider = ({ children }) => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
   };
 
-  console.log("Pomodoro Context state:", state);
+  // console.log("Pomodoro Context state:", state);
   return (
     <PomodoroContext.Provider
       value={{
@@ -372,6 +416,10 @@ export const PomodoroContextProvider = ({ children }) => {
         skipToPomo,
         notInSession,
         inSession,
+        sliderData,
+        setSliderData,
+        setSlider,
+        getSlider,
       }}
     >
       {children}

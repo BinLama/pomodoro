@@ -35,11 +35,12 @@ const CustomizeAlarmOptions = () => {
         </div>
       </div>
       <div className="slider">
+        {console.log(sliderData)}
         <SingleSlider
           type="volume"
           min={0}
           max={100}
-          sliderData={sliderData}
+          sliderData={sliderData.volume}
           setSliderData={setSliderData}
           level={!mute}
         />

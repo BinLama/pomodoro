@@ -1,6 +1,8 @@
 import { customFocusLevel, sounds } from "../data";
 import { pomodoroReducerActions } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
+
+// Initial pomodoro state with default values
 export const INITIAL_POMODORO_STATE = {
   id: uuidv4(),
   // keep track of the setting change
@@ -9,7 +11,7 @@ export const INITIAL_POMODORO_STATE = {
     data: customFocusLevel.choices[1].name,
     newTimer: {
       pomodoro: customFocusLevel.choices[1].pomodoro,
-      break: customFocusLevel.choices[1].break,
+      shortBreak: customFocusLevel.choices[1].shortBreak,
       longBreak: customFocusLevel.choices[1].longBreak,
     },
   },
