@@ -3,15 +3,36 @@ import { POMODORO, SHORTBREAK, LONGBREAK, SECONDS } from "../utils/constants";
 import { usePomodoroContext } from "./usePomodoroContext";
 
 /**
+ * create a hook called pomodoro timer that allows user to create pomodoro timer
+ *
  * @param {Int16Array} pomodoro The int
  * @param {Int16Array} shortBreak The int
  * @param {Int16Array} longBreak The int
  * @param {Int16Array} pomodoro The int
- * @param {boolean} selfPomo The boolean
- * @param {boolean} selfBreak The boolean
-
+ *
+ * @returns {object} sends the data that is important for pomodoro to function
+ *
+ * phase --- tells what phase timer is in.
+ *           There are 3 different phases:
+ *              - Pomodoro
+ *              - Short Break
+ *              - Long Break
+ * minutes --- minutes that should be traversed
+ * seconds --- seconds
+ * isActive --- in the middle of timer (countdown is happening)
+ * session --- total completed sessions (phase completed)
+ * startTimer --- function to start timer
+ * pauseTimer --- function to pause timer
+ * resetTimer --- function to reset timer
+ * skipPhase --- function to skip phase to next one
+ * choosePhase --- function to choose which phase to start timer in
+ * maxSeconds --- max seconds for that phase
+ * remainingTime --- time remaining for that phase
+ * setNewPomodoro --- used for resetting the timer
+ * setAuto
+ * resetSession
  */
-const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
+const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
   // using pomodoro context to play music
   // TODO: get all the settings data too.
   const {
@@ -35,7 +56,7 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
   const [phase, setPhase] = useState(POMODORO);
 
   // Old Phase keeps track of the changes in phases (only updates when new phase changes after timer ends)
-  const [oldPhase, setOldPhase] = useState(null);
+  const [oldPhase, setOldPhase] = useState(SHORTBREAK);
 
   const [minutes, setMinutes] = useState(pomoPhases.pomodoro.minutes);
   const [seconds, setSeconds] = useState(0);
@@ -123,16 +144,15 @@ const usePomodoroTimer = (pomodoro = 25, shortBreak = 5, longBreak = 15) => {
             setMinutes(() => {
               const newMin = pomoPhases[newState].minutes;
               setMaxSeconds(newMin * SECONDS);
+              setRemainingTime(newMin * SECONDS);
               return newMin;
             });
 
-            // setTimerStarted(false);
-            setRemainingTime(() => {
-              return maxSeconds;
-            });
-
+            console.log(`old phase: ${oldState} new phase: ${newState}`);
             return newState;
           });
+
+          notInSession();
         } else {
           setMinutes((prevMinutes) => prevMinutes - 1);
           setSeconds(SECONDS - 1);

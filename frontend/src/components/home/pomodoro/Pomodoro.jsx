@@ -70,6 +70,7 @@ const Pomodoro = () => {
     choosePhase(POMODORO);
   }, [changeToPomo]);
 
+  console.log(`max sec: ${maxSeconds}, rem sec: ${remainingTime}`);
   return (
     <div className="timer">
       <div className="timer__stateSwitch">
