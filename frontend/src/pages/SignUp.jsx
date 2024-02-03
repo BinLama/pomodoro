@@ -3,8 +3,8 @@ import { useSignup } from "../hooks/useSignup";
 
 const SignUp = () => {
   const [form, setForm] = useState({
-    f_name: "",
-    l_name: "",
+    fName: "",
+    lName: "",
     username: "",
     email: "",
     password: "",
@@ -18,10 +18,10 @@ const SignUp = () => {
     e.preventDefault();
     console.log("going to sign up");
 
-    const { f_name, l_name, username, email, password } = form;
-    console.log(f_name);
+    const { fName, lName, username, email, password } = form;
+    console.log(fName);
     console.log(signup, isLoading, error);
-    await signup(f_name, l_name, username, email, password);
+    await signup(fName, lName, username, email, password);
     console.log("sign up");
   };
 
@@ -33,21 +33,21 @@ const SignUp = () => {
     <>
       <form className="signup" onSubmit={handleSignUp}>
         <h3>Sign up</h3>
-        <label htmlFor="f_name">First Name</label>
+        <label htmlFor="fName">First Name</label>
         <input
           type="text"
-          name="f_name"
-          id="f_name"
-          value={form.f_name}
-          onChange={(e) => setForm({ ...form, f_name: e.target.value })}
+          name="fName"
+          id="fName"
+          value={form.fName}
+          onChange={(e) => setForm({ ...form, fName: e.target.value })}
         />
-        <label htmlFor="l_name">Last Name</label>
+        <label htmlFor="lName">Last Name</label>
         <input
           type="text"
-          name="l_name"
-          id="l_name"
-          value={form.l_name}
-          onChange={(e) => setForm({ ...form, l_name: e.target.value })}
+          name="lName"
+          id="lName"
+          value={form.lName}
+          onChange={(e) => setForm({ ...form, lName: e.target.value })}
         />
         <label htmlFor="username">Username</label>
         <input

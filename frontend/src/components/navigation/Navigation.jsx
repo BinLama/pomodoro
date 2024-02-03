@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiBarChartSquare, BiSliderAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
@@ -11,6 +11,8 @@ const Navigation = () => {
   const { user } = useAuthContext();
   const { logout } = useLogout();
 
+  const settingRef = useRef(null);
+
   // loggout the user
   const logoutUser = () => {
     logout();
@@ -20,15 +22,28 @@ const Navigation = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const breakPoint = 900;
 
-  const { showSetting, showOrHideSetting } = usePomodoroContext();
+  const { showSetting, showOrHideSetting, hideSetting } = usePomodoroContext();
 
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
-    // subscribe to window resize event "onComponentDidMount"
+    // subscribe to window resize event
     window.addEventListener("resize", handleResizeWindow);
     return () => {
-      // unsubscribe "onComponentDestroy"
+      // unsubscribe
       window.removeEventListener("resize", handleResizeWindow);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (settingRef.current && !settingRef.current.contains(e.target)) {
+        hideSetting();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
 
@@ -49,7 +64,7 @@ const Navigation = () => {
             <BiBarChartSquare />
             {width > breakPoint && <p>Report</p>}
           </Link>
-          <div className="relative">
+          <div className="relative" ref={settingRef}>
             <div className="nav__setting custom" onClick={showOrHideSetting}>
               <BiSliderAlt />
               {width > breakPoint && <p>Customize</p>}

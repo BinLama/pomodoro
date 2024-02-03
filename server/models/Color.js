@@ -1,23 +1,23 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../db/db");
+"use strict";
 
-const Color = sequelize.define(
-  "color",
-  {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
+module.exports = (sequelize, DataTypes) => {
+  const Color = sequelize.define(
+    "color",
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      color: {
+        type: DataTypes.STRING,
+        defaultValue: "light",
+      },
     },
-    color: {
-      type: DataTypes.STRING,
-      defaultValue: "light",
-    },
-  },
-  {
-    tableName: "color",
-    timestamps: false,
-  }
-);
+    {
+      tableName: "colors",
+    }
+  );
 
-module.exports = Color;
+  return Color;
+};

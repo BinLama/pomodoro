@@ -9,11 +9,13 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_AUTH_STATE);
 
   useEffect(() => {
+    // checking the authentication of the token
+    // should resign the token if the user is the correct one
     checkAuthentication();
   }, []);
 
   const authAxios = axios.create({
-    baseURL: "http://localhost:5000/api/v1",
+    baseURL: "http://localhost:5000/api/v1/auth",
   });
 
   const checkAuthentication = async () => {

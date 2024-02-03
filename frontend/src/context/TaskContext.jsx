@@ -46,12 +46,21 @@ export const TaskContextProvider = ({ children }) => {
   const createTask = (newTask) => {
     if (!user) {
       const id = uuid();
-      const task = { ...newTask, id };
+      let position = 100;
+      if (state.tasks.length > 1) {
+        position = state.tasks[state.tasks.length - 1].position + 100;
+      }
 
+      const task = { ...newTask, id, position };
       console.log(task);
       dispatch({ type: tasksActions.CREATE_TASK, payload: task });
       console.log("TASK CREATED");
+      return;
     }
+
+    // if (user) {
+
+    // }
   };
 
   // update

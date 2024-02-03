@@ -1,3 +1,4 @@
+// icons
 import { BsArrowClockwise, BsFillAlarmFill, BsTrashFill } from "react-icons/bs";
 import {
   AiFillCheckCircle,
@@ -5,8 +6,12 @@ import {
   AiFillEyeInvisible,
 } from "react-icons/ai";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
-import { v4 as uuidv4 } from "uuid";
 import { BiSolidTimeFive } from "react-icons/bi";
+
+// uuid
+import { v4 as uuidv4 } from "uuid";
+
+// constants
 import {
   BEGINNER,
   CUSTOM,
@@ -68,36 +73,35 @@ export const customFocusLevel = {
       id: uuidv4(),
       name: "TEST",
       pomodoro: 1,
-      break: 1,
+      shortBreak: 1,
       longBreak: 1,
     },
     {
       id: uuidv4(),
       name: BEGINNER,
       pomodoro: 10,
-      break: 5,
+      shortBreak: 5,
       longBreak: 10,
     },
     {
       id: uuidv4(),
       name: STANDARD,
       pomodoro: 25,
-      break: 5,
+      shortBreak: 5,
       longBreak: 15,
     },
-    ,
     {
       id: uuidv4(),
       name: MEDIUM,
       pomodoro: 40,
-      break: 8,
+      shortBreak: 8,
       longBreak: 20,
     },
     {
       id: uuidv4(),
       name: EXTENDED,
       pomodoro: 60,
-      break: 10,
+      shortBreak: 10,
       longBreak: 25,
     },
     {
@@ -107,8 +111,8 @@ export const customFocusLevel = {
       name: CUSTOM,
       slider: [
         { type: "pomodoro", min: 1, max: 60, value: 12 },
-        { type: "break", min: 1, max: 60, value: 13 },
-        { type: "long break", min: 1, max: 60, value: 14 },
+        { type: "shortBreak", min: 1, max: 60, value: 13 },
+        { type: "longBreak", min: 1, max: 60, value: 14 },
       ],
     },
   ],
@@ -133,8 +137,8 @@ export const customAlarm = {
 };
 
 export const mapper = {
-  "long break": "longBreak",
-  break: "shortBreak",
+  longBreak: "long break",
+  shortBreak: "short break",
   pomodoro: "pomodoro",
   volume: "volume",
 };

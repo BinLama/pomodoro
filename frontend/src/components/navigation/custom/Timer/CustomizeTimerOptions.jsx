@@ -1,33 +1,52 @@
 import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 import CustomSlider from "./CustomSlider";
 import { CUSTOM } from "../../../../utils/constants";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
 const CustomizeTimerOptions = ({
   name,
   pomodoro,
-  break: shortBreak,
+  shortBreak: shortBreak,
   longBreak,
   type,
   slider,
 }) => {
-  const { chosen, updateTimer } = usePomodoroContext();
+  const { chosen, updateTimer, sliderData } = usePomodoroContext();
 
-  // for custom radio
+  // const [sliderData, setSliderData] = useState({});
+  // const { setItem, getItem } = useLocalStorage("customSlider");
+
+  // useEffect(() => {
+  //   console.log("GOT TO TYPE CUSTOM");
+
+  //   if (type === CUSTOM) {
+  //     const custom = getItem();
+  //     setSliderData(() => {
+  //       return (
+  //         custom || {
+  //           pomodoro: slider[0].value,
+  //           shortBreak: slider[1].value,
+  //           longBreak: slider[2].value,
+  //         }
+  //       );
+  //     });
+  //   }
+  // }, []);
+
   return (
     <div className="customize__timer-options__input">
       <input
         type="radio"
         value={name}
         onChange={(e) => {
+          // restoring the slider value on setting click
           if (type === CUSTOM) {
-            const pomo = slider[0].value;
-            const sb = slider[1].value;
-            const lb = slider[2].value;
-
-            updateTimer(e.target.value, pomo, sb, lb);
+            const { pomodoro, smallBreak, longBreak } = sliderData;
+            updateTimer(e.target.value, pomodoro, smallBreak, longBreak);
             return;
           }
-          console.log("Updating timer");
+          // restoring other timer choice values
           updateTimer(e.target.value, pomodoro, shortBreak, longBreak);
         }}
         id={name}

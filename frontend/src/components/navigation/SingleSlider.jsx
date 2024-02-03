@@ -2,23 +2,27 @@
 import { mapper } from "../../data";
 
 const SingleSlider = ({ type, min, max, level, sliderData, setSliderData }) => {
+  //   console.log(`slider data: ${sliderData}`);
+  //   console.log(`slider type: ${type}`);
+  //   console.log(`slider value: ${sliderData}`);
   return (
     <div>
       <div className="slider__title">
-        <p>{`${sliderData[mapper[type]]}${type !== "volume" ? " min" : ""}`}</p>
-        <p>{type}</p>
+        <p>{`${sliderData}${type !== "volume" ? " min" : ""}`}</p>
+        <p>{mapper[type]}</p>
       </div>
       <input
         type="range"
         min={min}
-        value={sliderData[mapper[type]]}
+        value={sliderData}
         max={max}
         onChange={(e) => {
           setSliderData((oldData) => {
             const newData = {
               ...oldData,
-              [mapper[type]]: parseInt(e.target.value),
+              [type]: parseInt(e.target.value),
             };
+
             return newData;
           });
         }}

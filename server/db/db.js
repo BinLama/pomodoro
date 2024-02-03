@@ -1,22 +1,26 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
-console.log(process.env.TEST_DB_NAME);
+// const dbConfig = require("../config/dbConfig");
 
-const sequelize = new Sequelize(
-  process.env.TEST_DB_NAME,
-  process.env.TEST_DB_USER,
-  process.env.TEST_DB_PASSWORD,
-  {
-    host: "localhost",
-    port: 3306,
-    dialect: "mysql",
-    // logging: (...msg) => console.log(msg),
-  },
-  {
-    define: {
-      freezeTableName: true,
-    },
-  }
-);
+// const { Sequelize } = require("sequelize");
+// require("dotenv").config();
 
-module.exports = sequelize;
+// const env = process.env.NODE_ENV || "development";
+// const config = dbConfig[env];
+
+// const { database, username, password, host, port, dialect } = config;
+
+// const sequelize = new Sequelize(database, username, password, {
+//   dialect,
+//   host,
+//   port,
+//   define: {
+//     freezeTableName: true,
+//   },
+//   pool: {
+//     max: 5,
+//     min: 0,
+//     idle: 30000,
+//     acquire: 60000,
+//   },
+// });
+
+// module.exports = sequelize;

@@ -7,21 +7,26 @@
 
 ### TODO:
 
-- [ ] Build a navigation
-- [ ] Create a task list (with CURD operations)
-- [ ] Save them all in local storage if they are not logged in
-- [ ] tell give them a small warning about persistence of data
+- [x] Build a navigation
+- [x] Create a task list (with CURD operations)
+- [x] Save them all in local storage if they are not logged in
+- [ ] give them a small warning about persistence of data
 - [ ] Create settings or customize (that should first be able to change the pomodoro timer levels, then set up ararms)
 
 ### TODO POMODORO:
 
 - [ ] need to add proper modal alert for changes
-- [ ] make css responsive for larger screen
-- [ ] add onClick for few pomodoro view but need to build setting first.
+- [ ] custom slider breaks down when you get out of slider and get in (it resets to 12, 13, 14).
+- [ ] custom slider breaks when clicked on the radio button. It updates to the preset values (need to be applied to the new ones, need to save the slider value in the localhost and database).
 
 ### TODO Task
 
-- [x] create a add task div
-- [x] add new task but make sure add task div is below
-- [ ] make newly added task dragable
-- [ ] give warning for no title on input
+- [ ] connect the task to the database
+- [ ] add drag and drop capabilities (and store them in database)
+- [ ] save the poistion of the files that are dragged on localhost and database (not sure how right now, thinking of adding a position value and incrementing it based on object added)
+
+### TODO MORE:
+
+- [ ] add a 4 sided column and create a 7 habits important and urgent tabs. (make sure all the data have those tags too.)
+
+### BUG Report:
