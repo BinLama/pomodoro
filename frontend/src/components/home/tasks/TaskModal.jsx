@@ -37,6 +37,25 @@ const TaskModal = forwardRef(
     }, [pomoTask.note]);
 
     /**
+     * used to go to next input when enter is clicked
+     */
+    useEffect(() => {
+      const handleClick = (e) => {
+        console.log(e.keyCode);
+        if (e.keyCode === 13 || e.key === "enter") {
+          const textArea = textareaRef.current;
+          textArea.focus();
+        }
+      };
+      const titleArea = ref.current;
+      console.log(titleArea);
+      titleArea.addEventListener("keyup", handleClick);
+
+      return () => {
+        titleArea.removeEventListener("keyup", handleClick);
+      };
+    }, []);
+    /**
      * validating and trimming inputs
      */
     const validInput = () => {
