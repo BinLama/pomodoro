@@ -115,7 +115,7 @@ const Tasks = () => {
               newTask={true}
               close={closeAddModal}
               createTask={createTask}
-              ref={addTaskRef}
+              ref={addTaskRef} // used for focusing the model when task model is open
             />
           </div>
         )}

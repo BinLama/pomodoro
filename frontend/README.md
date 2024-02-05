@@ -2,7 +2,7 @@
 
 ### Intialized and Setup
 
-- npm Install
+- npm install
 - npm run dev
 
 ### TODO:
@@ -11,13 +11,13 @@
 - [x] Create a task list (with CURD operations)
 - [x] Save them all in local storage if they are not logged in
 - [ ] give them a small warning about persistence of data
-- [ ] Create settings or customize (that should first be able to change the pomodoro timer levels, then set up ararms)
+- [x] Create settings or customize (that should first be able to change the pomodoro timer levels, then set up ararms)
 
 ### TODO POMODORO:
 
 - [ ] need to add proper modal alert for changes
-- [ ] custom slider breaks down when you get out of slider and get in (it resets to 12, 13, 14).
-- [ ] custom slider breaks when clicked on the radio button. It updates to the preset values (need to be applied to the new ones, need to save the slider value in the localhost and database).
+- [x] custom slider breaks down when you get out of slider and get in (it resets to 12, 13, 14).
+- [x] custom slider breaks when clicked on the radio button. It updates to the preset values (need to be applied to the new ones, need to save the slider value in the localhost and database).
 
 ### TODO Task
 

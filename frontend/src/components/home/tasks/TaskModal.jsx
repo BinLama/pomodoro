@@ -14,12 +14,17 @@ const TaskModal = forwardRef(
     });
 
     const [invalid, setInvalid] = useState(false);
+
+    // for specific reducers
     const [actionType, setActionType] = useState(null);
+
+    // for calling the reducers
     const [changeCounter, setChangeCounter] = useState(0);
 
-    // for auto increasing textarea
+    /**
+     * auto increasing textarea
+     */
     const textareaRef = useRef(null);
-
     useEffect(() => {
       // reset height - important to shrink on delete
       textareaRef.current.style.height = `${SCROLLHEIGHT}px`;
@@ -31,7 +36,9 @@ const TaskModal = forwardRef(
       )}px`;
     }, [pomoTask.note]);
 
-    // validating and trimming inputs
+    /**
+     * validating and trimming inputs
+     */
     const validInput = () => {
       const title = pomoTask.title.trim();
       if (title.length <= 0) {
@@ -42,12 +49,17 @@ const TaskModal = forwardRef(
       return false;
     };
 
+    /**
+     * calling specific reducers based on the action type
+     */
     useEffect(() => {
       if (!actionType) return;
       if (invalid) return;
       const title = pomoTask.title.trim();
       const note = pomoTask.note.trim();
       const newTask = { title, note };
+
+      // task update based on action type
       switch (actionType) {
         case CREATE:
           createTask(newTask);
@@ -58,13 +70,20 @@ const TaskModal = forwardRef(
         default:
           console.log("not a valid case");
       }
+
+      // resetting the task
       setPomoTask({ title: "", note: "", position: -1 });
       close();
     }, [changeCounter]);
 
+    /**
+     * taskchange calls data validation and reducers
+     */
     const taskChanged = () => {
       const isInvalid = validInput();
       setInvalid(isInvalid);
+      // change counter is used to call the useEffect
+      // for updating or creating task
       setChangeCounter((prev) => prev + 1);
     };
 
@@ -83,6 +102,7 @@ const TaskModal = forwardRef(
               });
             }}
             ref={ref}
+            autoFocus
           />
           {/* TODO: format the notValid things */}
           {invalid && (
