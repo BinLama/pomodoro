@@ -80,11 +80,11 @@ const Navigation = () => {
             <Link
               className="nav__setting login"
               to="/login"
-              onClick={() => {
-                alert(
-                  "server is not connected at the moment. It will be coming in the next patch :)"
-                );
-              }}
+              // onClick={() => {
+              //   alert(
+              //     "server is not connected at the moment. It will be coming in the next patch :)"
+              //   );
+              // }}
             >
               <FaUserCircle />
               {width > breakPoint && <p>Login</p>}
