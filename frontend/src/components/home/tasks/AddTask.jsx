@@ -1,4 +1,4 @@
-import { IoAddCircle } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 const AddTask = ({ openAddModal }) => {
   return (
@@ -12,7 +12,7 @@ const AddTask = ({ openAddModal }) => {
             openAddModal();
           }}
         >
-          <IoAddCircle /> Add Task
+          <IoIosAddCircleOutline /> <p>Add Task</p>
         </button>
       </div>
     </>
