@@ -1,6 +1,11 @@
 "use strict";
 const usersInfo = require("../data.json");
-const { User, Setting, Color, Task, Session } = require("../models");
+const models = require("../models");
+const User = models.user;
+const Setting = models.setting;
+const Color = models.color;
+const Task = models.task;
+const Session = models.session;
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -58,60 +63,60 @@ module.exports = {
   },
 };
 
-// // Your makeConnection function as before
-// const makeConnection = () => {
-//   try {
-//     // One to One User and Setting
-//     User.setting = User.hasOne(Setting, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-//     Setting.belongsTo(User, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
+// Your makeConnection function as before
+const makeConnection = () => {
+  try {
+    // One to One User and Setting
+    User.setting = User.hasOne(Setting, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+    Setting.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
 
-//     // One to One User and Color
-//     User.color = User.hasOne(Color, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
-//     Color.belongsTo(User, {
-//       foreignKey: {
-//         allowNull: false,
-//       },
-//       onDelete: "CASCADE",
-//     });
+    // One to One User and Color
+    User.color = User.hasOne(Color, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
+    Color.belongsTo(User, {
+      foreignKey: {
+        allowNull: false,
+      },
+      onDelete: "CASCADE",
+    });
 
-//     // One to Many User and Task (many task)
-//     User.tasks = User.hasMany(Task, {
-//       onDelete: "CASCADE",
-//     });
-//     Task.belongsTo(User, {
-//       onDelete: "CASCADE",
-//     });
+    // One to Many User and Task (many task)
+    User.tasks = User.hasMany(Task, {
+      onDelete: "CASCADE",
+    });
+    Task.belongsTo(User, {
+      onDelete: "CASCADE",
+    });
 
-//     // One to many User and Session (many Session)
-//     User.sessions = User.hasMany(Session, {
-//       onDelete: "CASCADE",
-//     });
-//     Session.belongsTo(User, {
-//       onDelete: "CASCADE",
-//     });
+    // One to many User and Session (many Session)
+    User.sessions = User.hasMany(Session, {
+      onDelete: "CASCADE",
+    });
+    Session.belongsTo(User, {
+      onDelete: "CASCADE",
+    });
 
-//     // Assign instances to the User Model
-//     User.associations.setting = User.setting;
-//     User.associations.color = User.color;
-//     User.associations.tasks = User.tasks;
-//     User.associations.sessions = User.sessions;
-//   } catch (error) {
-//     console.error("Error creating association:", error);
-//     throw new Error(`Error creating association: ${error.message}`);
-//   }
-// };
+    // Assign instances to the User Model
+    User.associations.setting = User.setting;
+    User.associations.color = User.color;
+    User.associations.tasks = User.tasks;
+    User.associations.sessions = User.sessions;
+  } catch (error) {
+    console.error("Error creating association:", error);
+    throw new Error(`Error creating association: ${error.message}`);
+  }
+};
