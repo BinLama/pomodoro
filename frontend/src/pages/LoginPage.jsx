@@ -1,30 +1,11 @@
-import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
 import { Link, Navigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
-import Login from "../components/Login";
-import LoginSeperator from "../components/LoginSeperator";
-import Oauth from "../components/Oauth";
+import Login from "../components/login/Login";
+import LoginSeperator from "../components/login/LoginSeperator";
+import Oauth from "../components/login/Oauth";
 
 const LoginPage = () => {
-  // const [form, setForm] = useState({
-  //   usernameOrEmail: import.meta.env.VITE_LOGIN_NAME || "",
-  //   password: import.meta.env.VITE_LOGIN_PW || "",
-  // });
-
   const { user } = useAuthContext();
-
-  // const { login, isLoading, error } = useLogin();
-
-  // const handleSignUp = async (e) => {
-  //   // need to send the request to the backend and then use that data to update the global context.
-  //   e.preventDefault();
-  //   console.log("login");
-  //   const { usernameOrEmail, password } = form;
-  //   console.log(usernameOrEmail, password);
-  //   await login(usernameOrEmail, password);
-  //   console.log("REDIRECT");
-  // };
 
   return (
     <div>
@@ -44,4 +25,5 @@ const LoginPage = () => {
     </div>
   );
 };
+
 export default LoginPage;
