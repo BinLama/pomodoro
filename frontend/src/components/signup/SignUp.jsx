@@ -21,7 +21,7 @@ const SignUp = () => {
     const { fName, lName, username, email, password } = values;
     console.log(fName);
     console.log(signup, isLoading, error);
-    // await signup(fName, lName, username, email, password);
+    await signup(fName, lName, username, email, password);
     console.log("sign up");
   };
 
@@ -102,11 +102,11 @@ const SignUp = () => {
         </div>
 
         <div className="signup__form--input">
-          <label htmlFor="con_password">confirm password</label>
+          <label htmlFor="confirmPW">confirm password</label>
           <input
             type="password"
-            name="con_password"
-            id="con_password"
+            name="confirmPW"
+            id="confirmPW"
             value={values.confirmPW}
             onChange={handleChange("confirmPW")}
             placeholder="Password"

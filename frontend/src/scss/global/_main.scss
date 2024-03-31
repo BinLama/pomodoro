@@ -4,6 +4,7 @@ body {
   font-family: var(--ff);
   font-size: u.rem(16);
   background: hsl(var(--bg));
+  // background-color: black;
 }
 
 #root {
@@ -92,4 +93,22 @@ body {
   right: 0;
   top: 0;
   z-index: 1;
+}
+
+#svgg {
+
+  // path0 = all components of clock
+  #path0 {
+    fill: red;
+  }
+
+  // path1 = background
+  #path1 {
+    fill: transparent;
+  }
+
+  // path2 = time covered
+  #path2 {
+    fill: green;
+  }
 }
