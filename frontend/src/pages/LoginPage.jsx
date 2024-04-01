@@ -13,7 +13,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
+    <div className="loginpage">
       <Logo />
       <h2>Log into Pomodoro</h2>
       <Login />
