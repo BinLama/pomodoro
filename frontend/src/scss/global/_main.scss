@@ -94,6 +94,7 @@ body {
   z-index: 1;
 }
 
+/* logo */
 #svgg {
 
   // path0 = all components of clock
@@ -116,4 +117,11 @@ body {
   height: u.rem(50);
   width: u.rem(50);
   background: hsl(var(--bg));
+}
+
+/* input line*/
+.line {
+  height: u.rem(1.03);
+  width: 100%;
+  background: black;
 }

@@ -1,1 +1,41 @@
-.loginpage {}
+@use "../utils/" as u;
+
+.loginpage {
+  margin-inline: u.rem(18);
+  padding-top: u.rem(15);
+
+  h2 {
+    margin-top: u.rem(50);
+    text-align: center;
+    font-size: u.rem(25);
+    font-weight: 600;
+    letter-spacing: u.rem(3);
+  }
+}
+
+.login {
+  font-size: u.rem(12);
+
+  &__form {
+    margin-top: u.rem(25);
+    font-family: var(--ff-s);
+
+    &--div {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: u.rem(15);
+
+      label {
+        padding: u.rem(5) 0;
+      }
+
+      input {
+        background-color: hsl(var(--bg));
+        font-size: u.rem(15);
+        border: none;
+        padding: u.rem(5) 0;
+        outline: none;
+      }
+    }
+  }
+}

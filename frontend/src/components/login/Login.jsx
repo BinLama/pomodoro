@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <div className="login">
       <form className="login__form" onSubmit={handleSignUp}>
-        <div className="">
+        <div className="login__form--div">
           <label htmlFor="username">USERNAME or EMAIL ADDRESS</label>
           <input
             type="text"
@@ -32,11 +32,12 @@ const Login = () => {
             onChange={(e) =>
               setForm({ ...form, usernameOrEmail: e.target.value })
             }
-            placeholder="Enter your username or email"
+            placeholder="Type your username or email"
             disabled={isLoading}
           />
+          <div className="line"></div>
         </div>
-        <div>
+        <div className="login__form--div">
           <label htmlFor="password">PASSWORD</label>
           <input
             type="password"
@@ -44,9 +45,10 @@ const Login = () => {
             id="password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="Enter your password"
+            placeholder="Password"
             disabled={isLoading}
           />
+          <div className="line"></div>
         </div>
         <button type="submit" className="btn login__btn" disabled={isLoading}>
           LOGIN
