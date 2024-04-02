@@ -3,7 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import Login from "../components/login/Login";
 import LoginSeperator from "../components/login/LoginSeperator";
 import Oauth from "../components/login/Oauth";
-import Logo from "../components/Logo";
+import { Logo } from "../components/utils";
 
 const LoginPage = () => {
   const { user } = useAuthContext();

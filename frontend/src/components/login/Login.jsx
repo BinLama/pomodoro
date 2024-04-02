@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { Line } from "../utils";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -37,10 +38,7 @@ const Login = () => {
             placeholder="Type your username or email"
             disabled={isLoading}
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
         <div className="login__form--div password">
           <label htmlFor="password">PASSWORD</label>
@@ -62,11 +60,7 @@ const Login = () => {
           >
             {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
           </span>
-          {/* </div> */}
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
         <div className="login__trouble">
           <Link className="reset__password" to="/resetpassword">

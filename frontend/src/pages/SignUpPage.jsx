@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SignUp from "../components/signup/SignUp";
 import { useAuthContext } from "../hooks/useAuthContext";
-import Logo from "../components/Logo";
+import { Logo } from "../components/utils";
 
 const SignUpPage = () => {
   const { user } = useAuthContext();

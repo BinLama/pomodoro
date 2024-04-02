@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useSignup } from "../../hooks/useSignup";
+import { Line } from "../utils";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -46,10 +47,7 @@ const SignUp = () => {
             onChange={handleChange("fName")}
             placeholder="First Name"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="signup__form--div">
@@ -62,10 +60,7 @@ const SignUp = () => {
             onChange={handleChange("lName")}
             placeholder="Last Name"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="signup__form--div">
@@ -78,10 +73,7 @@ const SignUp = () => {
             onChange={handleChange("username")}
             placeholder="username"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="signup__form--div">
@@ -94,10 +86,7 @@ const SignUp = () => {
             onChange={handleChange("email")}
             placeholder="name@example.com"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="signup__form--div">
@@ -110,10 +99,7 @@ const SignUp = () => {
             onChange={handleChange("password")}
             placeholder="Password"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="signup__form--div">
@@ -126,10 +112,7 @@ const SignUp = () => {
             onChange={handleChange("confirmPW")}
             placeholder="Password"
           />
-          <div className="line__overlay">
-            <div className="line__fake"></div>
-            <div className="line"></div>
-          </div>
+          <Line />
         </div>
 
         <div className="termsAndService">
