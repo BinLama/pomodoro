@@ -14,18 +14,20 @@ const LoginPage = () => {
 
   return (
     <div className="loginpage">
-      <Logo />
-      <h2>Log into Pomodoro</h2>
-      <Login />
-      {/* <div className="signup">
-        <p className="signup__p">Don't have an account?</p>
-        <Link to="/signup">SIGN UP</Link>
-      </div>
-      <LoginSeperator />
-      <Oauth />
-      <Link className="reset__password" to="/resetpassword">
+      <div className="loginpage__container">
+        <Logo />
+        <h2>Log into Pomodoro</h2>
+        <Login />
+        <div className="signup__link">
+          <p className="signup__link--p">Don't have an account?</p>
+          <Link to="/signup">SIGN UP</Link>
+        </div>
+        <LoginSeperator />
+        <Oauth />
+        {/* <Link className="reset__password" to="/resetpassword">
         CAN'T LOG IN?
       </Link> */}
+      </div>
     </div>
   );
 };

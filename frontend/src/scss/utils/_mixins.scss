@@ -1,6 +1,6 @@
 @use "functions" as u;
 
-// Mixin 
+// Mixin for bottom border on input
 @mixin userInput {
   label {
     padding: u.rem(5) 0;
@@ -13,12 +13,37 @@
     border: none;
     padding: u.rem(5) 0;
     outline: none;
+    padding-right: u.rem(30);
 
     &:focus {
       ~.line__overlay {
         .line__fake {
           width: 100%;
         }
+      }
+    }
+  }
+}
+
+
+@mixin userPasswordInputEye {
+  .password {
+    position: relative;
+
+    &__span {
+      position: absolute;
+      left: calc(100% - u.rem(25));
+      bottom: 45%;
+      transform: translateY(50%);
+      font-size: u.rem(17);
+      padding: u.rem(5);
+      border-radius: 50%;
+      color: hsl(var(--dark-grey));
+      z-index: 2;
+      cursor: pointer;
+
+      &:hover {
+        background-color: hsla(var(--light-grey), 50%);
       }
     }
   }

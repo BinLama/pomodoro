@@ -1,5 +1,6 @@
 @use "../utils/" as u;
 
+/* login page start*/
 .loginpage {
   margin-inline: u.rem(18);
   padding-top: u.rem(15);
@@ -11,10 +12,22 @@
     font-weight: 600;
     letter-spacing: u.rem(3);
   }
+
+  @include u.breakpoint(medium) {
+    margin-inline: auto;
+  }
+
+  &__container {
+    max-width: u.rem(400);
+    margin-inline: auto;
+  }
 }
 
+/* login start*/
 .login {
   font-size: u.rem(12);
+
+  @include u.userPasswordInputEye;
 
   &__form {
     margin-top: u.rem(25);
@@ -23,9 +36,121 @@
     &--div {
       display: flex;
       flex-direction: column;
-      padding-bottom: u.rem(15);
+      padding-bottom: u.rem(20);
 
       @include u.userInput;
+    }
+  }
+
+  &__btn {
+    margin-top: u.rem(25);
+
+    width: 100%;
+    background-color: hsla(var(--primary), 50%);
+    color: hsl(var(--white));
+
+    &:hover {
+      background-color: hsla(var(--primary), 75%);
+      color: hsl(var(--white))
+    }
+  }
+}
+
+.signup__link {
+  margin-top: u.rem(35);
+  text-align: center;
+  font-family: var(--ff-s);
+
+  &--p {
+    font-size: u.rem(12);
+  }
+
+  a {
+    color: hsl(var(--blk));
+    font-weight: 600;
+    transform: text-decoration 0.3s ease-in;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* login start*/
+/* login and oauth seperator start*/
+.seperator {
+  margin: u.rem(35) 0;
+
+  position: relative;
+  color: hsla(var(--dark-grey));
+  display: flex;
+  height: u.rem(25);
+
+  &__top,
+  &__bottom {
+    position: absolute;
+    height: u.rem(1.5);
+    width: 40%;
+    background: hsla(var(--grey));
+  }
+
+  &__top {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__bottom {
+    top: 50%;
+    right: 0%;
+    transform: translateY(-50%);
+  }
+
+  p {
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+/* login and oauth seperator end*/
+/* oauth start*/
+.oauth {
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    font-weight: bold;
+  }
+
+  &__google {
+    margin-bottom: u.rem(20);
+    background-color: hsl(var(--bg));
+    border: 1px solid hsl(var(--blk));
+
+    &:hover {
+      background-color: hsla(var(--light-grey), 60%);
+      color: hsla(var(--blk), 80%);
+    }
+
+    &:active {
+      background-color: hsla(var(--light-grey), 80%);
+    }
+  }
+
+  &__guest {
+    background-color: hsla(var(--red), 60%);
+    color: hsl(var(--white));
+
+    &:hover {
+      background-color: hsla(var(--red), 70%);
+      color: hsl(var(--white));
+    }
+
+    &:active {
+      background-color: hsla(var(--red), 80%);
     }
   }
 }

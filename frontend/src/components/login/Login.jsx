@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 const Login = () => {
   const [form, setForm] = useState({
     usernameOrEmail: import.meta.env.VITE_LOGIN_NAME || "",
     password: import.meta.env.VITE_LOGIN_PW || "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const { login, isLoading, error } = useLogin();
-
   const handleSignUp = async (e) => {
     // need to send the request to the backend and then use that data to update the global context.
     e.preventDefault();
@@ -23,7 +24,7 @@ const Login = () => {
     <div className="login">
       <form className="login__form" onSubmit={handleSignUp}>
         <div className="login__form--div">
-          <label htmlFor="username">USERNAME or EMAIL ADDRESS</label>
+          <label htmlFor="username">USERNAME</label>
           <input
             type="text"
             name="username"
@@ -40,10 +41,11 @@ const Login = () => {
             <div className="line"></div>
           </div>
         </div>
-        <div className="login__form--div">
+        <div className="login__form--div password">
           <label htmlFor="password">PASSWORD</label>
+          {/* <div className="password"> */}
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             id="password"
             value={form.password}
@@ -51,6 +53,15 @@ const Login = () => {
             placeholder="Password"
             disabled={isLoading}
           />
+          <span
+            className="password__span"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+          >
+            {showPassword ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+          </span>
+          {/* </div> */}
           <div className="line__overlay">
             <div className="line__fake"></div>
             <div className="line"></div>
