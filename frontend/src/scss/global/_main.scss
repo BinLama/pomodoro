@@ -67,24 +67,6 @@ body {
   animation-timing-function: linear;
 }
 
-@keyframes bounce {
-  25% {
-    transform: scale(calc(var(--s, 1) + 0.2));
-  }
-
-  50% {
-    transform: scale(calc(var(--s, 1) - 0.1));
-  }
-
-  75% {
-    transform: scale(calc(var(--s, 1) + 0.1));
-  }
-
-  100% {
-    transform: scale(var(--s, 1));
-  }
-}
-
 .overlay {
   background-color: transparent;
   height: calc(100vh - 3rem);
@@ -120,8 +102,22 @@ body {
 }
 
 /* input line*/
-.line {
-  height: u.rem(1.03);
-  width: 100%;
-  background: black;
+.line__overlay {
+  position: relative;
+
+  .line {
+    position: absolute;
+    height: u.rem(1.5);
+    width: 100%;
+    background: hsla(var(--grey), 0.4);
+
+
+    &__fake {
+      position: absolute;
+      height: u.rem(1.5);
+      background: hsl(var(--dark-grey));
+      width: 0%;
+      transition: width 0.3s ease-in;
+    }
+  }
 }

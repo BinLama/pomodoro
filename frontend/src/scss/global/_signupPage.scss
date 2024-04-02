@@ -1,6 +1,6 @@
 @use "../utils/" as u;
 
-.loginpage {
+.signuppage {
   margin-inline: u.rem(18);
   padding-top: u.rem(15);
 
@@ -13,7 +13,7 @@
   }
 }
 
-.login {
+.signup {
   font-size: u.rem(12);
 
   &__form {

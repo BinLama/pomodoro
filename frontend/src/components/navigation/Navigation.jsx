@@ -72,13 +72,13 @@ const Navigation = () => {
             {showSetting && <CustomNavigation />}
           </div>
           {user ? (
-            <div className="nav__setting login" onClick={logoutUser}>
+            <div className="nav__setting registration" onClick={logoutUser}>
               <FaUserCircle />
               {width > breakPoint && <p>{user}</p>}
             </div>
           ) : (
             <Link
-              className="nav__setting login"
+              className="nav__setting registration"
               to="/login"
               // onClick={() => {
               //   alert(

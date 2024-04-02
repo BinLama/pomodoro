@@ -1,0 +1,25 @@
+@use "functions" as u;
+
+// Mixin 
+@mixin userInput {
+  label {
+    padding: u.rem(5) 0;
+    text-transform: uppercase;
+  }
+
+  input {
+    background-color: hsl(var(--bg));
+    font-size: u.rem(15);
+    border: none;
+    padding: u.rem(5) 0;
+    outline: none;
+
+    &:focus {
+      ~.line__overlay {
+        .line__fake {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

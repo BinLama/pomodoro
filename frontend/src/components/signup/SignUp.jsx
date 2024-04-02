@@ -36,7 +36,7 @@ const SignUp = () => {
   return (
     <div className="signup">
       <form className="signup__form" onSubmit={handleSignUp}>
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="fName">First Name</label>
           <input
             type="text"
@@ -46,10 +46,13 @@ const SignUp = () => {
             onChange={handleChange("fName")}
             placeholder="First Name"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="lName">Last Name</label>
           <input
             type="text"
@@ -59,10 +62,13 @@ const SignUp = () => {
             onChange={handleChange("lName")}
             placeholder="Last Name"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -72,10 +78,13 @@ const SignUp = () => {
             onChange={handleChange("username")}
             placeholder="username"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="email">Email Address</label>
           <input
             type="email"
@@ -85,10 +94,13 @@ const SignUp = () => {
             onChange={handleChange("email")}
             placeholder="name@example.com"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -98,10 +110,13 @@ const SignUp = () => {
             onChange={handleChange("password")}
             placeholder="Password"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
-        <div className="signup__form--input">
+        <div className="signup__form--div">
           <label htmlFor="confirmPW">confirm password</label>
           <input
             type="password"
@@ -111,7 +126,10 @@ const SignUp = () => {
             onChange={handleChange("confirmPW")}
             placeholder="Password"
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
 
         <div className="termsAndService">

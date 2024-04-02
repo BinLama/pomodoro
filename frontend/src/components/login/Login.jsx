@@ -35,7 +35,10 @@ const Login = () => {
             placeholder="Type your username or email"
             disabled={isLoading}
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
         <div className="login__form--div">
           <label htmlFor="password">PASSWORD</label>
@@ -48,7 +51,10 @@ const Login = () => {
             placeholder="Password"
             disabled={isLoading}
           />
-          <div className="line"></div>
+          <div className="line__overlay">
+            <div className="line__fake"></div>
+            <div className="line"></div>
+          </div>
         </div>
         <button type="submit" className="btn login__btn" disabled={isLoading}>
           LOGIN
