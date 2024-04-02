@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSignup } from "../../hooks/useSignup";
-import { Line } from "../utils";
+import { Line, PasswordInput } from "../utils";
 
 const SignUp = () => {
   const [values, setValues] = useState({
@@ -26,13 +26,13 @@ const SignUp = () => {
     console.log("sign up");
   };
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div className="signup">
@@ -88,33 +88,20 @@ const SignUp = () => {
           />
           <Line />
         </div>
-
-        <div className="signup__form--div">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={values.password}
-            onChange={handleChange("password")}
-            placeholder="Password"
-          />
-          <Line />
-        </div>
-
-        <div className="signup__form--div">
-          <label htmlFor="confirmPW">confirm password</label>
-          <input
-            type="password"
-            name="confirmPW"
-            id="confirmPW"
-            value={values.confirmPW}
-            onChange={handleChange("confirmPW")}
-            placeholder="Password"
-          />
-          <Line />
-        </div>
-
+        <PasswordInput
+          classes={"signup__form--div"}
+          values={values}
+          handleChange={handleChange}
+          name="password"
+        />
+        <PasswordInput
+          classes={"signup__form--div"}
+          values={values}
+          handleChange={handleChange}
+          name="confirmPW"
+          confirm={true}
+          isLoading={isLoading}
+        />
         <div className="termsAndService">
           <p>
             By creating this account, you agree to our &nbsp;
