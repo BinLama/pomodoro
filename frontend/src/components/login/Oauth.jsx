@@ -5,7 +5,7 @@ const Oauth = () => {
     <div className="oauth">
       <button className="btn oauth__google">
         <FcGoogle />
-        Continue with Google
+        <p>Continue with Google</p>
       </button>
       <button className="btn oauth__guest">Continue as Guest</button>
     </div>

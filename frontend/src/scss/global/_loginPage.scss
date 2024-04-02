@@ -3,7 +3,6 @@
 /* login page start*/
 .loginpage {
   margin-inline: u.rem(18);
-  padding-top: u.rem(15);
 
   h2 {
     margin-top: u.rem(50);
@@ -14,12 +13,28 @@
   }
 
   @include u.breakpoint(medium) {
-    margin-inline: auto;
+    height: 100vh;
   }
 
   &__container {
     max-width: u.rem(400);
     margin-inline: auto;
+    padding-top: u.rem(15);
+
+    display: flex;
+    flex-direction: column;
+
+    @include u.breakpoint(large) {
+      // max width
+      max-width: u.rem(1200);
+
+      &--div {
+        margin-top: u.rem(150);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
   }
 }
 
@@ -53,7 +68,25 @@
       background-color: hsla(var(--primary), 75%);
       color: hsl(var(--white))
     }
+
+    &:active {
+      background-color: hsla(var(--primary), 50%);
+    }
   }
+
+  &__trouble {
+    text-align: end;
+    font-size: u.rem(10);
+
+    a {
+      color: hsl(var(--dark-grey));
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
 }
 
 .signup__link {
@@ -85,6 +118,8 @@
   color: hsla(var(--dark-grey));
   display: flex;
   height: u.rem(25);
+  // width: 100%;
+
 
   &__top,
   &__bottom {
@@ -92,17 +127,32 @@
     height: u.rem(1.5);
     width: 40%;
     background: hsla(var(--grey));
+
   }
 
   &__top {
     top: 50%;
     transform: translateY(-50%);
+
+    @include u.breakpoint(large) {
+      top: -700%;
+      transform: none;
+      width: u.rem(2);
+      height: u.rem(150);
+    }
   }
 
   &__bottom {
     top: 50%;
     right: 0%;
     transform: translateY(-50%);
+
+    @include u.breakpoint(large) {
+      top: 200%;
+      transform: none;
+      width: u.rem(2);
+      height: u.rem(150);
+    }
   }
 
   p {
@@ -130,6 +180,14 @@
     background-color: hsl(var(--bg));
     border: 1px solid hsl(var(--blk));
 
+    p {
+      margin-left: u.rem(10);
+    }
+
+    svg {
+      font-size: u.rem(25);
+    }
+
     &:hover {
       background-color: hsla(var(--light-grey), 60%);
       color: hsla(var(--blk), 80%);
@@ -150,7 +208,7 @@
     }
 
     &:active {
-      background-color: hsla(var(--red), 80%);
+      background-color: hsla(var(--red), 60%);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLogin } from "../../hooks/useLogin";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -66,6 +67,11 @@ const Login = () => {
             <div className="line__fake"></div>
             <div className="line"></div>
           </div>
+        </div>
+        <div className="login__trouble">
+          <Link className="reset__password" to="/resetpassword">
+            CAN'T LOG IN?
+          </Link>
         </div>
         <button type="submit" className="btn login__btn" disabled={isLoading}>
           LOGIN

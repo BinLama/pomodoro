@@ -17,16 +17,17 @@ const LoginPage = () => {
       <div className="loginpage__container">
         <Logo />
         <h2>Log into Pomodoro</h2>
-        <Login />
-        <div className="signup__link">
-          <p className="signup__link--p">Don't have an account?</p>
-          <Link to="/signup">SIGN UP</Link>
+        <div className="loginpage__container--div">
+          <div className="loginpage__container--login">
+            <Login />
+            <div className="signup__link">
+              <p className="signup__link--p">Don't have an account?</p>
+              <Link to="/signup">SIGN UP</Link>
+            </div>
+          </div>
+          <LoginSeperator />
+          <Oauth />
         </div>
-        <LoginSeperator />
-        <Oauth />
-        {/* <Link className="reset__password" to="/resetpassword">
-        CAN'T LOG IN?
-      </Link> */}
       </div>
     </div>
   );
