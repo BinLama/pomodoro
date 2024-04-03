@@ -25,6 +25,7 @@ body {
   }
 }
 
+/* default styles for button start*/
 .btn {
   display: inline-block;
   border: none;
@@ -47,6 +48,8 @@ body {
     background-color: rgba(178, 202, 241, 0.8);
   }
 }
+
+/* default styles for button end */
 
 .underline {
   height: 2px;
@@ -99,6 +102,7 @@ body {
   height: u.rem(50);
   width: u.rem(50);
   background: hsl(var(--bg));
+  cursor: pointer;
 }
 
 /* input underline*/

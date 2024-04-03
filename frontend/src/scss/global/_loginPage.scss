@@ -39,7 +39,8 @@
 }
 
 /* login start*/
-.login {
+.login,
+.signup {
   font-size: u.rem(12);
 
   @include u.userPasswordInputEye;
@@ -59,13 +60,15 @@
 
   &__btn {
     margin-top: u.rem(25);
-
     width: 100%;
-    background-color: hsla(var(--primary), 50%);
+    text-transform: uppercase;
+
+    background-color: hsla(var(--primary), 70%);
     color: hsl(var(--white));
 
+
     &:hover {
-      background-color: hsla(var(--primary), 75%);
+      background-color: hsla(var(--primary), 85%);
       color: hsl(var(--white))
     }
 
@@ -178,7 +181,8 @@
   &__google {
     margin-bottom: u.rem(20);
     background-color: hsl(var(--bg));
-    border: 1px solid hsl(var(--blk));
+    border: 1px solid hsla(var(--blk), 70%);
+    color: hsla(var(--blk), 70%);
 
     p {
       margin-left: u.rem(10);
@@ -189,26 +193,30 @@
     }
 
     &:hover {
-      background-color: hsla(var(--light-grey), 60%);
-      color: hsla(var(--blk), 80%);
+      background-color: hsla(var(--light-grey), 30%);
+      border: 1px solid hsla(var(--blk), 85%);
+      color: hsla(var(--blk), 85%);
+
     }
 
     &:active {
-      background-color: hsla(var(--light-grey), 80%);
+      background-color: hsl(var(--bg));
+      border: 1px solid hsla(var(--blk), 50%);
+      color: hsla(var(--blk), 50%);
     }
   }
 
   &__guest {
-    background-color: hsla(var(--red), 60%);
+    background-color: hsla(var(--red), 70%);
     color: hsl(var(--white));
 
     &:hover {
-      background-color: hsla(var(--red), 70%);
+      background-color: hsla(var(--red), 85%);
       color: hsl(var(--white));
     }
 
     &:active {
-      background-color: hsla(var(--red), 60%);
+      background-color: hsla(var(--red), 50%);
     }
   }
 }

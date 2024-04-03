@@ -54,7 +54,7 @@ const Login = () => {
           </Link>
         </div>
         <button type="submit" className="btn login__btn" disabled={isLoading}>
-          LOGIN
+          login
         </button>
       </form>
       {error && <div className="error">{error}</div>}

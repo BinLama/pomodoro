@@ -2,7 +2,6 @@
 
 .signuppage {
   margin-inline: u.rem(18);
-  padding-top: u.rem(15);
 
   h2 {
     margin-top: u.rem(50);
@@ -11,21 +10,75 @@
     font-weight: 600;
     letter-spacing: u.rem(3);
   }
-}
 
-.signup {
-  font-size: u.rem(12);
-
-  &__form {
-    margin-top: u.rem(25);
-    font-family: var(--ff-s);
+  &__container {
+    // max-width: u.rem(400);
+    margin-inline: auto;
+    padding-top: u.rem(15);
 
     &--div {
-      display: flex;
-      flex-direction: column;
-      padding-bottom: u.rem(15);
+      margin-inline: auto;
 
-      @include u.userInput;
+      display: grid;
+      max-width: u.rem(400);
+
+      a {
+        margin-top: u.rem(10);
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: 600;
+
+        color: hsl(var(--blk));
+        background-color: hsl(var(--bg));
+        border: 1px solid hsl(var(--blk));
+
+        &:hover {
+          background-color: hsla(var(--light-grey), 30%);
+          color: hsla(var(--blk), 80%);
+        }
+
+        &:active {
+          background-color: hsla(var(--light-grey), 60%);
+        }
+      }
+    }
+  }
+
+  &__btn {
+    width: 100%;
+    margin-top: u.rem(10);
+
+    background-color: hsl(var(--light-grey));
+    color: hsl(var(--grey));
+
+    &.active {
+      background-color: hsla(var(--primary), 50%);
+      color: hsl(var(--white));
+
+
+      &:hover {
+        background-color: hsla(var(--primary), 75%);
+        color: hsl(var(--white))
+      }
+
+      &:active {
+        background-color: hsla(var(--primary), 50%);
+      }
+    }
+  }
+}
+
+
+.termsAndService {
+  font-size: u.rem(10);
+  text-align: center;
+
+  span {
+    color: hsl(var(--dark-grey));
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

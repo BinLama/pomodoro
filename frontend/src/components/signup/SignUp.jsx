@@ -110,7 +110,7 @@ const SignUp = () => {
           </p>
         </div>
 
-        <button type="submit" className="btn signup__form--button">
+        <button type="submit" className="btn signuppage__btn">
           Sign up
         </button>
       </form>

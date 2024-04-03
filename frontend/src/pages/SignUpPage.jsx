@@ -12,10 +12,16 @@ const SignUpPage = () => {
 
   return (
     <div className="signuppage">
-      <Logo />
-      <h2>Create Your Account</h2>
-      <SignUp />
-      <Link to="/">Back</Link>
+      <div className="signuppage__container">
+        <Logo />
+        <div className="signuppage__container--div">
+          <h2>Create Your Account</h2>
+          <SignUp />
+          <Link className="btn" to="/">
+            Back
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

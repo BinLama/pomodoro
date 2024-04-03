@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Logo = () => {
+  const navigate = useNavigate();
+
+  const goToHome = () => {
+    navigate("/");
+  };
+
   return (
     <svg
       className="logo"
@@ -11,6 +18,7 @@ const Logo = () => {
       width="400"
       height="400"
       viewBox="0, 0, 400,400"
+      onClick={goToHome}
     >
       <g id="svgg">
         <path
