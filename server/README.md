@@ -1,91 +1,101 @@
-#### TODO:
+<h1 align="center"> Pomodoro app backend </h1>
 
+## Short Description
+
+It is a RestAPI server for Pomodoro timer app. It is built using Nodejs for APIs and MySQL for storage. You can find a list of [features](#features) and [technologies used](#technologies-used) below.
+
+## Server Notes
+
+- Be sure to provide the following env variables (DB is for dev environment, Test is for test environment):
+
+```
+TEST_DB_USER
+TEST_DB_PASSWORD
+TEST_DB_DATABASE
+TEST_DB_HOST
+TEST_DB_PORT
+DB_USER
+DB_PASSWORD
+DB_DATABASE
+DB_HOST
+DB_PORT
+JWT_SECRET
+COOKIE_SECRET
+```
+
+## Features
+
+- Authentication and Authorization of users
+- Todo Task API
+- Creation of tables using Migrations
+- Auto population of fake data to test database
+
+## TODO:
+
+- [ ] implement Oauth
 - [ ] **need to perform end to end test**
 - [ ] need to use a dependecy injection and mock the database. I don't want to add real data to the database so mocking sounds like a better idea. Currently, it fails the authentication api test because signup tries to create a user but the server is not open so, tomorrow I need to fix that by using dependecy injection.
 - [ ] [testing api](https://www.youtube.com/watch?v=r5L1XRZaCR0)
 - [ ] [dependency injection](https://www.youtube.com/watch?v=IDjF6-s1hGk&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX&index=5)
 - [ ] task position update should be implemented
 - [ ] automate the tests and create a ci/cd pipeline.
-- [ ] implement Oauth
+- [ ] host it using nginx
 
-## Start:
+## Technologies Used
 
-Type `npm run dev` to run the client server. It will open the file in localhost:5000.
+- Nodejs
+- Sequelize (MySQL)
+- Express
+- Morgan
+- Supertest
 
-## creating migrations:
+## Notes
 
-```sh
-npm run migration:create -- --name name_of_the_migration
+### Migrations && Seeders
 
+- running the migrations
+
+```bash
+foo@bar/server: ~$ bash migration.sh
 ```
 
-## create a new user with all the data,
+- undo migration
 
-```js
-const models = require("./models");
-
-console.log(models);
-console.log(`USER: ${models.user}`);
-// console.log(`Session: ${models.Session}`);
-console.log(`Task: ${models.task}`);
-console.log(`Setting: ${models.setting}`);
-// console.log(`Color: ${models.Color}`);
-// console.log(models.User.associate(models));
-
-const User = models.user;
-const Task = models.task;
-const Setting = models.setting;
-// const Color = models.Color;
-// const Session = models.Session;
-
-const deleteAll = async () => {
-  try {
-    await models.sequelize.authenticate();
-    await User.destroy({ where: {}, force: true });
-    console.log("DESTORYED ALL DATA");
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-deleteAll();
-
-(async function test() {
-  try {
-    await models.sequelize.sync({});
-    const user = await User.create(
-      {
-        fName: "harry",
-        lName: "potter",
-        email: "youAreAWizardHARRY@hogwarts.edu",
-        username: "harryDPotter",
-        password: "harryIsTheB3stWiz4rD",
-        tasks: [
-          { title: "Wash Face" },
-          { title: "Focus on finishing the work" },
-          { title: "Get a job" },
-        ],
-        setting: {},
-        // color: {},
-        // sessions: [{ completed: 1 }],
-      },
-      {
-        include: [Task, Setting],
-      }
-    );
-
-    console.log(user.dataValues);
-    const setting = await Setting.findOne({
-      where: { userId: user.dataValues.id },
-    });
-    console.log(setting.dataValues);
-
-    const task = await Task.findAll({ where: {} });
-    console.log(task);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    await models.sequelize.close();
-  }
-})();
+```bash
+foo@bar/server: ~$ bash migration.sh undo
 ```
+
+- creating the seeders
+
+```bash
+foo@bar/server: ~$ bash seeders.sh create name_of_your_file
+```
+
+- running all seeders
+
+```bash
+foo@bar/server: ~$ bash seeders.sh
+```
+
+- undo latest seed
+
+```bash
+foo@bar/server: ~$ bash seeders.sh undo name_of_your_file
+```
+
+### TEST
+
+Testing using Jest
+
+```bash
+foo@bar/server: ~$ npm test
+```
+
+## What I learned
+
+- Using Nodejs and Express to create APIs
+- Using Sequelize to create database
+- Designing a relational database
+- Using migrations to update tables
+- Using seeders to insert data
+- End to end testing of the whole API
