@@ -41,7 +41,6 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
    */
   useEffect(() => {
     const handleClick = (e) => {
-      console.log(e.keyCode);
       if (e.keyCode === 13 || e.key === "enter") {
         const textArea = textareaRef.current;
         textArea.focus();
@@ -49,7 +48,6 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
     };
 
     const titleArea = addTaskRef.current;
-    console.log(titleArea);
     titleArea.addEventListener("keyup", handleClick);
     return () => {
       titleArea.removeEventListener("keyup", handleClick);

@@ -11,7 +11,6 @@ const Tasks = () => {
     tasks,
     dispatch,
     createTask,
-    // addTaskRef,
     openAddModal,
     closeAddModal,
     showAddModal,
@@ -20,6 +19,7 @@ const Tasks = () => {
 
   /* SHOW AND HIDE FUNCTIONALITY */
   const [displaySetting, setDisplaySetting] = useState(false);
+
   // showing setting when clicked
   // closing setting
   const openAndCloseSetting = () => {
@@ -52,7 +52,6 @@ const Tasks = () => {
         _tasks.splice(dragOverItemRef.current, 0, dragItemContent);
 
         dragTaskRef.current = dragOverItemRef.current;
-
         dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
       }
     }
@@ -68,8 +67,10 @@ const Tasks = () => {
       // switch the position
       _tasks.splice(dragOverItemRef.current, 0, dragItemContent);
 
+      console.log(dragItemContent.id);
       dragTaskRef.current = null;
       dragOverItemRef.current = null;
+      console.log(_tasks);
 
       dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
 

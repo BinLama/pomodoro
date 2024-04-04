@@ -96,8 +96,12 @@ const updateTask = async (req, res) => {
     const { id } = req.params;
     const { id: userId } = req.user;
 
-    // const prevElPosition = req.body.prevElPosition;
-    // const nextElPosition = req.body.nextElPosition;
+    const prevElPosition = req.body.prevElPosition;
+    const nextElPosition = req.body.nextElPosition;
+
+    console.log(`Prev El Position: ${prevElPosition}`);
+    console.log(`Next El Position: ${nextElPosition}`);
+
     // const newPosition = updatedPosition(prevElPosition, nextElPosition);
 
     const newTask = { ...req.body };

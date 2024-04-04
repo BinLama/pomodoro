@@ -46,15 +46,24 @@ export const TaskContextProvider = ({ children }) => {
   const createTask = (newTask) => {
     if (!user) {
       const id = uuid();
+
+      /* create position */
       let position = 100;
-      if (state.tasks.length > 1) {
-        position = state.tasks[state.tasks.length - 1].position + 100;
+      if (state.tasks.length >= 1) {
+        let maxPosition = 100;
+        for (const task of state.tasks) {
+          console.log("GOT HERE", task.position);
+          if (task.position > maxPosition) {
+            maxPosition = task.position;
+          }
+          position = maxPosition + 100;
+        }
       }
 
       const task = { ...newTask, id, position };
-      console.log(task);
+
       dispatch({ type: tasksActions.CREATE_TASK, payload: task });
-      console.log("TASK CREATED");
+      console.log("TASK CREATED not logged in");
       return;
     }
 
