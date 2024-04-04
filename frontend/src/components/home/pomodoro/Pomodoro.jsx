@@ -11,10 +11,12 @@ const Pomodoro = () => {
     chosen,
     autoBreak,
     autoPomo,
-    longRelaxInterval,
+    // longRelaxInterval,
     changeToBreak,
     changeToPomo,
-    showOrHideSetting,
+    showSetting,
+    setShowSetting,
+    setHideSetting,
     timerActive,
     maxSession,
   } = usePomodoroContext();
@@ -70,7 +72,15 @@ const Pomodoro = () => {
     choosePhase(POMODORO);
   }, [changeToPomo]);
 
-  console.log(`max sec: ${maxSeconds}, rem sec: ${remainingTime}`);
+  const showOrHideOnClick = (e) => {
+    if (showSetting) {
+      setHideSetting();
+    } else {
+      setShowSetting();
+    }
+    e.stopPropagation();
+  };
+
   return (
     <div className="timer">
       <div className="timer__stateSwitch">
@@ -156,9 +166,8 @@ const Pomodoro = () => {
                 seconds
               ).padStart(2, "0")}`}</h1>
 
-              <div className="timer__cntdwn-level" onClick={showOrHideSetting}>
-                {/* TODO: add an on click function that opens up setting */}
-                <div>
+              <div className="timer__cntdwn-level">
+                <div onClick={showOrHideOnClick}>
                   <p>Level</p>
                   <p className="lvl">{chosen.data.toUpperCase()}</p>
                 </div>

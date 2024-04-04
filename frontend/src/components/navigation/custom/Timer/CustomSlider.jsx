@@ -1,7 +1,7 @@
 import SingleSlider from "../../SingleSlider";
 import { usePomodoroContext } from "../../../../hooks/usePomodoroContext";
 import { CUSTOM } from "../../../../utils/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CustomSlider = ({ slider }) => {
   const { chosen, updateTimer, sliderData, setSliderData, setSlider } =
@@ -10,10 +10,14 @@ const CustomSlider = ({ slider }) => {
   /**
    * keep track of the slide update
    */
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const { pomodoro, shortBreak, longBreak } = sliderData;
     const { pomodoro: pomo, shortBreak: sb, longBreak: lb } = chosen.newTimer;
+
+    setCount(count + 1);
+    console.log(count);
     console.log("sliderData Slider", chosen, sliderData);
 
     // stop the update at the beginning

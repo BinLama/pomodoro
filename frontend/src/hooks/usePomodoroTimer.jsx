@@ -40,7 +40,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
     studyStartSound,
     timerActive, // in the middle of the timer
     inSession,
-    notInSession,
+    setNotInSession,
     autoPomo,
     autoBreak,
     longRelaxInterval,
@@ -152,7 +152,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
             return newState;
           });
 
-          notInSession();
+          setNotInSession();
         } else {
           setMinutes((prevMinutes) => prevMinutes - 1);
           setSeconds(SECONDS - 1);
@@ -191,7 +191,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
 
   useEffect(() => {
     console.log("Got to end of session");
-    notInSession();
+    setNotInSession();
   }, [oldPhase]);
 
   useEffect(() => {
@@ -249,7 +249,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
       return newMin;
     });
     setSeconds(0);
-    notInSession();
+    setNotInSession();
     // setTimerStarted(false);
     setStatus(null);
     console.log("Timer Reseted");
@@ -294,7 +294,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
       return newMin;
     });
     setSeconds(0);
-    notInSession();
+    setNotInSession();
     // setTimerStarted(false);
     setStatus(null);
     console.log("Choose Phase");

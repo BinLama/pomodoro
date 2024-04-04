@@ -195,17 +195,22 @@ export const PomodoroContextProvider = ({ children }) => {
   }, [state, user, setItem]);
 
   // control toggling of setting
-  const showOrHideSetting = () => {
+  const setShowOrHideSetting = () => {
+    console.log("show or hide setting");
     dispatch({ type: pomodoroReducerActions.TOGGLE_SETTING });
   };
 
   // hide setting
-  const hideSetting = () => {
+  const setHideSetting = () => {
     dispatch({ type: pomodoroReducerActions.HIDE_SETTING });
   };
 
+  const setShowSetting = () => {
+    dispatch({ type: pomodoroReducerActions.SHOW_SETTING });
+  };
+
   // sets timer to inactive so that I can change the timer even when it's running.
-  const notInSession = () => {
+  const setNotInSession = () => {
     dispatch({ type: pomodoroReducerActions.INACTIVE_SESSION });
   };
 
@@ -233,7 +238,7 @@ export const PomodoroContextProvider = ({ children }) => {
       if (!alert) {
         return;
       }
-      notInSession();
+      setNotInSession();
     }
 
     dispatch({
@@ -416,11 +421,12 @@ export const PomodoroContextProvider = ({ children }) => {
         toggleMute,
         togglePomo,
         toggleBreak,
-        showOrHideSetting,
-        hideSetting,
+        setShowOrHideSetting,
+        setShowSetting,
+        setHideSetting,
         skipToBreak,
         skipToPomo,
-        notInSession,
+        setNotInSession,
         inSession,
         sliderData,
         setSliderData,

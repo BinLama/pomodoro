@@ -22,7 +22,8 @@ const Navigation = () => {
   const [width, setWidth] = useState(window.innerWidth);
   const breakPoint = 900;
 
-  const { showSetting, showOrHideSetting, hideSetting } = usePomodoroContext();
+  const { showSetting, setShowOrHideSetting, setHideSetting } =
+    usePomodoroContext();
 
   useEffect(() => {
     const handleResizeWindow = () => setWidth(window.innerWidth);
@@ -36,16 +37,21 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (settingRef.current && !settingRef.current.contains(e.target)) {
-        hideSetting();
+      console.log("Navigation hide");
+      if (
+        showSetting &&
+        settingRef.current &&
+        !settingRef.current.contains(e.target)
+      ) {
+        setHideSetting();
       }
     };
 
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [showSetting]);
 
   return (
     <header className="header">
@@ -65,7 +71,7 @@ const Navigation = () => {
             {width > breakPoint && <p>Report</p>}
           </Link>
           <div className="relative" ref={settingRef}>
-            <div className="nav__setting custom" onClick={showOrHideSetting}>
+            <div className="nav__setting custom" onClick={setShowOrHideSetting}>
               <BiSliderAlt />
               {width > breakPoint && <p>Customize</p>}
             </div>

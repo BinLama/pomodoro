@@ -56,14 +56,23 @@ export const pomodoroReducer = (state, action) => {
         audio: music,
       };
     case pomodoroReducerActions.TOGGLE_SETTING:
+      console.log("toggling setting");
+
       return {
         ...state,
         showSetting: !state.showSetting,
       };
     case pomodoroReducerActions.HIDE_SETTING:
+      console.log("hide setting");
       return {
         ...state,
         showSetting: false,
+      };
+    case pomodoroReducerActions.SHOW_SETTING:
+      console.log("show setting");
+      return {
+        ...state,
+        showSetting: true,
       };
     case pomodoroReducerActions.UPDATE_TIMER:
       return {

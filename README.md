@@ -1,10 +1,54 @@
-## Intro:
+<h1 align="center"> Pomodoro Timer App </h1>
 
-This is a React/Nodejs/Sequelize/MySQL/SCSS based Pomodoro Project. Feel free to clone it and use it for you own use.
+<!-- add picture here -->
+<!-- ![](/srouce/to/image) -->
+<p align="center">
+  Pomodoro App built with React
+</p>
 
-#### CLIENT:
+## Short Description
 
-#### RUN:
+A full-stack pomodoro timer app with todo list, drag and drop functionality, customization of timer, authentication, capability to work offline. Responsive and tested with Jest. You can find a list of [features](#features) and [technologies used](#techonologies-used) below.
+
+<!-- ## 🔴 Demo -->
+<!-- 🧪 [Live Demo]() available. Click "Live Demo" to open it. -->
+
+## Performance
+
+TODO:
+
+- [ ] Test performance of my website using google lighthouse
+- [ ] Perform end to end testing of the server
+
+## Features
+
+- Responsive and clear UI/UX
+- Set pomodoro timer with alarms
+- Mute, change and contorl timer sounds
+- Skip to any session desired
+- Reset all completed sessions
+- Auto Start different sessions
+- Add Todo list
+- Remove Todo list
+- Hide all completed list
+- Auto sort completed list to the bottom
+- Change all todo's status to completed
+- Add description to todo list
+- Login and logout
+- Auto sign in
+- Animated timer
+- Server to store all tasks and settings
+
+TODO:
+
+- [ ] customize colors
+- [ ] Drag and drop sorting of tasks
+- [ ] disable auto sort of completed tasks
+- [ ] add Seven Habits tracker bar
+- [ ] add drag and drop functionality to seven habits tracker
+- [ ] extended description of todo can be modified to add different formatting
+
+## RUN:
 
 - Running the frontend:
 
