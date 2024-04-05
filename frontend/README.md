@@ -7,10 +7,12 @@
 
 ### TODO:
 
-- [ ] fix auth error on the frontend
+- [x] fix auth error on the frontend
 - [x] Build a navigation
 - [x] Create a task list (with CURD operations)
 - [x] Save them all in local storage if they are not logged in
+- [x] Add logout and view profile drop down
+- [ ] add theme picker on the drop down
 - [ ] give them a small warning about persistence of data
 
 ### TODO POMODORO:
