@@ -1,9 +1,13 @@
-const { STATUS } = require("../utils/constants");
+const { EXPIRE_TIME, COOKIE_NAME } = require("../utils/constants");
 const { StatusCodes } = require("http-status-codes");
+const { createToken } = require("../utils/tokenManager");
 
 // models
 const models = require("../models");
+const { InternalError, NotFoundError } = require("../errors/customErrors");
 const User = models.user;
+const Setting = models.setting;
+const Color = models.color;
 
 /**
  * return all the users that have signed up
@@ -13,26 +17,25 @@ const User = models.user;
  * @param {object} res
  * @return {object} all the users that is found on the server
  */
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({
-      attributes: { exclude: ["password"] },
+      attributes: ["email", "username", "id", "fName", "lName"],
     });
 
     if (!users) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: `No users found` });
+      // return res
+      //   .status(StatusCodes.NOT_FOUND)
+      //   .json({ error: `No users found` });
+      const err = new NotFoundError("No users found");
+      return next(err);
     }
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, user: users });
+    return res.status(StatusCodes.OK).json({ users });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
+    const err = new InternalError(`Error getting all user: ${error.message}`);
+
+    next(err);
   }
 };
 
@@ -44,26 +47,106 @@ const getAllUsers = async (req, res) => {
  * @param {object} res
  * @return {object} single user
  */
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
   try {
-    const { id } = req.user;
+    const user = req.user;
+    res.status(StatusCodes.OK).json({
+      user: {
+        email: user.email,
+        username: user.username,
+        id: user.id,
+        fName: user.fName,
+        lName: user.lName,
+      },
+    });
+  } catch (error) {
+    const err = new InternalError(`Error getting user: ${error.message}`);
 
-    const user = await User.findByPk(id, {
-      attributes: { exclude: ["password"] },
+    next(err);
+  }
+};
+
+/**
+ * create a new user
+ * @param {string} fName
+ * @param {string} lName
+ * @param {string} email
+ * @param {string} password
+ * @param {string} username
+ *
+ * @return {object} new user with most data
+ */
+const createUser = async (req, res, next) => {
+  const t = await models.sequelize.transaction();
+  try {
+    const { fName, lName, email, password, username } = req.body;
+    // create the user
+    const user = await User.create(
+      {
+        username,
+        fName,
+        lName,
+        email,
+        password,
+        setting: {}, // default setting
+        color: {}, // default color
+      },
+      {
+        include: [Setting, Color],
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
+
+    // create a token
+    const token = createToken(user.id, user.email, `${EXPIRE_TIME}d`);
+
+    // create a cookie
+    const expires = new Date();
+    expires.setDate(expires.getDate() + EXPIRE_TIME);
+
+    res.cookie(COOKIE_NAME, token, {
+      expires,
+      httpOnly: true,
+      signed: true,
+      sameSite: "Lax",
+      secure: process.env.NODE_ENV === "production",
     });
 
-    if (!user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ msg: `No user with id: ${id}` });
-    }
-
-    res.status(StatusCodes.OK).json({ user });
+    return res.status(StatusCodes.CREATED).json({ msg: "user created" });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(
+      `Error during user creation: ${error.message}`
+    );
+
+    next(err);
+  }
+};
+
+/**
+ * find a user that is logged in and update their
+ * information. It should not update email or password.
+ *
+ * @param {object} req
+ * @param {object} res
+ * @return {object} updated user information
+ */
+const updateUser = async (req, res, next) => {
+  try {
+    const user = req.user;
+
+    const updatedOldUser = await user.update(req.body, {
+      attributes: ["email", "username", "id", "fName", "lName"],
+    });
+
+    return res.status(StatusCodes.OK).json({ user: updatedOldUser });
+  } catch (error) {
+    const err = new InternalError(
+      `Error during user creation: ${error.message}`
+    );
+
+    next(err);
   }
 };
 
@@ -82,74 +165,30 @@ const deleteUser = async (req, res) => {
   // if they log back in, then don't delete the user anymore
   //
   try {
-    const { id } = req.user;
-
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ status: STATUS.ERROR, error: `No user with id: ${id}` });
-    }
+    const user = req.user;
 
     await User.destroy({
       where: {
-        id: id,
+        id: user.id,
       },
     });
 
     res.status(StatusCodes.OK).json({
-      status: STATUS.SUCCESS,
-      user: `User with id: ${id} has been successfully deleted.`,
+      msg: `User has been deleted`,
     });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ status: STATUS.ERROR, error: "Internal Server Error" });
-  }
-};
+    const err = new InternalError(
+      `Error during user creation: ${error.message}`
+    );
 
-/**
- * find a user that is logged in and update their
- * information. It should not update email or password.
- *
- * @param {object} req
- * @param {object} res
- * @return {object} updated user information
- */
-const updateUser = async (req, res) => {
-  try {
-    const { id } = req.user;
-
-    // first find the user
-    const user = await User.findByPk(id, {
-      attributes: { exclude: ["password"] },
-    });
-
-    if (!user) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        status: STATUS.ERROR,
-        error: `User with id: ${id} not found.`,
-      });
-    }
-
-    const updatedOldUser = await user.update(req.body, {
-      exclude: ["password"],
-    });
-
-    return res.status(StatusCodes.OK).json({ user: updatedOldUser });
-  } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    next(err);
   }
 };
 
 module.exports = {
   getAllUsers,
   getUser,
+  createUser,
   updateUser,
   deleteUser,
 };

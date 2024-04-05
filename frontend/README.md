@@ -7,11 +7,11 @@
 
 ### TODO:
 
+- [ ] fix auth error on the frontend
 - [x] Build a navigation
 - [x] Create a task list (with CURD operations)
 - [x] Save them all in local storage if they are not logged in
 - [ ] give them a small warning about persistence of data
-- [x] Create settings or customize (that should first be able to change the pomodoro timer levels, then set up ararms)
 
 ### TODO POMODORO:
 

@@ -40,7 +40,7 @@ const withValidationErrors = (validateValues) => {
 
 /****** User validation start ******/
 
-const validateRegisterInput = withValidationErrors([
+const validateSignUpInput = withValidationErrors([
   body("fName").notEmpty().withMessage("first name is empty").escape(),
   body("lName").notEmpty().withMessage("last name is required").escape(),
   body("email")
@@ -270,7 +270,7 @@ const validateTaskUpdate = withValidationErrors([
 
 module.exports = {
   withValidationErrors,
-  validateRegisterInput,
+  validateSignUpInput,
   validateLoginInput,
   validateUserUpdate,
   validateColorIdParam,

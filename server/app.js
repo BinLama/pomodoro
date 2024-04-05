@@ -14,7 +14,7 @@ const sessionRoutes = require("./router/session.route");
 const colorRoutes = require("./router/color.route");
 
 // middleware
-const authenticateUser = require("./middleware/auth.middleware");
+const authMiddle = require("./middleware/auth.middleware");
 const errorHandlerMiddleware = require("./middleware/errorHandler.middleware");
 
 function createServer() {
@@ -35,11 +35,11 @@ function createServer() {
   app.get("/", (_, res) => {
     res.status(200).json({ msg: "this is a server..." });
   });
-  app.use("/api/v1/user", authenticateUser, userRoutes);
-  app.use("/api/v1/task", authenticateUser, taskRoutes);
-  app.use("/api/v1/setting", authenticateUser, settingRoutes);
-  app.use("/api/v1/session", authenticateUser, sessionRoutes);
-  app.use("/api/v1/color", authenticateUser, colorRoutes);
+  app.use("/api/v1/user", userRoutes);
+  app.use("/api/v1/task", authMiddle.validateTokenAndGetUser, taskRoutes);
+  app.use("/api/v1/setting", authMiddle.validateTokenAndGetUser, settingRoutes);
+  app.use("/api/v1/session", authMiddle.validateTokenAndGetUser, sessionRoutes);
+  app.use("/api/v1/color", authMiddle.validateTokenAndGetUser, colorRoutes);
   app.use("/api/v1/auth", authRoutes);
 
   // error handler

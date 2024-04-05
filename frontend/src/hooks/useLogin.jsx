@@ -36,9 +36,9 @@ export const useLogin = () => {
         setIsLoading(false);
 
         console.log("Response: ", response);
-        console.log("data", data.username);
+        console.log("data", data.user);
 
-        dispatch({ type: auth.LOGIN, payload: data.username });
+        dispatch({ type: auth.LOGIN, payload: data.user });
       }
     } catch (err) {
       setIsLoading(false);
@@ -49,9 +49,7 @@ export const useLogin = () => {
         console.log(err.response.headers);
         setError(err.response.data.error);
 
-        if (err.response.status === 404) {
-          alert("Error: Page not found");
-        }
+        console.log(err.response.data.error);
       } else if (err.request) {
         // request was made but no response
         console.error(err.request);

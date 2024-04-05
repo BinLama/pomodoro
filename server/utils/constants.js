@@ -4,8 +4,7 @@ const POSITION_UPDATE_NUMBER = 512;
 const EXPIRE_TIME = 30;
 
 const STATUS = {
-  ERROR: "error",
-  SUCCESS: "success",
+  internalError: "Internal Server Error",
 };
 
 module.exports = {

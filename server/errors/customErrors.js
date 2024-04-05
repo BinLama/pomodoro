@@ -40,10 +40,19 @@ class ConflictError extends Error {
   }
 }
 
+class InternalError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "InternalError";
+    this.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+  }
+}
+
 module.exports = {
   NotFoundError,
   BadRequestError,
   ForbiddenError,
   UnauthorizedError,
   ConflictError,
+  InternalError,
 };

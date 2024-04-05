@@ -3,29 +3,27 @@ const express = require("express");
 const authRouter = express.Router();
 
 // controllers
-const {
-  logoutUser,
-  register,
-  loginUser,
-} = require("../controller/auth.controller");
+const authCtrl = require("../controller/auth.controller");
+const userCtrl = require("../controller/user.controller");
 
 // middleware
-const {
-  validateRegisterInput,
-  validateLoginInput,
-} = require("../middleware/validation.middleware");
-const authenticateUser = require("../middleware/auth.middleware");
+const validMiddle = require("../middleware/validation.middleware");
+const authMiddle = require("../middleware/auth.middleware");
 
 // check auth
-authRouter.route("/check_auth").get(authenticateUser);
 
 // signup route
-authRouter.route("/signup").post(validateRegisterInput, register);
+// authRouter.route("/signup").post(validateRegisterInput, register);
+authRouter
+  .route("/authenticate")
+  .get(authMiddle.validateTokenAndGetUser, userCtrl.getUser);
 
 // login route
-authRouter.route("/login").post(validateLoginInput, loginUser);
+authRouter
+  .route("/login")
+  .post(validMiddle.validateLoginInput, authCtrl.loginUser);
 
 // logout route
-authRouter.route("/logout").post(authenticateUser, logoutUser);
+authRouter.route("/logout").post(authCtrl.logoutUser);
 
 module.exports = authRouter;
