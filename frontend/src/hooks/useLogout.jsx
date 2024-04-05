@@ -18,10 +18,7 @@ export const useLogout = () => {
         }
       );
 
-      console.log(response);
       if (response.status === 200) {
-        console.log("LOGOUT");
-        await response.data;
         setIsLoading(false);
         dispatch({ type: auth.LOGOUT });
       }

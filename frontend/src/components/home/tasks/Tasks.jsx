@@ -1,5 +1,5 @@
 import SingleTask from "./SingleTask";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TaskModal from "./TaskModal";
 import TaskTitle from "./TaskTitle";
 import AddTask from "./AddTask";
@@ -17,14 +17,6 @@ const Tasks = () => {
     hidden,
   } = useTaskContext();
 
-  /* SHOW AND HIDE FUNCTIONALITY */
-  const [displaySetting, setDisplaySetting] = useState(false);
-
-  // showing setting when clicked
-  // closing setting
-  const openAndCloseSetting = () => {
-    setDisplaySetting(!displaySetting);
-  };
   /* SHOW AND HIDE FUNCTIONALITY END */
 
   /* DRAG AND DROP FUNCTIONALITY */
@@ -82,14 +74,9 @@ const Tasks = () => {
 
   return (
     <div className="tasks">
-      <TaskTitle
-        displaySetting={displaySetting}
-        openAndCloseSetting={openAndCloseSetting}
-      />
+      <TaskTitle />
       <div className="underline"></div>
-      {displaySetting && (
-        <div className="overlay absolute" onClick={openAndCloseSetting}></div>
-      )}
+
       <div className="tasks__list">
         {/* a single task */}
         <div className="tasks__list__task">

@@ -5,6 +5,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { INITIAL_TASKS_STATE, tasksReducer } from "../reducers/taskReducers";
 import { tasksActions } from "../utils/constants";
+
 export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
@@ -140,6 +141,12 @@ export const TaskContextProvider = ({ children }) => {
     }
   };
 
+  // show or hide task setting
+  const toggleSetting = () => {
+    dispatch({ type: tasksActions.TOGGLE_SETTING });
+  };
+
+  console.log("TASK", state);
   return (
     <TaskContext.Provider
       value={{
@@ -152,6 +159,7 @@ export const TaskContextProvider = ({ children }) => {
         addTaskRef,
         closeAddModal,
         showAddModal,
+        toggleSetting,
         // task functions
         markAllTasks,
         unMarkAllTasks,

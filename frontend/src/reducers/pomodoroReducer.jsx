@@ -42,8 +42,9 @@ export const INITIAL_POMODORO_STATE = {
   maxSession: 10,
   changeToBreak: 0,
   changeToPomo: 0,
-  showSetting: false,
   timerActive: false,
+  showSetting: false,
+  showLogin: false,
 };
 
 export const pomodoroReducer = (state, action) => {
@@ -56,11 +57,14 @@ export const pomodoroReducer = (state, action) => {
         audio: music,
       };
     case pomodoroReducerActions.TOGGLE_SETTING:
-      console.log("toggling setting");
-
       return {
         ...state,
         showSetting: !state.showSetting,
+      };
+    case pomodoroReducerActions.TOGGLE_LOGIN:
+      return {
+        ...state,
+        showLogin: !state.showLogin,
       };
     case pomodoroReducerActions.HIDE_SETTING:
       console.log("hide setting");

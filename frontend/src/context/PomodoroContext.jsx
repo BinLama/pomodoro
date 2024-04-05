@@ -195,6 +195,11 @@ export const PomodoroContextProvider = ({ children }) => {
     }
   }, [state, username, setItem]);
 
+  // toggling of login profile setting
+  const setToggleLogin = () => {
+    dispatch({ type: pomodoroReducerActions.TOGGLE_LOGIN });
+  };
+
   // control toggling of setting
   const setShowOrHideSetting = () => {
     console.log("show or hide setting");
@@ -418,6 +423,7 @@ export const PomodoroContextProvider = ({ children }) => {
         toggleMute,
         togglePomo,
         toggleBreak,
+        setToggleLogin,
         setShowOrHideSetting,
         setShowSetting,
         setHideSetting,

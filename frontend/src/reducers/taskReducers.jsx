@@ -2,6 +2,7 @@ import { tasksActions } from "../utils/constants";
 
 export const INITIAL_TASKS_STATE = {
   hidden: false,
+  showSetting: false,
   tasks: [],
 };
 
@@ -34,6 +35,11 @@ export const tasksReducer = (state, action) => {
         tasks: state.tasks
           .filter((task) => task.id !== action.payload._id)
           .sort((a) => a.completed),
+      };
+    case tasksActions.TOGGLE_SETTING:
+      return {
+        ...state,
+        showSetting: !state.showSetting,
       };
     case tasksActions.TOGGLE_HIDDEN:
       return {

@@ -1,22 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { BiBarChartSquare, BiSliderAlt } from "react-icons/bi";
-import { FaUserCircle } from "react-icons/fa";
 import CustomNavigation from "./CustomNavigation";
 import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { useLogout } from "../../hooks/useLogout";
+import ShowUserLogin from "./ShowUserLogin";
 
 const Navigation = () => {
-  const { username } = useAuthContext();
-  const { logout } = useLogout();
-
+  // ref
   const settingRef = useRef(null);
-
-  // // loggout the user
-  const logoutUser = () => {
-    logout();
-  };
 
   // show the letters on large screen
   const [width, setWidth] = useState(window.innerWidth);
@@ -37,7 +28,6 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      console.log("Navigation hide");
       if (
         showSetting &&
         settingRef.current &&
@@ -60,13 +50,7 @@ const Navigation = () => {
           <h1 className="nav-h1">Pomodoro</h1>
         </Link>
         <nav className="nav__container" style={{ zIndex: showSetting ? 2 : 0 }}>
-          <Link
-            className="nav__setting report"
-            onClick={() => {
-              alert("reports will be coming in the next patch :)");
-            }}
-            to="/report"
-          >
+          <Link className="nav__setting report" to="/report">
             <BiBarChartSquare />
             {width > breakPoint && <p>Report</p>}
           </Link>
@@ -77,21 +61,7 @@ const Navigation = () => {
             </div>
             {showSetting && <CustomNavigation />}
           </div>
-          {username ? (
-            <div className="relative">
-              <div className="nav__setting registration" onClick={logoutUser}>
-                <FaUserCircle />
-                {width > breakPoint && <p>{username}</p>}
-              </div>
-              {/* TODO: custom logged in menu */}
-              {/* TODO: show user setting that can show their, profile, delete their info and showUserSetting && <CustomUser /> */}
-            </div>
-          ) : (
-            <Link className="nav__setting registration" to="/login">
-              <FaUserCircle />
-              {width > breakPoint && <p>Login</p>}
-            </Link>
-          )}
+          <ShowUserLogin width={width} breakPoint={breakPoint} />
         </nav>
       </div>
     </header>

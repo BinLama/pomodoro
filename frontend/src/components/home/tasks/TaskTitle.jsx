@@ -1,24 +1,61 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { taskSetting } from "../../../data";
 import { useTaskContext } from "../../../hooks/useTasks";
+import { usePomodoroContext } from "../../../hooks/usePomodoroContext";
+import { useEffect, useRef } from "react";
 
-const TaskTitle = ({ displaySetting, openAndCloseSetting }) => {
-  const { markAllTasks, toggleHidden, hidden, clearAllTasks, unMarkAllTasks } =
-    useTaskContext();
+const TaskTitle = () => {
+  const {
+    markAllTasks,
+    toggleHidden,
+    hidden,
+    clearAllTasks,
+    unMarkAllTasks,
+    showSetting,
+    toggleSetting,
+  } = useTaskContext();
 
-  // toggle hide and show items
+  const { showLogin } = usePomodoroContext();
+
+  // auto hide task setting
+  const taskSettingRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        showSetting &&
+        taskSettingRef.current &&
+        !taskSettingRef.current.contains(e.target)
+      ) {
+        toggleSetting();
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showSetting]);
+
+  let zIndexCSS = {};
+
+  if (showLogin) {
+    zIndexCSS = {
+      zIndex: -1,
+    };
+  }
 
   return (
     <div className="tasks__title">
       <h1>Tasks</h1>
       <div
         className="tasks__title__button"
-        style={{ zIndex: displaySetting ? 2 : 0 }}
+        style={zIndexCSS}
+        ref={taskSettingRef}
       >
-        <button className="btn" onClick={openAndCloseSetting}>
+        <button className="btn" onClick={toggleSetting}>
           <BsThreeDotsVertical />
         </button>
-        {displaySetting && (
+        {showSetting && (
           <div className="tasks__title__setting">
             <div className="tasks__title__setting-div" onClick={toggleHidden}>
               {!hidden ? (

@@ -10,6 +10,15 @@
   display: flex;
   align-items: center;
   flex: 1;
+  user-select: none;
+  /* webkit (safari, chrome) browsers */
+  -webkit-user-select: none;
+  /* mozilla browsers */
+  -moz-user-select: none;
+  /* webkit (konqueror) browsers */
+  -khtml-user-select: none;
+  /* IE10+ */
+  -ms-user-select: none;
 
   &__container {
     flex: 1;
