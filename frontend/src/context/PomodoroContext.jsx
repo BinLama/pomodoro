@@ -59,7 +59,7 @@ export const PomodoroContextProvider = ({ children }) => {
     useLocalStorage("customSlider");
 
   // check if user is logged in
-  const { user, authAxios: pomoAxios } = useAuthContext();
+  const { username, authAxios: pomoAxios } = useAuthContext();
 
   const initialData = getItem() || INITIAL_POMODORO_STATE;
 
@@ -80,7 +80,7 @@ export const PomodoroContextProvider = ({ children }) => {
    */
   useEffect(() => {
     const getAllData = async () => {
-      // if (!user) {
+      // if (!username) {
       /**
        * Get setting avlue from the local storage if available
        */
@@ -183,17 +183,17 @@ export const PomodoroContextProvider = ({ children }) => {
     };
     // console.log("GETCH DATA");
     getAllData();
-  }, [user]);
+  }, [username]);
 
   // Save data to local storage on every dispatch
   useEffect(() => {
-    if (!user) {
+    if (!username) {
       // Save updated data to local storage
       setItem(state);
     } else {
       // make a call to the database
     }
-  }, [state, user, setItem]);
+  }, [state, username, setItem]);
 
   // control toggling of setting
   const setShowOrHideSetting = () => {
@@ -305,100 +305,96 @@ export const PomodoroContextProvider = ({ children }) => {
     console.log("AUDIO:", state.audio);
     state.audio.volume = loudness / 100;
     dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
-    if (user) {
-      const newData = { volume: loudness };
-      await settingPatchRequest(newData, state.id);
-    }
+    // if (username) {
+    //   const newData = { volume: loudness };
+    //   await settingPatchRequest(newData, state.id);
+    // }
   };
 
   const changeMusic = async (music) => {
     dispatch({ type: pomodoroReducerActions.CHANGE_MUSIC, payload: music });
     playAudio(music);
-    if (user) {
-      const newData = {
-        mute: false,
-        studyStartSound: music,
-      };
+    // if (username) {
+    //   const newData = {
+    //     mute: false,
+    //     studyStartSound: music,
+    //   };
 
-      await settingPatchRequest(pomoAxios, newData, state.id);
-    }
+    //   await settingPatchRequest(pomoAxios, newData, state.id);
+    // }
   };
 
   const toggleMute = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_MUTE });
-    if (user) {
-      const newData = {
-        mute: !state.mute,
-      };
-      await settingPatchRequest(pomoAxios, newData, state.id);
-    }
+    // if (username) {
+    //   const newData = {
+    //     mute: !state.mute,
+    //   };
+    //   await settingPatchRequest(pomoAxios, newData, state.id);
+    // }
   };
 
   const toggleBreak = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_autoBreak });
-    if (user) {
-      const newData = {
-        autoBreak: !state.autoBreak,
-      };
-      await settingPatchRequest(pomoAxios, newData, state.id);
-      // Now, update the local state with the response from the server
-      try {
-        const response = await pomoAxios.get(`/setting`, {
-          withCredentials: true,
-          credentials: "include",
-        });
+    // if (username) {
+    //   const newData = {
+    //     autoBreak: !state.autoBreak,
+    //   };
+    //   await settingPatchRequest(pomoAxios, newData, state.id);
+    //   // Now, update the local state with the response from the server
+    //   try {
+    //     const response = await pomoAxios.get(`/setting`, {
+    //       withCredentials: true,
+    //       credentials: "include",
+    //     });
 
-        if (response.status === 200) {
-          const data = await response.data;
+    //     if (response.status === 200) {
+    //       const data = await response.data;
 
-          // Extract the necessary values from the response
-          const { autoBreak } = data.setting;
+    //       // Extract the necessary values from the response
+    //       const { autoBreak } = data.setting;
 
-          // Update the local state with the new values
-          dispatch({
-            type: pomodoroReducerActions.TOGGLE_autoBreak_SUCCESS,
-            payload: { autoBreak: autoBreak },
-          });
-        }
-      } catch (err) {
-        // Handle errors
-        console.error("Error updating state after togglePomo:", err);
-      }
-    }
+    //       // Update the local state with the new values
+    //       dispatch({
+    //         type: pomodoroReducerActions.TOGGLE_autoBreak_SUCCESS,
+    //         payload: { autoBreak: autoBreak },
+    //       });
+    //     }
+    //   } catch (err) {
+    //     // Handle errors
+    //     console.error("Error updating state after togglePomo:", err);
+    //   }
+    // }
   };
 
   const togglePomo = async () => {
     console.log("TOGGLE POMO");
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
-    if (user) {
-      const newData = {
-        autoStudy: !state.autoPomo,
-      };
-      await settingPatchRequest(pomoAxios, newData, state.id);
-
-      // Now, update the local state with the response from the server
-      try {
-        const response = await pomoAxios.get(`/setting`, {
-          withCredentials: true,
-          credentials: "include",
-        });
-
-        if (response.status === 200) {
-          const data = await response.data;
-
-          // Extract the necessary values from the response
-          const { autoStudy } = data.setting;
-
-          // Update the local state with the new values
-          dispatch({
-            type: pomodoroReducerActions.TOGGLE_AUTO_POMO_SUCCESS,
-            payload: { autoPomo: autoStudy },
-          });
-        }
-      } catch (err) {
-        // Handle errors
-        console.error("Error updating state after togglePomo:", err);
-      }
+    if (username) {
+      // const newData = {
+      //   autoStudy: !state.autoPomo,
+      // };
+      // await settingPatchRequest(pomoAxios, newData, state.id);
+      // // Now, update the local state with the response from the server
+      // try {
+      //   const response = await pomoAxios.get(`/setting`, {
+      //     withCredentials: true,
+      //     credentials: "include",
+      //   });
+      //   if (response.status === 200) {
+      //     const data = await response.data;
+      //     // Extract the necessary values from the response
+      //     const { autoStudy } = data.setting;
+      //     // Update the local state with the new values
+      //     dispatch({
+      //       type: pomodoroReducerActions.TOGGLE_AUTO_POMO_SUCCESS,
+      //       payload: { autoPomo: autoStudy },
+      //     });
+      //   }
+      // } catch (err) {
+      //   // Handle errors
+      //   console.error("Error updating state after togglePomo:", err);
+      // }
     }
   };
 

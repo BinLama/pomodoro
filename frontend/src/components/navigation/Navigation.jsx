@@ -8,14 +8,14 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 
 const Navigation = () => {
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
+  const { username } = useAuthContext();
+  // const { logout } = useLogout();
 
   const settingRef = useRef(null);
 
-  // loggout the user
+  // // loggout the user
   const logoutUser = () => {
-    logout();
+    // logout();
   };
 
   // show the letters on large screen
@@ -77,10 +77,13 @@ const Navigation = () => {
             </div>
             {showSetting && <CustomNavigation />}
           </div>
-          {user ? (
-            <div className="nav__setting registration" onClick={logoutUser}>
-              <FaUserCircle />
-              {width > breakPoint && <p>{user}</p>}
+          {username ? (
+            <div className="relative">
+              <div className="nav__setting registration" onClick={logoutUser}>
+                <FaUserCircle />
+                {width > breakPoint && <p>{username}</p>}
+              </div>
+              {/* TODO: custom logged in menu */}
             </div>
           ) : (
             <Link

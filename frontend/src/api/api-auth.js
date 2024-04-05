@@ -6,7 +6,7 @@ export const authAxios = axios.create({
 
 export const checkAuthentication = async () => {
   try {
-    const response = await authAxios.get("/check_auth", {
+    const response = await authAxios.get("/authenticate", {
       withCredentials: true,
       credentials: "include",
     });

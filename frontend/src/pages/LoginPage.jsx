@@ -6,9 +6,9 @@ import Oauth from "../components/login/Oauth";
 import { Logo } from "../components/utils";
 
 const LoginPage = () => {
-  const { user } = useAuthContext();
+  const { username } = useAuthContext();
 
-  if (user) {
+  if (username) {
     <Navigate to="/" replace={true} />;
   }
 

@@ -1,18 +1,26 @@
 import { auth } from "../utils/constants";
 
 export const INITIAL_AUTH_STATE = {
-  user: null,
+  email: null,
+  username: null,
+  id: null,
+  fName: null,
+  lName: null,
 };
 
 export const authReducer = (state, action) => {
+  console.log("payload", action.payload);
   switch (action.type) {
     case auth.LOGIN:
       return {
-        user: action.payload,
+        ...action.payload,
       };
     case auth.LOGOUT:
       return {
-        user: null,
+        username: null,
+        id: null,
+        fName: null,
+        lName: null,
       };
     default:
       state;

@@ -8,7 +8,7 @@ import { tasksActions } from "../utils/constants";
 export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
-  const { user } = useAuthContext();
+  const { username } = useAuthContext();
 
   // const [hidden, setHidden] = useState(false);
 
@@ -25,17 +25,17 @@ export const TaskContextProvider = ({ children }) => {
   useEffect(() => {
     // initial get task
     const getTasks = () => {
-      if (user) {
+      if (username) {
         // get data from database
       }
     };
     getTasks();
-  }, [user]);
+  }, [username]);
 
   useEffect(() => {
     // this is for when user is not logged, when logged in
     // make request from the function
-    if (!user) {
+    if (!username) {
       console.log("tasks", state);
       setItem(state);
     }
@@ -44,7 +44,7 @@ export const TaskContextProvider = ({ children }) => {
   // CRUD for tasks
   // create (should be a dictionary)
   const createTask = (newTask) => {
-    if (!user) {
+    if (!username) {
       const id = uuid();
 
       /* create position */
@@ -67,14 +67,14 @@ export const TaskContextProvider = ({ children }) => {
       return;
     }
 
-    // if (user) {
+    // if (username) {
 
     // }
   };
 
   // update
   const updateTask = (id, updatedValue) => {
-    if (!user) {
+    if (!username) {
       dispatch({
         type: tasksActions.UPDATE_TASK,
         payload: { id, updatedValue },
@@ -85,7 +85,7 @@ export const TaskContextProvider = ({ children }) => {
 
   // delete
   const deleteTask = (id) => {
-    if (!user) {
+    if (!username) {
       dispatch({ type: tasksActions.DELETE_TASK, payload: { _id: id } });
       console.log("TASK DELETED");
     }
@@ -109,21 +109,21 @@ export const TaskContextProvider = ({ children }) => {
   };
 
   const markAllTasks = () => {
-    if (!user) {
+    if (!username) {
       dispatch({ type: tasksActions.MARK_ALL_TASKS });
       console.log("Marked all tasks");
     }
   };
 
   const unMarkAllTasks = () => {
-    if (!user) {
+    if (!username) {
       dispatch({ type: tasksActions.UNMARK_ALL_TASKS });
       console.log("unmarked all tasks");
     }
   };
 
   const clearAllTasks = () => {
-    if (!user) {
+    if (!username) {
       const confirm = window.confirm("Do you want to remove all  tasks?");
 
       if (!confirm) return;
@@ -135,7 +135,7 @@ export const TaskContextProvider = ({ children }) => {
 
   // show or hide complete task toggle
   const toggleHidden = () => {
-    if (!user) {
+    if (!username) {
       dispatch({ type: tasksActions.TOGGLE_HIDDEN });
     }
   };

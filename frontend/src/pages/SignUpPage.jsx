@@ -4,9 +4,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Logo } from "../components/utils";
 
 const SignUpPage = () => {
-  const { user } = useAuthContext();
+  const { username } = useAuthContext();
 
-  if (user) {
+  if (username) {
     <Navigate to="/" replace={true} />;
   }
 

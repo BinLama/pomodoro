@@ -11,9 +11,13 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     // checking the authentication of the token
     // should resign the token if the user is the correct one
-    const data = checkAuthentication();
-    console.log(data);
-    dispatch({ type: auth.LOGIN, payload: data });
+    const authCheck = async () => {
+      const data = await checkAuthentication();
+      console.log(data);
+      dispatch({ type: auth.LOGIN, payload: data.user });
+    };
+
+    authCheck();
   }, []);
 
   console.log("AuthContext state: ", state);
