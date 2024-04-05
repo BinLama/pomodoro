@@ -16,13 +16,9 @@ const Login = () => {
   };
 
   const handleSignUp = async (e) => {
-    // need to send the request to the backend and then use that data to update the global context.
     e.preventDefault();
-    console.log("login");
     const { usernameOrEmail, password } = values;
-    console.log(usernameOrEmail, password);
     await login(usernameOrEmail, password);
-    console.log("REDIRECT");
   };
 
   return (
@@ -58,6 +54,7 @@ const Login = () => {
         </button>
       </form>
       {error && <div className="error">{error}</div>}
+      {/* TODO: use toast to show the error */}
     </section>
   );
 };

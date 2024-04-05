@@ -9,7 +9,7 @@ const LoginPage = () => {
   const { username } = useAuthContext();
 
   if (username) {
-    <Navigate to="/" replace={true} />;
+    return <Navigate to="/" replace={true} />;
   }
 
   return (

@@ -9,13 +9,13 @@ import { useLogout } from "../../hooks/useLogout";
 
 const Navigation = () => {
   const { username } = useAuthContext();
-  // const { logout } = useLogout();
+  const { logout } = useLogout();
 
   const settingRef = useRef(null);
 
   // // loggout the user
   const logoutUser = () => {
-    // logout();
+    logout();
   };
 
   // show the letters on large screen
@@ -84,22 +84,14 @@ const Navigation = () => {
                 {width > breakPoint && <p>{username}</p>}
               </div>
               {/* TODO: custom logged in menu */}
+              {/* TODO: show user setting that can show their, profile, delete their info and showUserSetting && <CustomUser /> */}
             </div>
           ) : (
-            <Link
-              className="nav__setting registration"
-              to="/login"
-              // onClick={() => {
-              //   alert(
-              //     "server is not connected at the moment. It will be coming in the next patch :)"
-              //   );
-              // }}
-            >
+            <Link className="nav__setting registration" to="/login">
               <FaUserCircle />
               {width > breakPoint && <p>Login</p>}
             </Link>
           )}
-          {/* TODO: show user setting that can show their, profile, delete their info and showUserSetting && <CustomUser /> */}
         </nav>
       </div>
     </header>
