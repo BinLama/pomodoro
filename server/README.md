@@ -99,3 +99,7 @@ foo@bar/server: ~$ npm test
 - Using migrations to update tables
 - Using seeders to insert data
 - End to end testing of the whole API
+
+## TODO
+
+- Change my api to take in userId because it's the RestAPI way.

@@ -7,11 +7,12 @@
 
 ### TODO:
 
-- [x] fix auth error on the frontend
 - [x] Build a navigation
-- [x] Create a task list (with CURD operations)
 - [x] Save them all in local storage if they are not logged in
 - [x] Add logout and view profile drop down
+- [ ] add a profile page (where you can change profiles)
+- [ ] fix sign up page
+- [ ] Create a task list (with CURD operations)
 - [ ] add theme picker on the drop down
 - [ ] give them a small warning about persistence of data
 
@@ -26,6 +27,12 @@
 - [ ] connect the task to the database
 - [ ] add drag and drop capabilities (and store them in database)
 - [ ] save the poistion of the files that are dragged on localhost and database (not sure how right now, thinking of adding a position value and incrementing it based on object added)
+
+### TODO Reports
+
+- [ ] Show their most active hours and days
+- [ ] Their streak
+- [ ] What they mostly focused on
 
 ### TODO MORE:
 

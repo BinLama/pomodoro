@@ -1,10 +1,12 @@
 import { BiLogOut } from "react-icons/bi";
 import { FaUserEdit } from "react-icons/fa";
 import { useLogout } from "../../hooks/useLogout";
+import { Link } from "react-router-dom";
 
 const CustomLogin = () => {
   const { logout } = useLogout();
-  // // loggout the user
+
+  // loggout the user
   const logoutUser = () => {
     logout();
   };
@@ -12,10 +14,10 @@ const CustomLogin = () => {
   return (
     <div className="absolute nav__login-options">
       <div className="nav__login-options-container">
-        <div className="login__options">
+        <Link className="login__options" to="/profile">
           <FaUserEdit />
           <p>My Profile</p>
-        </div>
+        </Link>
         <div className="login__options" onClick={logoutUser}>
           <BiLogOut />
           <p>Logout</p>

@@ -1,0 +1,53 @@
+@use "../utils/" as u;
+
+.profileEdit__form {
+  font-size: u.rem(12);
+
+  &--div {
+    font-family: var(--ff-s);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: u.rem(20);
+    @include u.userInput;
+  }
+
+  &--update {
+    margin-top: u.rem(10);
+    background-color: hsla(var(--red), 70%);
+    color: white;
+    width: 100%;
+
+    &:hover {
+      background-color: hsla(var(--red), 85%);
+      color: hsl(var(--white));
+    }
+
+    &:active {
+
+      background-color: hsla(var(--red), 50%);
+    }
+  }
+
+  &--cancel {
+    margin-top: u.rem(10);
+    width: 100%;
+    background-color: hsl(var(--bg));
+    border: 1px solid hsla(var(--blk), 85%);
+    color: hsla(var(--blk), 85%);
+
+    &:hover {
+      background-color: hsla(var(--light-grey), 30%);
+      border: 1px solid hsla(var(--blk), 85%);
+      color: hsla(var(--blk), 85%);
+
+    }
+
+    &:active {
+      background-color: hsl(var(--bg));
+      border: 1px solid hsla(var(--blk), 50%);
+      color: hsla(var(--blk), 50%);
+    }
+  }
+
+}

@@ -11,11 +11,6 @@ const ShowUserLogin = (props) => {
   const { username } = useAuthContext();
   const { setToggleLogin, showLogin } = usePomodoroContext();
   const loginRef = useRef(null);
-  // const [showLogin, setShowLogin] = useState(false);
-
-  // const setToggleLogin = () => {
-  //   setShowLogin(!showLogin);
-  // };
 
   useEffect(() => {
     const handleClickOutside = (e) => {

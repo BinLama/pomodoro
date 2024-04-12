@@ -1,0 +1,72 @@
+@use "../utils/" as u;
+
+.profileCard {
+  margin-inline: u.rem(10);
+
+  &__div {
+    display: grid;
+    gap: u.rem(10);
+    max-width: u.rem(315);
+    margin: 0 auto;
+
+    &--img {
+      margin: auto;
+
+      svg {
+        height: u.rem(100);
+        width: u.rem(100);
+      }
+    }
+
+    &--edit {
+      right: 0%;
+      bottom: 0%;
+      background-color: hsl(var(--bg));
+      border: 1px solid black;
+      border-radius: 50%;
+      padding: u.rem(4);
+      height: u.rem(30);
+      width: u.rem(30);
+      cursor: pointer;
+
+      svg {
+        height: 100%;
+      }
+
+    }
+
+    &--info {
+      text-align: center;
+    }
+
+    &--profile {
+      h2 {
+        font-size: u.rem(16);
+      }
+
+      p {
+        font-size: u.rem(12);
+        color: hsla(var(--dark-grey), 0.8);
+      }
+    }
+  }
+
+  &__btn {
+    &--edit {
+      margin-top: u.rem(10);
+      background-color: hsla(var(--red), 70%);
+      color: white;
+      width: 100%;
+
+      &:hover {
+        background-color: hsla(var(--red), 85%);
+        color: hsl(var(--white));
+      }
+
+      &:active {
+
+        background-color: hsla(var(--red), 50%);
+      }
+    }
+  }
+}

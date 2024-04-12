@@ -2,6 +2,7 @@ import "./scss/App.scss";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Error, SignUpPage, LoginPage, Home, Report, Navbar } from "./pages";
+import ProfilePage from "./pages/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "report",
         element: <Report />,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
       },
     ],
   },
