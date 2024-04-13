@@ -4,7 +4,7 @@ const POMODORO = "pomodoro";
 const LONGBREAK = "longBreak";
 
 // TODO change to 60
-const SECONDS = 3;
+const SECONDS = 60;
 
 // Task modal notes auto height change
 const SCROLLHEIGHT = 50;

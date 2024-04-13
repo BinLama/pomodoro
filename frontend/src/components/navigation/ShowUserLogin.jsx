@@ -36,7 +36,7 @@ const ShowUserLogin = (props) => {
           <FaUserCircle />
           {width > breakPoint && <p>{username}</p>}
         </div>
-        {showLogin && <CustomLogin />}
+        {showLogin && <CustomLogin setToggleLogin={setToggleLogin} />}
       </div>
     );
   }
