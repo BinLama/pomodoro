@@ -10,21 +10,32 @@ const authMiddle = require("../middleware/auth.middleware");
 const userRouter = express.Router();
 
 // get all user
-userRouter.get("/list", userCtrl.getAllUsers);
+userRouter.route("/list").get(userCtrl.getAllUsers);
 
 // get for viewing the profile
 // post for creating new user
+userRouter
+  .route("/")
+  .get(authMiddle.requireSignIn, userCtrl.getUser)
+  .post(validMiddle.validateSignUpInput, userCtrl.createUser);
+
 // delete for deleting the user
 // patch for changing the profile
 userRouter
-  .route("/")
-  .get(authMiddle.validateTokenAndGetUser, userCtrl.getUser)
-  .post(validMiddle.validateSignUpInput, userCtrl.createUser)
-  .delete(authMiddle.validateTokenAndGetUser, userCtrl.deleteUser)
+  .route("/:id")
+  .get(authMiddle.requireSignIn, userCtrl.getUser)
   .patch(
-    authMiddle.validateTokenAndGetUser,
+    authMiddle.requireSignIn,
+    authMiddle.hasAuthorization,
     validMiddle.validateUserUpdate,
     userCtrl.updateUser
+  )
+  .delete(
+    authMiddle.requireSignIn,
+    authMiddle.hasAuthorization,
+    userCtrl.deleteUser
   );
+
+userRouter.param("id", userCtrl.userById);
 
 module.exports = userRouter;

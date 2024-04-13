@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Line } from "../utils";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { updateSingleUser } from "../../api/api-user";
 
 const EditProfile = ({ hideEdit }) => {
-  const { username, fName, lName, email } = useAuthContext();
+  const { id, username, fName, lName, email } = useAuthContext();
 
   const [values, setValues] = useState({
     fName: fName,
@@ -16,6 +17,10 @@ const EditProfile = ({ hideEdit }) => {
     // need to send the request to the backend and then use that data to update the global context.
     e.preventDefault();
     console.log("going to update");
+    // need to call user api
+    const data = await updateSingleUser({ userById: id }, { ...values });
+    console.log(data);
+    hideEdit();
   };
 
   const handleChange = (name) => (event) => {

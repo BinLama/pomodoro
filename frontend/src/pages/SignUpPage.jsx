@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SignUp from "../components/signup/SignUp";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Logo } from "../components/utils";
@@ -6,8 +6,16 @@ import { Logo } from "../components/utils";
 const SignUpPage = () => {
   const { username } = useAuthContext();
 
+  const location = useLocation();
+
+  const { from } = location.state || {
+    from: {
+      pathname: "/",
+    },
+  };
+
   if (username) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to={from} replace={true} />;
   }
 
   return (

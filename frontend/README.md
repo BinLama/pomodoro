@@ -10,7 +10,8 @@
 - [x] Build a navigation
 - [x] Save them all in local storage if they are not logged in
 - [x] Add logout and view profile drop down
-- [ ] add a profile page (where you can change profiles)
+- [x] add a profile page (where you can change profiles)
+- [ ] make sure that profile can only be edited by authrozed users.
 - [ ] fix sign up page
 - [ ] Create a task list (with CURD operations)
 - [ ] add theme picker on the drop down

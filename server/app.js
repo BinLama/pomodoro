@@ -36,10 +36,10 @@ function createServer() {
     res.status(200).json({ msg: "this is a server..." });
   });
   app.use("/api/v1/user", userRoutes);
-  app.use("/api/v1/task", authMiddle.validateTokenAndGetUser, taskRoutes);
-  app.use("/api/v1/setting", authMiddle.validateTokenAndGetUser, settingRoutes);
-  app.use("/api/v1/session", authMiddle.validateTokenAndGetUser, sessionRoutes);
-  app.use("/api/v1/color", authMiddle.validateTokenAndGetUser, colorRoutes);
+  app.use("/api/v1/task", authMiddle.requireSignIn, taskRoutes);
+  app.use("/api/v1/setting", authMiddle.requireSignIn, settingRoutes);
+  app.use("/api/v1/session", authMiddle.requireSignIn, sessionRoutes);
+  app.use("/api/v1/color", authMiddle.requireSignIn, colorRoutes);
   app.use("/api/v1/auth", authRoutes);
 
   // error handler

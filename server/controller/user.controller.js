@@ -10,6 +10,30 @@ const Setting = models.setting;
 const Color = models.color;
 
 /**
+ *
+ *
+ */
+const userById = async (req, res, next, id) => {
+  try {
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ["password"] },
+    });
+
+    if (!user) {
+      const err = new NotFoundError("No users found");
+      return next(err);
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    const err = new InternalError(`Error getting user by id ${error.message}`);
+
+    next(err);
+  }
+};
+
+/**
  * return all the users that have signed up
  * this path should be deleted later
  *
@@ -31,7 +55,7 @@ const getAllUsers = async (req, res, next) => {
       return next(err);
     }
 
-    return res.status(StatusCodes.OK).json({ users });
+    return res.status(StatusCodes.OK).json(users);
   } catch (error) {
     const err = new InternalError(`Error getting all user: ${error.message}`);
 
@@ -49,7 +73,8 @@ const getAllUsers = async (req, res, next) => {
  */
 const getUser = async (req, res, next) => {
   try {
-    const user = req.user;
+    const user = req.user || req.auth;
+
     res.status(StatusCodes.OK).json({
       user: {
         email: user.email,
@@ -186,6 +211,7 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
+  userById,
   getAllUsers,
   getUser,
   createUser,

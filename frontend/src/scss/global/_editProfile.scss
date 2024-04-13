@@ -15,7 +15,7 @@
   &--update {
     margin-top: u.rem(10);
     background-color: hsla(var(--red), 70%);
-    color: white;
+    color: hsl(var(--white));
     width: 100%;
 
     &:hover {

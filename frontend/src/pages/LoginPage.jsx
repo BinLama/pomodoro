@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import Login from "../components/login/Login";
 import LoginSeperator from "../components/login/LoginSeperator";
@@ -7,9 +7,16 @@ import { Logo } from "../components/utils";
 
 const LoginPage = () => {
   const { username } = useAuthContext();
+  const location = useLocation();
+
+  const { from } = location.state || {
+    from: {
+      pathname: "/",
+    },
+  };
 
   if (username) {
-    return <Navigate to="/" replace={true} />;
+    return <Navigate to={from} replace={true} />;
   }
 
   return (
