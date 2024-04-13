@@ -54,7 +54,7 @@ const MyProfile = () => {
     return () => {
       abortController.abort();
     };
-  }, [userId, id]);
+  }, [userId, id, values.editProfile]);
 
   return (
     <section className="profileCard">
@@ -72,7 +72,11 @@ const MyProfile = () => {
             {!values.editProfile ? (
               <ProfileCard showEdit={showEdit} {...values} />
             ) : (
-              <EditProfile hideEdit={hideEdit} {...values} />
+              <EditProfile
+                hideEdit={hideEdit}
+                setValues={setValues}
+                {...values}
+              />
             )}
           </div>
         </div>

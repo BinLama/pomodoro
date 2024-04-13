@@ -1,42 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Line } from "../utils";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { updateSingleUser } from "../../api/api-user";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
-const EditProfile = ({ hideEdit }) => {
-  const { id, username, fName, lName, email } = useAuthContext();
+const EditProfile = ({ hideEdit, user: people, setValues }) => {
+  const { id } = useAuthContext();
 
-  const [values, setValues] = useState({
-    fName: fName,
-    lName: lName,
-    username: username,
-    email: email,
+  const [user, setUser] = useState({
+    fName: people.fName,
+    lName: people.lName,
+    username: people.username,
+    email: people.email,
   });
 
-  const handleEdit = async (e) => {
+  const handleEditSubmit = async (e) => {
     // need to send the request to the backend and then use that data to update the global context.
     e.preventDefault();
     console.log("going to update");
     // need to call user api
-    const data = await updateSingleUser({ userById: id }, { ...values });
-    console.log(data);
-    hideEdit();
+    const data = await updateSingleUser({ userId: id }, { ...user });
+    if (data.user) {
+      return hideEdit();
+    }
   };
 
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
+    setUser({ ...user, [name]: event.target.value });
   };
 
   return (
     <div className="profileEdit">
-      <form className="profileEdit__form" onSubmit={handleEdit}>
+      <form className="profileEdit__form" onSubmit={handleEditSubmit}>
         <div className="profileEdit__form--div">
           <label htmlFor="fName">First Name</label>
           <input
             type="text"
             name="fName"
             id="fName"
-            value={values.fName}
+            value={user.fName}
             onChange={handleChange("fName")}
             placeholder="First Name"
           />
@@ -49,7 +50,7 @@ const EditProfile = ({ hideEdit }) => {
             type="text"
             name="lName"
             id="lName"
-            value={values.lName}
+            value={user.lName}
             onChange={handleChange("lName")}
             placeholder="Last Name"
           />
@@ -61,7 +62,7 @@ const EditProfile = ({ hideEdit }) => {
             type="text"
             name="username"
             id="username"
-            value={values.username}
+            value={user.username}
             onChange={handleChange("username")}
             placeholder="username"
           />
@@ -74,7 +75,7 @@ const EditProfile = ({ hideEdit }) => {
             type="email"
             name="email"
             id="email"
-            value={values.email}
+            value={user.email}
             onChange={handleChange("email")}
             placeholder="name@example.com"
           />
