@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Line } from "../utils";
 import { updateSingleUser } from "../../api/api-user";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { auth } from "../../utils/constants";
 
 const EditProfile = ({ hideEdit, user: people, setValues }) => {
-  const { id } = useAuthContext();
+  const { id, dispatch } = useAuthContext();
 
   const [user, setUser] = useState({
     fName: people.fName,
@@ -20,6 +21,7 @@ const EditProfile = ({ hideEdit, user: people, setValues }) => {
     // need to call user api
     const data = await updateSingleUser({ userId: id }, { ...user });
     if (data.user) {
+      dispatch({ type: auth.LOGIN, payload: data.user });
       return hideEdit();
     }
   };
