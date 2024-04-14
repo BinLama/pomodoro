@@ -32,7 +32,7 @@ export const TaskContextProvider = ({ children }) => {
     const getTasks = async () => {
       // get data from database
       const tasks = await getAllTasks(signal);
-      console.log("useEffect", tasks);
+
       if (tasks) {
         dispatch({ type: tasksActions.SET_TASKS, payload: tasks });
       }

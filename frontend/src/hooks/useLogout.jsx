@@ -21,6 +21,7 @@ export const useLogout = () => {
       if (response.status === 200) {
         setIsLoading(false);
         dispatch({ type: auth.LOGOUT });
+        window.location.reload();
       }
     } catch (err) {
       setIsLoading(false);
