@@ -26,7 +26,7 @@ const Tasks = () => {
   // handle drag sorting
   const handleDragStart = (e, index) => {
     dragTaskRef.current = index;
-    dispatch({ type: tasksActions.SET_TASKS, payload: tasks }); // Make sure to create a new array to trigger a re-render
+    // dispatch({ type: tasksActions.SET_TASKS, payload: tasks }); // Make sure to create a new array to trigger a re-render
     e.dataTransfer.effectAllowed = "move";
   };
 
@@ -44,7 +44,7 @@ const Tasks = () => {
         _tasks.splice(dragOverItemRef.current, 0, dragItemContent);
 
         dragTaskRef.current = dragOverItemRef.current;
-        dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
+        // dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
       }
     }
   };
@@ -64,7 +64,7 @@ const Tasks = () => {
       dragOverItemRef.current = null;
       console.log(_tasks);
 
-      dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
+      // dispatch({ type: tasksActions.SET_TASKS, payload: _tasks });
 
       // TODO connect to server here.
     }

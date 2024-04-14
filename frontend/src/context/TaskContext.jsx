@@ -6,6 +6,8 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { INITIAL_TASKS_STATE, tasksReducer } from "../reducers/taskReducers";
 import { tasksActions } from "../utils/constants";
 
+import { getAllTasks } from "../api/api-tasks";
+
 export const TaskContext = createContext();
 
 export const TaskContextProvider = ({ children }) => {
@@ -24,18 +26,29 @@ export const TaskContextProvider = ({ children }) => {
   const addTaskRef = useRef(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
     // initial get task
-    const getTasks = () => {
-      if (username) {
-        // get data from database
+    const getTasks = async () => {
+      // get data from database
+      const tasks = await getAllTasks(signal);
+      console.log("useEffect", tasks);
+      if (tasks) {
+        dispatch({ type: tasksActions.SET_TASKS, payload: tasks });
       }
     };
-    getTasks();
+
+    if (username) {
+      getTasks();
+    }
+
+    return () => {
+      abortController.abort();
+    };
   }, [username]);
 
   useEffect(() => {
-    // this is for when user is not logged, when logged in
-    // make request from the function
+    // used to keep track of tasks and settings when not logged in
     if (!username) {
       console.log("tasks", state);
       setItem(state);
@@ -68,9 +81,9 @@ export const TaskContextProvider = ({ children }) => {
       return;
     }
 
-    // if (username) {
-
-    // }
+    if (username) {
+      console.log("Got to create task");
+    }
   };
 
   // update

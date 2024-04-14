@@ -16,7 +16,7 @@ export const tasksReducer = (state, action) => {
     case tasksActions.SET_TASKS:
       return {
         ...state,
-        tasks: action.payload,
+        tasks: [...action.payload],
       };
     case tasksActions.UPDATE_TASK:
       const newTaskList = state.tasks.map((task) => {

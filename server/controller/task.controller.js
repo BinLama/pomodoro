@@ -21,7 +21,7 @@ const Task = models.task;
  */
 const getAllTask = async (req, res) => {
   try {
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
 
     const tasks = await Task.findAll({
       where: {
@@ -30,9 +30,39 @@ const getAllTask = async (req, res) => {
       order: [["position"]],
     });
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ status: STATUS.SUCCESS, task: tasks });
+    if (!tasks) {
+    }
+    return res.status(StatusCodes.OK).json(tasks);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: error.message, error: "Internal Server Error" });
+  }
+};
+
+/**
+ * get single task
+ *
+ * @param {object} req
+ * @param {object} req
+ *
+ * @return {object} returns a list of all tasks
+ */
+const getSingleTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { id: userId } = req.auth;
+
+    const task = await Task.findOne({
+      where: {
+        id,
+        userId,
+      },
+    });
+
+    return res.status(StatusCodes.OK).json({ task: task });
   } catch (error) {
     console.log(error);
     res
@@ -51,7 +81,7 @@ const getAllTask = async (req, res) => {
  */
 const createTask = async (req, res) => {
   try {
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
     const { title, note } = req.body;
 
     // gettting the new available position number
@@ -71,7 +101,7 @@ const createTask = async (req, res) => {
         .json({ error: "Task creation failed" });
     }
 
-    res.status(StatusCodes.OK).json({
+    res.status(StatusCodes.CREATED).json({
       msg: "task created",
     });
   } catch (error) {
@@ -94,7 +124,7 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
 
     const prevElPosition = req.body.prevElPosition;
     const nextElPosition = req.body.nextElPosition;
@@ -156,7 +186,7 @@ const updateTask = async (req, res) => {
 const updateTaskPosition = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
 
     // const prevElPosition = req.body.prevElPosition;
     // const nextElPosition = req.body.nextElPosition;
@@ -212,7 +242,7 @@ const updateTaskPosition = async (req, res) => {
 const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
 
     await Task.destroy({
       where: {
@@ -233,6 +263,7 @@ const deleteTask = async (req, res) => {
 };
 module.exports = {
   getAllTask,
+  getSingleTask,
   createTask,
   updateTask,
   deleteTask,
