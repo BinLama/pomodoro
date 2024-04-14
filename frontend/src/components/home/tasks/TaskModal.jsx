@@ -60,10 +60,8 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
   const validInput = () => {
     const title = pomoTask.title.trim();
     if (title.length <= 0) {
-      console.log("INVALID");
       return true;
     }
-    console.log("VALID");
     return false;
   };
 
@@ -153,9 +151,6 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
           </button>
         )}
         <div className="">
-          <button type="button" className="btn cancel" onClick={close}>
-            Cancel
-          </button>
           {newTask ? (
             <button
               type="button"
@@ -179,6 +174,9 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
               Save
             </button>
           )}
+          <button type="button" className="btn cancel" onClick={close}>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
