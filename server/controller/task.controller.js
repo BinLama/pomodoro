@@ -101,9 +101,7 @@ const createTask = async (req, res) => {
         .json({ error: "Task creation failed" });
     }
 
-    res.status(StatusCodes.CREATED).json({
-      msg: "task created",
-    });
+    res.status(StatusCodes.CREATED).json(newTask);
   } catch (error) {
     console.log(error);
     res

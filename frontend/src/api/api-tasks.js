@@ -41,7 +41,7 @@ const getAllTasks = async (signal) => {
   }
 };
 
-const createSingleTask = async (signal, task) => {
+const createSingleTask = async (task) => {
   try {
     const response = await taskAxios.post(
       "/",
@@ -49,7 +49,6 @@ const createSingleTask = async (signal, task) => {
       {
         withCredentials: true,
         credentials: "include",
-        signal: signal,
         headers: {
           Accept: "application/json",
         },

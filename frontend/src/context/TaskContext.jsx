@@ -6,7 +6,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { INITIAL_TASKS_STATE, tasksReducer } from "../reducers/taskReducers";
 import { tasksActions } from "../utils/constants";
 
-import { getAllTasks } from "../api/api-tasks";
+import { createSingleTask, getAllTasks } from "../api/api-tasks";
 
 export const TaskContext = createContext();
 
@@ -19,18 +19,23 @@ export const TaskContextProvider = ({ children }) => {
   const [showAddModal, setShowAddModal] = useState(false);
 
   const { setItem, getItem } = useLocalStorage("taskContext");
-  const initialTasks = getItem() || INITIAL_TASKS_STATE;
+  const initialTasks = username
+    ? INITIAL_TASKS_STATE
+    : getItem() || INITIAL_TASKS_STATE;
   const [state, dispatch] = useReducer(tasksReducer, initialTasks);
 
   // focus when modal is open
   const addTaskRef = useRef(null);
 
+  /**
+   * Get tasks when user is logged in
+   */
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-    // initial get task
+
+    // getting all tasks
     const getTasks = async () => {
-      // get data from database
       const tasks = await getAllTasks(signal);
 
       if (tasks) {
@@ -47,8 +52,10 @@ export const TaskContextProvider = ({ children }) => {
     };
   }, [username]);
 
+  /**
+   * Storing tasks to local storage when not logged in.
+   */
   useEffect(() => {
-    // used to keep track of tasks and settings when not logged in
     if (!username) {
       console.log("tasks", state);
       setItem(state);
@@ -56,8 +63,13 @@ export const TaskContextProvider = ({ children }) => {
   }, [state]);
 
   // CRUD for tasks
-  // create (should be a dictionary)
-  const createTask = (newTask) => {
+  /**
+   * Create task
+   * @param {object} newTasks information required to create tasks, such as: title and note
+   *
+   *
+   */
+  const createTask = async (newTask) => {
     if (!username) {
       const id = uuid();
 
@@ -66,7 +78,6 @@ export const TaskContextProvider = ({ children }) => {
       if (state.tasks.length >= 1) {
         let maxPosition = 100;
         for (const task of state.tasks) {
-          console.log("GOT HERE", task.position);
           if (task.position > maxPosition) {
             maxPosition = task.position;
           }
@@ -74,15 +85,18 @@ export const TaskContextProvider = ({ children }) => {
         }
       }
 
-      const task = { ...newTask, id, position };
+      const task = { ...newTask, id, position, completed: false };
 
       dispatch({ type: tasksActions.CREATE_TASK, payload: task });
-      console.log("TASK CREATED not logged in");
+      console.log("task created (localStorage)");
       return;
     }
 
     if (username) {
-      console.log("Got to create task");
+      const task = await createSingleTask(newTask);
+
+      dispatch({ type: tasksActions.CREATE_TASK, payload: task });
+      console.log("task created");
     }
   };
 
