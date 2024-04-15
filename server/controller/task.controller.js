@@ -120,20 +120,23 @@ const createTask = async (req, res) => {
  * @return {object} return msg task updated
  */
 const updateTask = async (req, res) => {
+  console.log("got to update");
   try {
-    const { id } = req.params;
-    const { id: userId } = req.auth;
+    // const { id } = req.params;
+    // const { id: userId } = req.auth;
 
-    const prevElPosition = req.body.prevElPosition;
-    const nextElPosition = req.body.nextElPosition;
+    // const prevElPosition = req.body.prevElPosition;
+    // const nextElPosition = req.body.nextElPosition;
 
-    console.log(`Prev El Position: ${prevElPosition}`);
-    console.log(`Next El Position: ${nextElPosition}`);
+    // console.log(`Prev El Position: ${prevElPosition}`);
+    // console.log(`Next El Position: ${nextElPosition}`);
+
+    const task = req.task;
 
     // const newPosition = updatedPosition(prevElPosition, nextElPosition);
 
-    const newTask = { ...req.body };
-    delete newTask.position;
+    const data = { ...req.body };
+    // delete data.position;
 
     // removeKeyEndsWith(req.body, "Position");
 
@@ -144,12 +147,7 @@ const updateTask = async (req, res) => {
     //   newData = { ...req.body };
     // }
 
-    await Task.update(newTask, {
-      where: {
-        id,
-        userId,
-      },
-    });
+    const newTask = await task.update(data);
 
     // check if index overLaps
     // if (newPosition.update) {
@@ -160,9 +158,7 @@ const updateTask = async (req, res) => {
     //   );
     // }
 
-    res.status(StatusCodes.OK).json({
-      msg: "task updated",
-    });
+    res.status(StatusCodes.OK).json({ task: newTask });
   } catch (error) {
     console.log(error);
     res

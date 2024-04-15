@@ -234,16 +234,18 @@ const validateTaskIdParam = withValidationErrors([
     .notEmpty()
     .withMessage("id is required")
     .custom(async (value, { req }) => {
+      console.log("Value:", value);
       const task = await Task.findOne({
         where: {
           id: value,
-          userId: req.user.id,
+          userId: req.auth.id,
         },
       });
 
       if (!task) throw new NotFoundError(`no task with id ${value}`);
 
-      req.curTask = task;
+      req.task = task;
+      console.log("got to valid task id");
     }),
 ]);
 
@@ -251,8 +253,8 @@ const validateTaskUpdate = withValidationErrors([
   body("completed")
     .notEmpty()
     .withMessage("completed is required")
-    .isInt({ min: 0, max: 1 })
-    .withMessage("completed should be either 0 or 1")
+    .isBoolean({ strict: true })
+    .withMessage("completed should be boolean")
     .optional(),
   body("title")
     .notEmpty()
