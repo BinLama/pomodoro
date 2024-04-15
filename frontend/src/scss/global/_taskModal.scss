@@ -34,18 +34,7 @@
   &-notes {
     display: flex;
     align-items: center;
-    // justify-items:;
     gap: u.rem(20);
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: u.rem(12);
-      padding-inline: u.rem(15);
-      gap: u.rem(5);
-      width: u.rem(150);
-    }
 
     textarea {
       width: 100%;
@@ -59,12 +48,12 @@
 
 
     button {
-      padding-inline: u.rem(15);
+      padding: u.rem(7) u.rem(20);
     }
 
-    .delete:hover {
-      color: hsl(var(--red));
-    }
+    // .delete:hover {
+    //   color: hsl(var(--red));
+    // }
 
     >div {
       display: flex;

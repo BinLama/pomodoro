@@ -29,6 +29,15 @@
         padding: u.rem(7);
         color: inherit;
         font-size: u.rem(20);
+        background-color: hsla(var(--blue), 0.5);
+
+        &:hover {
+          background-color: hsla(var(--blue), 0.75);
+        }
+
+        &:active {
+          color: hsla(var(--white), 0.5);
+        }
       }
     }
 
@@ -168,7 +177,15 @@
     color: inherit;
     font-size: u.rem(20);
     display: flex;
-    background-color: rgba(178, 202, 241, 0.5)
+    background-color: hsla(var(--blue), 0.5);
+
+    &:hover {
+      background-color: hsla(var(--blue), 0.75);
+    }
+
+    &:active {
+      color: hsla(var(--white), 0.5);
+    }
   }
 
   &__note {

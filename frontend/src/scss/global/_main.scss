@@ -35,17 +35,58 @@ body {
   padding: u.rem(10) u.rem(32);
   border-radius: u.rem(7);
   font-weight: 600;
-  color: hsla(var(--blk), .75);
-  cursor: pointer;
-  background-color: rgba(178, 202, 241, 0.5);
+  color: hsl(var(--white));
+  background-color: hsla(var(--primary), .85);
 
-  &:hover {
-    background-color: rgba(178, 202, 241, 0.55);
-    color: hsl(var(--primary));
+  cursor: pointer;
+
+  &.primary {
+    background-color: hsla(var(--primary), .85);
+
+    &:hover {
+      background-color: hsla(var(--primary), 1);
+    }
+
+    &:active {
+      background-color: hsla(var(--primary), .75);
+    }
+
   }
 
-  &:active {
-    background-color: rgba(178, 202, 241, 0.8);
+  &.secondary {
+    background-color: hsla(var(--red), .85);
+
+    &:hover {
+      background-color: hsla(var(--red), 1);
+    }
+
+    &:active {
+      background-color: hsla(var(--red), .75);
+    }
+
+    &:disabled {
+      background-color: hsla(var(--red), .5);
+    }
+  }
+
+  &.delete {
+    background-color: hsla(var(--blue), .5);
+    color: hsl(var(--dark-grey));
+
+    &:hover {
+      background-color: hsla(var(--red), 0.75);
+      color: hsl(var(--white));
+    }
+
+    &:active {
+      background-color: hsla(var(--red), .5);
+      color: hsl(var(--white));
+    }
+
+    &:disabled {
+      background-color: hsla(var(--red), .5);
+      color: hsl(var(--white));
+    }
   }
 }
 

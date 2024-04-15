@@ -154,7 +154,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
           {newTask ? (
             <button
               type="button"
-              className="btn save"
+              className="btn primary"
               onClick={() => {
                 setActionType(CREATE);
                 taskChanged();
@@ -165,7 +165,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
           ) : (
             <button
               type="button"
-              className="btn save"
+              className="btn primary"
               onClick={() => {
                 setActionType(UPDATE);
                 taskChanged();
@@ -174,7 +174,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
               Save
             </button>
           )}
-          <button type="button" className="btn cancel" onClick={close}>
+          <button type="button" className="btn secondary" onClick={close}>
             Cancel
           </button>
         </div>
