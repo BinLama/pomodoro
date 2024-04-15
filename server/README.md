@@ -32,12 +32,12 @@ COOKIE_SECRET
 
 ## TODO:
 
+- [ ] task position update should be implemented
 - [ ] implement Oauth
 - [ ] **need to perform end to end test**
 - [ ] need to use a dependecy injection and mock the database. I don't want to add real data to the database so mocking sounds like a better idea. Currently, it fails the authentication api test because signup tries to create a user but the server is not open so, tomorrow I need to fix that by using dependecy injection.
 - [ ] [testing api](https://www.youtube.com/watch?v=r5L1XRZaCR0)
 - [ ] [dependency injection](https://www.youtube.com/watch?v=IDjF6-s1hGk&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX&index=5)
-- [ ] task position update should be implemented
 - [ ] automate the tests and create a ci/cd pipeline.
 - [ ] host it using nginx
 
