@@ -105,4 +105,30 @@ const updateSingleTask = async (param, task) => {
   }
 };
 
-export { getAllTasks, createSingleTask, updateSingleTask };
+const deleteSingleTask = async (param) => {
+  try {
+    const response = await taskAxios.delete(`/${param.taskId}`, {
+      withCredentials: true,
+      credentials: "include",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.status === 200) {
+      const data = await response.data;
+      return data.task;
+    }
+  } catch (err) {
+    if (err.response) {
+      console.error(err.response);
+    } else if (err.request) {
+      // request was made but no response
+      console.error(err.request);
+    } else {
+      console.error(err.message);
+    }
+  }
+};
+
+export { getAllTasks, createSingleTask, updateSingleTask, deleteSingleTask };

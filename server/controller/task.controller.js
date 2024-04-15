@@ -235,18 +235,12 @@ const updateTaskPosition = async (req, res) => {
  */
 const deleteTask = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { id: userId } = req.auth;
+    const task = req.task;
 
-    await Task.destroy({
-      where: {
-        id,
-        userId,
-      },
-    });
+    await task.destroy();
 
     res.status(StatusCodes.OK).json({
-      task: `Task with id: ${id} has been successfully deleted.`,
+      task: `Task with id: ${task.id} has been successfully deleted.`,
     });
   } catch (error) {
     console.log(error);
@@ -255,6 +249,7 @@ const deleteTask = async (req, res) => {
       .json({ msg: error.message, error: "Internal Server Error" });
   }
 };
+
 module.exports = {
   getAllTask,
   getSingleTask,

@@ -8,6 +8,7 @@ import { tasksActions } from "../utils/constants";
 
 import {
   createSingleTask,
+  deleteSingleTask,
   getAllTasks,
   updateSingleTask,
 } from "../api/api-tasks";
@@ -127,10 +128,22 @@ export const TaskContextProvider = ({ children }) => {
   };
 
   // delete
-  const deleteTask = (id) => {
+  const deleteTask = async (id) => {
     if (!username) {
-      dispatch({ type: tasksActions.DELETE_TASK, payload: { _id: id } });
+      dispatch({ type: tasksActions.DELETE_TASK, payload: { id } });
       console.log("TASK DELETED");
+      return;
+    }
+
+    if (username) {
+      const task = await deleteSingleTask({ taskId: id });
+
+      if (task) {
+        dispatch({
+          type: tasksActions.DELETE_TASK,
+          payload: { id },
+        });
+      }
     }
   };
 

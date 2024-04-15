@@ -33,7 +33,7 @@ export const tasksReducer = (state, action) => {
       return {
         ...state,
         tasks: state.tasks
-          .filter((task) => task.id !== action.payload._id)
+          .filter((task) => task.id !== action.payload.id)
           .sort((a) => a.completed),
       };
     case tasksActions.TOGGLE_SETTING:
