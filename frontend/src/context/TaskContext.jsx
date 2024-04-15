@@ -65,8 +65,7 @@ export const TaskContextProvider = ({ children }) => {
   // CRUD for tasks
   /**
    * Create task
-   * @param {object} newTasks information required to create tasks, such as: title and note
-   *
+   * @param {object} newTask information required to create tasks, such as: title and note
    *
    */
   const createTask = async (newTask) => {
@@ -173,7 +172,6 @@ export const TaskContextProvider = ({ children }) => {
     dispatch({ type: tasksActions.TOGGLE_SETTING });
   };
 
-  console.log("TASK", state);
   return (
     <TaskContext.Provider
       value={{

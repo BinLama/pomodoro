@@ -242,6 +242,8 @@ const validateTaskIdParam = withValidationErrors([
       });
 
       if (!task) throw new NotFoundError(`no task with id ${value}`);
+
+      req.curTask = task;
     }),
 ]);
 

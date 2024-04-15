@@ -24,6 +24,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
    * auto increasing textarea
    */
   const textareaRef = useRef(null);
+  const addBtnRef = useRef(null);
 
   useEffect(() => {
     // reset height - important to shrink on delete
@@ -42,8 +43,8 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
   useEffect(() => {
     const handleClick = (e) => {
       if (e.keyCode === 13 || e.key === "enter") {
-        const textArea = textareaRef.current;
-        textArea.focus();
+        const addBtn = addBtnRef.current;
+        addBtn.click();
       }
     };
 
@@ -148,6 +149,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
                 setActionType(CREATE);
                 taskChanged();
               }}
+              ref={addBtnRef}
             >
               Add
             </button>
@@ -159,6 +161,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
                 setActionType(UPDATE);
                 taskChanged();
               }}
+              ref={addBtnRef}
             >
               Save
             </button>

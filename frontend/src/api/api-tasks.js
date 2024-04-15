@@ -72,4 +72,6 @@ const createSingleTask = async (task) => {
   }
 };
 
-export { getAllTasks, createSingleTask };
+const updateSingleTask = async () => {};
+
+export { getAllTasks, createSingleTask, updateSingleTask };
