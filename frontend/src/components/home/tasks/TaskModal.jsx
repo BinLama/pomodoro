@@ -139,18 +139,7 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
         ></textarea>
       </div>
       <div className="tasks__list__modal-buttons">
-        {!newTask && (
-          <button
-            type="button"
-            className="btn delete"
-            onClick={() => {
-              deleteTask(id);
-            }}
-          >
-            <BsTrashFill />
-          </button>
-        )}
-        <div className="">
+        <div>
           {newTask ? (
             <button
               type="button"
@@ -178,6 +167,17 @@ const TaskModal = ({ id, close, title = "", note = "", newTask = false }) => {
             Cancel
           </button>
         </div>
+        {!newTask && (
+          <button
+            type="button"
+            className="btn delete"
+            onClick={() => {
+              deleteTask(id);
+            }}
+          >
+            <BsTrashFill />
+          </button>
+        )}
       </div>
     </div>
   );
