@@ -6,7 +6,11 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { INITIAL_TASKS_STATE, tasksReducer } from "../reducers/taskReducers";
 import { tasksActions } from "../utils/constants";
 
-import { createSingleTask, getAllTasks } from "../api/api-tasks";
+import {
+  createSingleTask,
+  getAllTasks,
+  updateSingleTask,
+} from "../api/api-tasks";
 
 export const TaskContext = createContext();
 
@@ -100,13 +104,25 @@ export const TaskContextProvider = ({ children }) => {
   };
 
   // update
-  const updateTask = (id, updatedValue) => {
+  const updateTask = async (id, updatedValue) => {
     if (!username) {
       dispatch({
         type: tasksActions.UPDATE_TASK,
         payload: { id, updatedValue },
       });
       console.log("TASK UPDATED");
+      return;
+    }
+
+    if (username) {
+      const task = await updateSingleTask({ taskId: id }, updatedValue);
+
+      if (task) {
+        dispatch({
+          type: tasksActions.UPDATE_TASK,
+          payload: { id: task.id, updatedValue: task },
+        });
+      }
     }
   };
 

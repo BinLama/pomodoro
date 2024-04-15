@@ -262,12 +262,7 @@ const validateTaskUpdate = withValidationErrors([
     .isString()
     .withMessage("title should be stirng")
     .optional(),
-  body("note")
-    .notEmpty()
-    .withMessage("note is required")
-    .isString()
-    .withMessage("note should be string")
-    .optional(),
+  body("note").isString().withMessage("note should be string").optional(),
 ]);
 
 /****** Task validation end ******/

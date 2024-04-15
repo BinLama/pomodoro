@@ -72,6 +72,37 @@ const createSingleTask = async (task) => {
   }
 };
 
-const updateSingleTask = async () => {};
+const updateSingleTask = async (param, task) => {
+  try {
+    const response = await taskAxios.patch(
+      `/${param.taskId}`,
+      {
+        ...task,
+      },
+      {
+        withCredentials: true,
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      const data = await response.data;
+      return data;
+    }
+  } catch (err) {
+    if (err.response) {
+      console.error(err.response);
+    } else if (err.request) {
+      // request was made but no response
+      console.error(err.request);
+    } else {
+      console.error(err.message);
+    }
+  }
+};
 
 export { getAllTasks, createSingleTask, updateSingleTask };

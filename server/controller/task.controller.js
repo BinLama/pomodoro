@@ -158,7 +158,7 @@ const updateTask = async (req, res) => {
     //   );
     // }
 
-    res.status(StatusCodes.OK).json({ task: newTask });
+    res.status(StatusCodes.OK).json(newTask);
   } catch (error) {
     console.log(error);
     res
