@@ -9,6 +9,7 @@ const { removeKeyEndsWith } = require("../utils/removeKey");
 // models
 const models = require("../models");
 const { StatusCodes } = require("http-status-codes");
+const { InternalError, NotFoundError } = require("../errors/customErrors");
 const Task = models.task;
 
 /**
@@ -19,7 +20,7 @@ const Task = models.task;
  *
  * @return {object} returns a list of all tasks
  */
-const getAllTask = async (req, res) => {
+const getAllTask = async (req, res, next) => {
   try {
     const { id: userId } = req.auth;
 
@@ -34,10 +35,9 @@ const getAllTask = async (req, res) => {
     }
     return res.status(StatusCodes.OK).json(tasks);
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(`Error getting all tasks: ${error.message}`);
+
+    next(err);
   }
 };
 
@@ -49,25 +49,15 @@ const getAllTask = async (req, res) => {
  *
  * @return {object} returns a list of all tasks
  */
-const getSingleTask = async (req, res) => {
+const getSingleTask = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    const { id: userId } = req.auth;
-
-    const task = await Task.findOne({
-      where: {
-        id,
-        userId,
-      },
-    });
+    const task = req.task;
 
     return res.status(StatusCodes.OK).json({ task: task });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(`Error getting user: ${error.message}`);
+
+    next(err);
   }
 };
 
@@ -79,7 +69,7 @@ const getSingleTask = async (req, res) => {
  *
  * @return {object} returns task created message
  */
-const createTask = async (req, res) => {
+const createTask = async (req, res, next) => {
   try {
     const { id: userId } = req.auth;
     const { title, note } = req.body;
@@ -96,17 +86,17 @@ const createTask = async (req, res) => {
 
     // task failed
     if (!newTask) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ error: "Task creation failed" });
+      const err = new NotFoundError("Task creation failed");
+      return next(err);
     }
 
     res.status(StatusCodes.CREATED).json(newTask);
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(
+      `Error during task creation: ${error.message}`
+    );
+
+    next(err);
   }
 };
 
@@ -119,7 +109,7 @@ const createTask = async (req, res) => {
  *
  * @return {object} return msg task updated
  */
-const updateTask = async (req, res) => {
+const updateTask = async (req, res, next) => {
   console.log("got to update");
   try {
     // const { id } = req.params;
@@ -160,10 +150,9 @@ const updateTask = async (req, res) => {
 
     res.status(StatusCodes.OK).json(newTask);
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(`Error during task update: ${error.message}`);
+
+    next(err);
   }
 };
 
@@ -177,7 +166,7 @@ const updateTask = async (req, res) => {
  *
  * @return {object} return updated task
  */
-const updateTaskPosition = async (req, res) => {
+const updateTaskPosition = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { id: userId } = req.auth;
@@ -218,10 +207,11 @@ const updateTaskPosition = async (req, res) => {
       msg: "task position updated",
     });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(
+      `Error during task position update: ${error.message}`
+    );
+
+    next(err);
   }
 };
 
@@ -233,7 +223,7 @@ const updateTaskPosition = async (req, res) => {
  *
  * @return {object} return msg task deleted.
  */
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
   try {
     const task = req.task;
 
@@ -243,10 +233,9 @@ const deleteTask = async (req, res) => {
       task: `Task with id: ${task.id} has been successfully deleted.`,
     });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: error.message, error: "Internal Server Error" });
+    const err = new InternalError(`Error during task delete: ${error.message}`);
+
+    next(err);
   }
 };
 

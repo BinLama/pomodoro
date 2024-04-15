@@ -167,9 +167,7 @@ const updateUser = async (req, res, next) => {
 
     return res.status(StatusCodes.OK).json({ user: updatedOldUser });
   } catch (error) {
-    const err = new InternalError(
-      `Error during user creation: ${error.message}`
-    );
+    const err = new InternalError(`Error during user update: ${error.message}`);
 
     next(err);
   }
@@ -183,7 +181,7 @@ const updateUser = async (req, res, next) => {
  * @param {object} res
  * @return {object} deleted user information
  */
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   // have to be very careful with deleting a user.
   // first need to validate of it's the proper user
   // then I will have to give me some days to delete the user.
@@ -203,7 +201,7 @@ const deleteUser = async (req, res) => {
     });
   } catch (error) {
     const err = new InternalError(
-      `Error during user creation: ${error.message}`
+      `Error during user deletion: ${error.message}`
     );
 
     next(err);
