@@ -5,7 +5,7 @@ const LONGBREAK = "longBreak";
 
 // TODO change to 60
 const SECONDS = 60;
-
+const MILLISECONDS = 1000;
 // Task modal notes auto height change
 const SCROLLHEIGHT = 50;
 
@@ -76,5 +76,6 @@ export {
   UPDATE,
   DELETE,
   SECONDS,
+  MILLISECONDS,
   auth,
 };

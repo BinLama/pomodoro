@@ -1,5 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { POMODORO, SHORTBREAK, LONGBREAK, SECONDS } from "../utils/constants";
+import {
+  POMODORO,
+  SHORTBREAK,
+  LONGBREAK,
+  SECONDS,
+  MILLISECONDS,
+} from "../utils/constants";
 import { usePomodoroContext } from "./usePomodoroContext";
 
 /**
@@ -88,11 +94,10 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
 
   useEffect(() => {
     let timeout;
+    let remainingMilliseconds;
+    let currentTime;
 
     const tick = () => {
-      const currentTime = new Date().getTime();
-      const elapsedMilliseconds = currentTime - startTime;
-
       if (seconds === 0) {
         if (minutes === 0) {
           // Timer is complete, but don't switch phase automatically
@@ -172,22 +177,29 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
           return oldTime - 1;
         });
       }
-      // calculating the delay of running the tick function
-      const remainingMilliseconds = 1000 - (elapsedMilliseconds % 1000);
 
+      // calculating the delay of running the tick function
+      console.log(remainingMilliseconds);
       // Set a new timeout for the next tick, adjusting for the elapsed time
-      timeout = setTimeout(tick, remainingMilliseconds);
+      // timeout = setTimeout(tick, remainingMilliseconds);
     };
 
     if (isActive) {
-      setStartTime(new Date().getTime());
-      timeout = setTimeout(tick, 1000);
+      console.log("status:", status);
+      // setStartTime(new Date().getTime());
+      currentTime = new Date().getTime();
+      const elapsedMilliseconds = currentTime - startTime;
+
+      remainingMilliseconds = 1000 - (elapsedMilliseconds % 1000);
+
+      timeout = setTimeout(tick, remainingMilliseconds || MILLISECONDS);
+      console.log(`remaining time: ${remainingMilliseconds}`);
     }
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [isActive, minutes, seconds, startTime]);
+  }, [isActive, minutes, seconds]);
 
   useEffect(() => {
     console.log("Got to end of session");
@@ -195,14 +207,17 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
   }, [oldPhase]);
 
   useEffect(() => {
-    console.log("Auto Start/Break:");
+    console.log("Auto Start/Break:", auto);
     if (auto.start && phase === POMODORO && !timerActive && status) {
+      console.log("auto start pomodoro");
+
       choosePhase(POMODORO);
       startTimer();
       return;
     }
 
     if (auto.break && phase === SHORTBREAK && !timerActive && status) {
+      console.log("auto start break");
       choosePhase(SHORTBREAK);
       startTimer();
       return;
@@ -217,6 +232,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
 
   // FUNCTIONS
   const startTimer = () => {
+    console.log("start timer");
     console.log("current phase:", phase);
     setStartTime(new Date().getTime());
     setIsActive(true);

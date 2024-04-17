@@ -55,7 +55,7 @@ const Pomodoro = () => {
 
   useEffect(() => {
     setAuto(() => {
-      const newAuto = { start: autoPomo, shortBreak: autoBreak };
+      const newAuto = { start: autoPomo, break: autoBreak };
       return newAuto;
     });
   }, [autoBreak, autoPomo]);
