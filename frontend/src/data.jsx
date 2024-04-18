@@ -18,6 +18,7 @@ import {
   EXTENDED,
   MEDIUM,
   STANDARD,
+  TEST,
 } from "./utils/constants";
 
 import bell from "/sounds/bell.mp3";
@@ -71,7 +72,7 @@ export const customFocusLevel = {
   choices: [
     {
       id: uuidv4(),
-      name: "TEST",
+      name: TEST,
       pomodoro: 1,
       shortBreak: 1,
       longBreak: 1,

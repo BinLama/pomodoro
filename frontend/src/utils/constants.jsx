@@ -10,6 +10,7 @@ const MILLISECONDS = 1000;
 const SCROLLHEIGHT = 50;
 
 // Setting
+const TEST = "test";
 const CUSTOM = "custom";
 const BEGINNER = "beginner";
 const STANDARD = "standard";
@@ -68,6 +69,7 @@ export {
   POMODORO,
   SCROLLHEIGHT,
   CUSTOM,
+  TEST,
   BEGINNER,
   STANDARD,
   MEDIUM,

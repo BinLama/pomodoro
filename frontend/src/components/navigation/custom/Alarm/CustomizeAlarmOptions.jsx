@@ -7,6 +7,7 @@ import { BiSolidVolumeFull, BiSolidVolumeMute } from "react-icons/bi";
 
 const CustomizeAlarmOptions = () => {
   const { toggleMute, mute, volume, handleVolumeChange } = usePomodoroContext();
+
   const [sliderData, setSliderData] = useState({
     volume: volume,
   });
@@ -35,7 +36,6 @@ const CustomizeAlarmOptions = () => {
         </div>
       </div>
       <div className="slider">
-        {console.log(sliderData)}
         <SingleSlider
           type="volume"
           min={0}

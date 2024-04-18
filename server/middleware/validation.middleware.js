@@ -220,8 +220,8 @@ const validateSettingUpdate = withValidationErrors([
     .toLowerCase()
     .optional(),
   body("mute")
-    .isInt({ min: 0, max: 1 })
-    .withMessage("mute should either be 0 or 1")
+    .isBoolean()
+    .withMessage("mute should be true or false")
     .optional(),
 ]);
 /****** Setting validation end ******/

@@ -7,7 +7,7 @@ import {
 } from "../reducers/pomodoroReducer";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { getSetting } from "../api/api-setting";
+import { getSetting, updateSetting } from "../api/api-setting";
 
 /**
  * creating react context
@@ -28,7 +28,7 @@ export const PomodoroContextProvider = ({ children }) => {
     useLocalStorage("customSlider");
 
   // check if user is logged in
-  const { username, authAxios: pomoAxios } = useAuthContext();
+  const { username } = useAuthContext();
 
   const initialData = getItem() || INITIAL_POMODORO_STATE;
 
@@ -136,11 +136,8 @@ export const PomodoroContextProvider = ({ children }) => {
     if (!username) {
       // Save updated data to local storage
       setItem(state);
-    } else {
-      // make a call to the database
-      console.log("got to use effect");
     }
-  }, [state, username, setItem]);
+  }, [state, username]);
 
   // toggling of login profile setting
   const setToggleLogin = () => {
@@ -155,6 +152,7 @@ export const PomodoroContextProvider = ({ children }) => {
 
   // hide setting
   const setHideSetting = () => {
+    console.log("hide setting dispatch");
     dispatch({ type: pomodoroReducerActions.HIDE_SETTING });
   };
 
@@ -172,6 +170,15 @@ export const PomodoroContextProvider = ({ children }) => {
     dispatch({ type: pomodoroReducerActions.ACTIVE_SESSION });
   };
 
+  /**
+   * changing timer to new states
+   *
+   * @param {string} type level that is chosen for pomodoro
+   * @param {number} pomodoro min to be spent on pomodoro
+   * @param {number} shortBreak min to be spent on break
+   * @param {number} longBreak min to be spent on longBreak
+   *
+   */
   const updateTimer = async (type, pomodoro, shortBreak, longBreak) => {
     // stop the same update when it's already selected
     if (
@@ -194,6 +201,7 @@ export const PomodoroContextProvider = ({ children }) => {
       setNotInSession();
     }
 
+    // I want to do optimistic update
     dispatch({
       type: pomodoroReducerActions.UPDATE_TIMER,
       payload: {
@@ -207,25 +215,27 @@ export const PomodoroContextProvider = ({ children }) => {
       },
     });
 
-    if (user) {
-      const newData = {
+    if (username) {
+      const newTimer = {
         level: type,
         studyTime: pomodoro,
         relaxTime: shortBreak,
         longRelaxTime: longBreak,
       };
-      await settingPatchRequest(pomoAxios, newData, state.id);
+
+      await updateSetting({ settingId: state.id }, newTimer);
     }
 
     console.log("Timer updated");
   };
 
   /**
-   * play timer ending audio
-   *
+   * play audio
+   * @param {string} music type of sound chosen
+   * @param {boolean} playing true for playing audio
    */
-  const playAudio = (music, pomo = false) => {
-    if (state.mute && pomo) return;
+  const playAudio = async (music, playing = false) => {
+    if (state.mute && playing) return;
     console.log("Play music");
     const newMusic = sounds[music];
     if (state.audio) {
@@ -245,6 +255,7 @@ export const PomodoroContextProvider = ({ children }) => {
         type: pomodoroReducerActions.PLAY_AUDIO,
         payload: { audio: newAudio, music: music },
       });
+
       return;
     }
 
@@ -253,37 +264,50 @@ export const PomodoroContextProvider = ({ children }) => {
     });
   };
 
+  /**
+   * handles changes in volume
+   * @param {number} loudness - volume level from 0 - 100
+   */
   const handleVolumeChange = async (loudness) => {
     console.log("AUDIO:", state.audio);
     state.audio.volume = loudness / 100;
     dispatch({ type: pomodoroReducerActions.CHANGE_VOLUME, payload: loudness });
-    // if (username) {
-    //   const newData = { volume: loudness };
-    //   await settingPatchRequest(newData, state.id);
-    // }
+    if (username) {
+      const changeVolume = { volume: loudness };
+      await updateSetting({ settingId: state.id }, changeVolume);
+    }
   };
 
+  /**
+   * change music on click, also unmutes the sounds
+   * @param {string} music - name of the music
+   */
   const changeMusic = async (music) => {
     dispatch({ type: pomodoroReducerActions.CHANGE_MUSIC, payload: music });
-    playAudio(music);
-    // if (username) {
-    //   const newData = {
-    //     mute: false,
-    //     studyStartSound: music,
-    //   };
 
-    //   await settingPatchRequest(pomoAxios, newData, state.id);
-    // }
+    playAudio(music);
+
+    if (username) {
+      const changeAudio = {
+        studyStartSound: music,
+      };
+
+      await updateSetting({ settingId: state.id }, changeAudio);
+    }
   };
 
+  /**
+   * mutes or unmutes the audio
+   */
   const toggleMute = async () => {
+    console.log("toggle mute");
     dispatch({ type: pomodoroReducerActions.TOGGLE_MUTE });
-    // if (username) {
-    //   const newData = {
-    //     mute: !state.mute,
-    //   };
-    //   await settingPatchRequest(pomoAxios, newData, state.id);
-    // }
+    if (username) {
+      const changeMute = {
+        mute: !state.mute,
+      };
+      await updateSetting({ settingId: state.id }, changeMute);
+    }
   };
 
   const toggleBreak = async () => {

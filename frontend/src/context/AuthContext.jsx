@@ -22,8 +22,9 @@ export const AuthContextProvider = ({ children }) => {
     // should resign the token if the user is the correct one
     const authCheck = async () => {
       const data = await getUserAuth(signal);
-      console.log("Auth Context", data);
-      dispatch({ type: auth.LOGIN, payload: data.user });
+      if (data) {
+        dispatch({ type: auth.LOGIN, payload: data.user });
+      }
     };
 
     authCheck();

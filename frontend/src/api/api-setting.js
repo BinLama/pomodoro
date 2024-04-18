@@ -39,6 +39,14 @@ const getSetting = async (signal) => {
   }
 };
 
+/**
+ * updates the timer setting
+ *
+ * @param {object} param - takes in setting id
+ * @param {object} setting - the setting that is being changed
+ * @param {AbortController} signal - abort controller
+ */
+
 const updateSetting = async (param, setting) => {
   try {
     const response = await settingAxios.patch(
