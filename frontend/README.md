@@ -20,6 +20,9 @@
 - [ ] need to add proper modal alert for changes
 - [ ] need to save setting on database
 - [ ] create custom selection table
+- [ ] Allow users to add 1 more min
+- [ ] Hardcore mode (where everything is locked down)
+- [ ] Give users reward for spending more time on studying (extra breaks)
 - [x] custom slider breaks down when you get out of slider and get in (it resets to 12, 13, 14).
 - [x] custom slider breaks when clicked on the radio button. It updates to the preset values (need to be applied to the new ones, need to save the slider value in the localhost and database).
 

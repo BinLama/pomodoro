@@ -11,11 +11,11 @@ const Setting = models.setting;
  */
 const getUserSetting = async (req, res) => {
   try {
-    const { id: UserId } = req.user;
+    const { id: userId } = req.auth;
 
     const setting = await Setting.findOne({
       where: {
-        UserId,
+        userId,
       },
     });
 
@@ -44,9 +44,7 @@ const getUserSetting = async (req, res) => {
  */
 const updateUserSetting = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const setting = await Setting.findByPk(id);
+    const setting = req.setting;
 
     await setting.update(req.body);
 

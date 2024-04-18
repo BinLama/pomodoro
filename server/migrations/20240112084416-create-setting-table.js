@@ -47,6 +47,21 @@ module.exports = {
         allowNull: false,
         defaultValue: 4,
       },
+      customStudyTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 30,
+      },
+      customRelaxTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 6,
+      },
+      customLongRelaxTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 10,
+      },
       autoBreak: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

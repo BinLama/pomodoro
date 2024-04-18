@@ -24,6 +24,21 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 15,
       },
+      customStudyTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 30,
+      },
+      customRelaxTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 6,
+      },
+      customLongRelaxTime: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 10,
+      },
       maxPomodoroSession: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -7,38 +7,7 @@ import {
 } from "../reducers/pomodoroReducer";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useAuthContext } from "../hooks/useAuthContext";
-
-// for setting up patch request from setting
-// const settingPatchRequest = async (pomoAxios, data, _id) => {
-//   console.log("GOT TO SETTING PATCH");
-//   try {
-//     const response = await pomoAxios.patch(`/setting/${_id}`, data, {
-//       withCredentials: true,
-//       credentials: "include",
-//     });
-
-//     if (response.status === 200) {
-//       const data = await response.data;
-//       console.log("POMODORO UPDATE: ", data);
-//     }
-//   } catch (err) {
-//     if (err.response) {
-//       // server responded with status other than 200 range
-//       console.log(err.response.data);
-//       console.log(err.response.status);
-//       console.log(err.response.headers);
-
-//       if (err.response.status === 404) {
-//         alert("Error: Page not found");
-//       }
-//     } else if (err.request) {
-//       // request was made but no response
-//       console.error(err.request);
-//     } else {
-//       console.error(err.message);
-//     }
-//   }
-// };
+import { getSetting } from "../api/api-setting";
 
 /**
  * creating react context
@@ -79,110 +48,87 @@ export const PomodoroContextProvider = ({ children }) => {
    * or when the window loads
    */
   useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
     const getAllData = async () => {
-      // if (!username) {
-      /**
-       * Get setting avlue from the local storage if available
-       */
-      const value = getItem();
-      /**
-       * call this dispatch because audio is object and I need to make it into a audio file.
-       *
-       */
-      if (value) {
-        dispatch({
-          type: pomodoroReducerActions.GET_USER_POMO_DATA,
-          payload: value,
-        });
+      if (!username) {
+        const value = getItem();
+        /**
+         * call this dispatch because audio is object and I need to make it into a audio file.
+         */
+        if (value) {
+          return dispatch({
+            type: pomodoroReducerActions.GET_USER_POMO_DATA,
+            payload: value,
+          });
+        }
       }
-      // }
-      // else {
-      /**
-       * user has logged in so have access to user
-       * access the user's setting
-       */
-      //     try {
-      //       const response = await pomoAxios.get("/setting", {
-      //         withCredentials: true,
-      //         credentials: "include",
-      //       });
-      //       if (response.status === 200) {
-      //         const data = await response.data;
-      //         console.log(data);
 
-      //         const {
-      //           autoBreak,
-      //           autoStudy,
-      //           maxPomodoroSession,
-      //           studyTime,
-      //           relaxTime,
-      //           longRelaxTime,
-      //           longRelaxInterval,
-      //           mute,
-      //           level,
-      //           volume,
-      //           studyStartSound,
-      //           restStartSound,
-      //           id,
-      //         } = data.setting;
+      if (username) {
+        console.log("got to user setting");
+        const settingData = await getSetting(signal);
 
-      //         /**
-      //          * Creating new setting and converting audio object
-      //          * to audio files
-      //          */
-      //         const setting = {
-      //           id,
-      //           chosen: {
-      //             data: level,
-      //             newTimer: {
-      //               pomodoro: studyTime,
-      //               shortBreak: relaxTime,
-      //               longBreak: longRelaxTime,
-      //             },
-      //           },
-      //           studyStartSound,
-      //           restStartSound,
-      //           auido: new Audio(sounds[studyStartSound]),
-      //           restAudio: new Audio(sounds[restStartSound]),
-      //           volume,
-      //           mute,
-      //           autoPomo: autoStudy,
-      //           autoBreak: autoBreak,
-      //           longRelaxInterval: longRelaxInterval,
-      //           maxSession: maxPomodoroSession,
-      //           changeToBreak: 0,
-      //           changeToPomo: 0,
-      //           showSetting: false,
-      //           timerActive: false,
-      //         };
+        if (settingData) {
+          const {
+            autoBreak,
+            autoStudy,
+            maxPomodoroSession,
+            studyTime,
+            relaxTime,
+            longRelaxTime,
+            longRelaxInterval,
+            mute,
+            level,
+            volume,
+            studyStartSound,
+            restStartSound,
+            id,
+          } = settingData;
 
-      //         console.log("SETTING: ", setting);
-      //         dispatch({
-      //           type: pomodoroReducerActions.GET_USER_POMO_DATA,
-      //           payload: setting,
-      //         });
-      //       }
-      //     } catch (err) {
-      //       if (err.response) {
-      //         // server responded with status other than 200 range
-      //         console.log(err.response.data);
-      //         console.log(err.response.status);
-      //         console.log(err.response.headers);
+          /**
+           * Creating new setting and converting audio object
+           * to audio files
+           */
+          const setting = {
+            id,
+            chosen: {
+              data: level,
+              newTimer: {
+                pomodoro: studyTime,
+                shortBreak: relaxTime,
+                longBreak: longRelaxTime,
+              },
+            },
+            studyStartSound,
+            restStartSound,
+            auido: new Audio(sounds[studyStartSound]),
+            restAudio: new Audio(sounds[restStartSound]),
+            volume,
+            mute,
+            autoPomo: autoStudy,
+            autoBreak: autoBreak,
+            longRelaxInterval: longRelaxInterval,
+            maxSession: maxPomodoroSession,
+            changeToBreak: 0,
+            changeToPomo: 0,
+            showSetting: false,
+            timerActive: false,
+          };
 
-      //         if (err.response.status === 404) {
-      //           alert("Error: Page not found");
-      //         }
-      //       } else if (err.request) {
-      //         // request was made but no response
-      //         console.error(err.request);
-      //       } else {
-      //         console.error(err.message);
-      //       }
-      //     }
-      //   }
+          dispatch({
+            type: pomodoroReducerActions.GET_USER_POMO_DATA,
+            payload: setting,
+          });
+          return;
+        }
+      }
     };
-    // console.log("GETCH DATA");
     getAllData();
+
+    return () => {
+      abortController.abort();
+    };
   }, [username]);
 
   // Save data to local storage on every dispatch
@@ -192,6 +138,7 @@ export const PomodoroContextProvider = ({ children }) => {
       setItem(state);
     } else {
       // make a call to the database
+      console.log("got to use effect");
     }
   }, [state, username, setItem]);
 

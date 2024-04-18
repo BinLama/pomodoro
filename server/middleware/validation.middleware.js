@@ -155,11 +155,13 @@ const validateSettingIdParam = withValidationErrors([
       const setting = await Setting.findOne({
         where: {
           id: value,
-          userId: req.user.id,
+          userId: req.auth.id,
         },
       });
 
       if (!setting) throw new NotFoundError(`no setting with id ${value}`);
+
+      req.setting = setting;
     }),
 ]);
 
