@@ -54,13 +54,6 @@ const Pomodoro = () => {
   }, [chosen]);
 
   useEffect(() => {
-    setAuto(() => {
-      const newAuto = { start: autoPomo, break: autoBreak };
-      return newAuto;
-    });
-  }, [autoBreak, autoPomo]);
-
-  useEffect(() => {
     if (changeToBreak === 0) return;
     if (phase === SHORTBREAK) return;
     choosePhase(SHORTBREAK);
