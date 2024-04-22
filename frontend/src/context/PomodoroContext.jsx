@@ -305,6 +305,7 @@ export const PomodoroContextProvider = ({ children }) => {
 
   /**
    * mutes or unmutes the audio
+   * @return {void}
    */
   const toggleMute = async () => {
     console.log("toggle mute");
@@ -317,6 +318,9 @@ export const PomodoroContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * allow or disallow break to auto start
+   */
   const toggleBreak = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTOBREAK });
     if (username) {
@@ -327,6 +331,9 @@ export const PomodoroContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * allow or disallow pomodoro to auto start
+   */
   const togglePomo = async () => {
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
     if (username) {
@@ -337,15 +344,27 @@ export const PomodoroContextProvider = ({ children }) => {
     }
   };
 
+  /**
+   * change the state to break
+   */
   const skipToBreak = () => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_BREAK });
   };
 
+  /**
+   * change the state to pomodoro
+   */
   const skipToPomo = () => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
   };
 
+  /**
+   * @param {string} name attribute that should be changed
+   * @param {number} value value that the name attribute should be changed to
+   * @return {void}
+   */
   const setSliderData = (name, value) => {
+    console.log("setting slider", name, value);
     dispatch({
       type: pomodoroReducerActions.SET_SLIDER_DATA,
       payload: { name, value },

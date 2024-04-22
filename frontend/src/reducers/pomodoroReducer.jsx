@@ -1,5 +1,5 @@
 import { customFocusLevel, sounds } from "../data";
-import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
+import { pomodoroReducerActions } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
 
 // Initial pomodoro state with default values
@@ -94,7 +94,7 @@ export const pomodoroReducer = (state, action) => {
         ...state,
         sliderData: {
           ...state.sliderData,
-          [action.payload.name]: parseInt(action.payload.value),
+          [action.payload.name]: action.payload.value,
         },
       };
     case pomodoroReducerActions.PLAY_AUDIO:

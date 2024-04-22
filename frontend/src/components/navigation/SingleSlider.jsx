@@ -33,7 +33,7 @@ const SingleSlider = ({
             });
             return;
           }
-          setSliderData(name, e.target.value);
+          setSliderData(name, parseInt(e.target.value));
         }}
         disabled={!level}
       />
