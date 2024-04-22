@@ -187,12 +187,12 @@ const validateSettingUpdate = withValidationErrors([
     .withMessage("you should take a long break after at most 10 sessions")
     .optional(),
   body("autoBreak")
-    .isInt({ min: 0, max: 1 })
-    .withMessage("auto break should either be 0 or 1")
+    .isBoolean()
+    .withMessage("auto break should either be true or false")
     .optional(),
   body("autoStudy")
-    .isInt({ min: 0, max: 1 })
-    .withMessage("auto study should either be 0 or 1")
+    .isBoolean()
+    .withMessage("auto study should either be true or false")
     .optional(),
   body("studyStartSound")
     .notEmpty()

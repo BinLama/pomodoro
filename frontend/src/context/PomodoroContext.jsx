@@ -220,6 +220,16 @@ export const PomodoroContextProvider = ({ children }) => {
         longRelaxTime: longBreak,
       };
 
+      if (type === CUSTOM) {
+        await updateSetting(
+          { settingId: state.id },
+          {
+            customStudyTime: pomodoro,
+            customRelaxTime: shortBreak,
+            customLongRelaxTime: longBreak,
+          }
+        );
+      }
       await updateSetting({ settingId: state.id }, newTimer);
     }
 
@@ -311,6 +321,12 @@ export const PomodoroContextProvider = ({ children }) => {
     console.log("Before", state.autoBreak);
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTOBREAK });
     console.log("After", state.autoBreak);
+    if (username) {
+      const changeBreak = {
+        autoBreak: !state.autoBreak,
+      };
+      await updateSetting({ settingId: state.id }, changeBreak);
+    }
 
     // if (username) {
     //   const newData = {
