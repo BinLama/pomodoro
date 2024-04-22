@@ -318,51 +318,22 @@ export const PomodoroContextProvider = ({ children }) => {
   };
 
   const toggleBreak = async () => {
-    console.log("Before", state.autoBreak);
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTOBREAK });
-    console.log("After", state.autoBreak);
     if (username) {
       const changeBreak = {
         autoBreak: !state.autoBreak,
       };
       await updateSetting({ settingId: state.id }, changeBreak);
     }
-
-    // if (username) {
-    //   const newData = {
-    //     autoBreak: !state.autoBreak,
-    //   };
-    //   await settingPatchRequest(pomoAxios, newData, state.id);
-    //   // Now, update the local state with the response from the server
-    //   try {
-    //     const response = await pomoAxios.get(`/setting`, {
-    //       withCredentials: true,
-    //       credentials: "include",
-    //     });
-
-    //     if (response.status === 200) {
-    //       const data = await response.data;
-
-    //       // Extract the necessary values from the response
-    //       const { autoBreak } = data.setting;
-
-    //       // Update the local state with the new values
-    //       dispatch({
-    //         type: pomodoroReducerActions.TOGGLE_AUTOBREAK_SUCCESS,
-    //         payload: { autoBreak: autoBreak },
-    //       });
-    //     }
-    //   } catch (err) {
-    //     // Handle errors
-    //     console.error("Error updating state after togglePomo:", err);
-    //   }
-    // }
   };
 
   const togglePomo = async () => {
-    console.log("TOGGLE POMO");
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
     if (username) {
+      const changePomo = {
+        autoStudy: !state.autoPomo,
+      };
+      await updateSetting({ settingId: state.id }, changePomo);
     }
   };
 
