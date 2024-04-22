@@ -14,26 +14,6 @@ const CustomizeTimerOptions = ({
 }) => {
   const { chosen, updateTimer, sliderData } = usePomodoroContext();
 
-  // const [sliderData, setSliderData] = useState({});
-  // const { setItem, getItem } = useLocalStorage("customSlider");
-
-  // useEffect(() => {
-  //   console.log("GOT TO TYPE CUSTOM");
-
-  //   if (type === CUSTOM) {
-  //     const custom = getItem();
-  //     setSliderData(() => {
-  //       return (
-  //         custom || {
-  //           pomodoro: slider[0].value,
-  //           shortBreak: slider[1].value,
-  //           longBreak: slider[2].value,
-  //         }
-  //       );
-  //     });
-  //   }
-  // }, []);
-
   return (
     <div className="customize__timer-options__input">
       <input

@@ -311,7 +311,10 @@ export const PomodoroContextProvider = ({ children }) => {
   };
 
   const toggleBreak = async () => {
-    dispatch({ type: pomodoroReducerActions.TOGGLE_autoBreak });
+    console.log("Before", state.autoBreak);
+    dispatch({ type: pomodoroReducerActions.TOGGLE_AUTOBREAK });
+    console.log("After", state.autoBreak);
+
     // if (username) {
     //   const newData = {
     //     autoBreak: !state.autoBreak,
@@ -332,7 +335,7 @@ export const PomodoroContextProvider = ({ children }) => {
 
     //       // Update the local state with the new values
     //       dispatch({
-    //         type: pomodoroReducerActions.TOGGLE_autoBreak_SUCCESS,
+    //         type: pomodoroReducerActions.TOGGLE_AUTOBREAK_SUCCESS,
     //         payload: { autoBreak: autoBreak },
     //       });
     //     }
@@ -380,6 +383,11 @@ export const PomodoroContextProvider = ({ children }) => {
 
   const skipToPomo = () => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
+  };
+
+  // TODO: still needs to be intergated to old codes
+  const setTimerToCustom = () => {
+    dispatch({ type: pomodoroReducerActions.CHANGE_TO_CUSTOM });
   };
 
   // console.log("Pomodoro Context state:", state);

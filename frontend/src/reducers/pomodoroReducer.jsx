@@ -1,5 +1,5 @@
 import { customFocusLevel, sounds } from "../data";
-import { pomodoroReducerActions } from "../utils/constants";
+import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
 import { v4 as uuidv4 } from "uuid";
 
 // Initial pomodoro state with default values
@@ -86,6 +86,18 @@ export const pomodoroReducer = (state, action) => {
         ...state,
         chosen: action.payload,
       };
+    case pomodoroReducerActions.CHANGE_TO_CUSTOM:
+      return {
+        ...state,
+        chosen: {
+          data: CUSTOM,
+          newTimer: {
+            pomodoro: state.customStudyTime,
+            shortBreak: state.customRelaxTime,
+            longBreak: state.customLongRelaxTime,
+          },
+        },
+      };
     case pomodoroReducerActions.PLAY_AUDIO:
       return {
         ...state,
@@ -108,7 +120,7 @@ export const pomodoroReducer = (state, action) => {
         ...state,
         mute: !state.mute,
       };
-    case pomodoroReducerActions.TOGGLE_autoBreak:
+    case pomodoroReducerActions.TOGGLE_AUTOBREAK:
       return {
         ...state,
         autoBreak: !state.autoBreak,
@@ -124,7 +136,7 @@ export const pomodoroReducer = (state, action) => {
         autoPomo: action.payload.autoPomo,
       };
 
-    case pomodoroReducerActions.TOGGLE_autoBreak_SUCCESS:
+    case pomodoroReducerActions.TOGGLE_AUTOBREAK_SUCCESS:
       return {
         ...state,
         autoBreak: action.payload.autoBreak,

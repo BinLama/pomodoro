@@ -194,7 +194,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
   }, [oldPhase]);
 
   useEffect(() => {
-    console.log("Auto Start/Break:", autoBreak, autoPomo);
+    console.log("Auto Start/Break:", autoPomo, autoBreak);
     if (autoPomo && phase === POMODORO && !timerActive && status) {
       console.log("auto start pomodoro");
 
