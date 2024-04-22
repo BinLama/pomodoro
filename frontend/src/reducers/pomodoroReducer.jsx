@@ -16,6 +16,9 @@ export const INITIAL_POMODORO_STATE = {
     },
   },
 
+  customStudyTime: customFocusLevel.choices[5].slider[0].value,
+  customRelaxTime: customFocusLevel.choices[5].slider[1].value,
+  customLongRelaxTime: customFocusLevel.choices[5].slider[2].value,
   // Sets up what named music to play
   studyStartSound: "bell",
 
