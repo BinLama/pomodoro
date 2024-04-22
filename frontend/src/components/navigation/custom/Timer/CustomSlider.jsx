@@ -4,7 +4,7 @@ import { CUSTOM } from "../../../../utils/constants";
 import { useEffect, useState } from "react";
 
 const CustomSlider = ({ slider }) => {
-  const { chosen, updateTimer, sliderData, setSliderData, setSlider } =
+  const { chosen, updateTimer, sliderData, setSliderData } =
     usePomodoroContext();
 
   /**
@@ -13,8 +13,10 @@ const CustomSlider = ({ slider }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const { pomodoro, shortBreak, longBreak } = sliderData;
-    const { pomodoro: pomo, shortBreak: sb, longBreak: lb } = chosen.newTimer;
+    const { customStudyTime, customRelaxTime, customLongRelaxTime } =
+      sliderData;
+    console.log("got here");
+    const { pomodoro, shortBreak, longBreak } = chosen.newTimer;
 
     setCount(count + 1);
     console.log(count);
@@ -23,11 +25,18 @@ const CustomSlider = ({ slider }) => {
     // stop the update at the beginning
     if (chosen.data !== CUSTOM) return;
     // stop update without new values
-    if (pomo === pomodoro && sb === shortBreak && lb === longBreak) return;
+    if (
+      customStudyTime === pomodoro &&
+      customRelaxTime === shortBreak &&
+      customLongRelaxTime === longBreak
+    )
+      return;
+
+    console.log("slider data is changing");
     // update the timer value on
-    updateTimer(CUSTOM, pomodoro, shortBreak, longBreak);
+    updateTimer(CUSTOM, customStudyTime, customRelaxTime, customLongRelaxTime);
     // store the custom timer data in localstorage
-    setSlider(sliderData);
+    // setSlider(sliderData);
   }, [sliderData]);
 
   return (
@@ -38,7 +47,7 @@ const CustomSlider = ({ slider }) => {
             <SingleSlider
               key={slide.type}
               {...slide}
-              sliderData={sliderData[slide.type]}
+              sliderData={sliderData[slide.name]}
               setSliderData={setSliderData}
               level={chosen.data === CUSTOM}
             />

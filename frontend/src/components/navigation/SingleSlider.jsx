@@ -1,10 +1,15 @@
 // map so that it's easy to convert from slide type to pomodoro type
 import { mapper } from "../../data";
 
-const SingleSlider = ({ type, min, max, level, sliderData, setSliderData }) => {
-  //   console.log(`slider data: ${sliderData}`);
-  //   console.log(`slider type: ${type}`);
-  //   console.log(`slider value: ${sliderData}`);
+const SingleSlider = ({
+  type,
+  min,
+  max,
+  name,
+  level,
+  sliderData,
+  setSliderData,
+}) => {
   return (
     <div>
       <div className="slider__title">
@@ -17,14 +22,18 @@ const SingleSlider = ({ type, min, max, level, sliderData, setSliderData }) => {
         value={sliderData}
         max={max}
         onChange={(e) => {
-          setSliderData((oldData) => {
-            const newData = {
-              ...oldData,
-              [type]: parseInt(e.target.value),
-            };
+          if (type === "volume") {
+            setSliderData((oldData) => {
+              const newData = {
+                ...oldData,
+                [type]: parseInt(e.target.value),
+              };
 
-            return newData;
-          });
+              return newData;
+            });
+            return;
+          }
+          setSliderData(name, e.target.value);
         }}
         disabled={!level}
       />

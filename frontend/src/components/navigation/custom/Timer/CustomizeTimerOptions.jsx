@@ -22,8 +22,15 @@ const CustomizeTimerOptions = ({
         onChange={(e) => {
           // restoring the slider value on setting click
           if (type === CUSTOM) {
-            const { pomodoro, smallBreak, longBreak } = sliderData;
-            updateTimer(e.target.value, pomodoro, smallBreak, longBreak);
+            // const { pomodoro, smallBreak, longBreak } = sliderData;
+            const { customStudyTime, customRelaxTime, customLongRelaxTime } =
+              sliderData;
+            updateTimer(
+              e.target.value,
+              customStudyTime,
+              customRelaxTime,
+              customLongRelaxTime
+            );
             return;
           }
           // restoring other timer choice values

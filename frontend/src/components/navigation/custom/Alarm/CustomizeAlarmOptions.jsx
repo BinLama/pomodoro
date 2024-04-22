@@ -8,15 +8,15 @@ import { BiSolidVolumeFull, BiSolidVolumeMute } from "react-icons/bi";
 const CustomizeAlarmOptions = () => {
   const { toggleMute, mute, volume, handleVolumeChange } = usePomodoroContext();
 
-  const [sliderData, setSliderData] = useState({
+  const [volumeData, setVolumeData] = useState({
     volume: volume,
   });
 
   useEffect(() => {
-    if (volume === sliderData.volume) return;
-    handleVolumeChange(sliderData.volume);
+    if (volume === volumeData.volume) return;
+    handleVolumeChange(volumeData.volume);
     console.log("changed Volume");
-  }, [sliderData]);
+  }, [volumeData]);
 
   return (
     <div className="customize__alarm-options">
@@ -40,8 +40,8 @@ const CustomizeAlarmOptions = () => {
           type="volume"
           min={0}
           max={100}
-          sliderData={sliderData.volume}
-          setSliderData={setSliderData}
+          sliderData={volumeData.volume}
+          setSliderData={setVolumeData}
           level={!mute}
         />
       </div>

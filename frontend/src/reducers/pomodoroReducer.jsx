@@ -16,9 +16,12 @@ export const INITIAL_POMODORO_STATE = {
     },
   },
 
-  customStudyTime: customFocusLevel.choices[5].slider[0].value,
-  customRelaxTime: customFocusLevel.choices[5].slider[1].value,
-  customLongRelaxTime: customFocusLevel.choices[5].slider[2].value,
+  sliderData: {
+    customStudyTime: customFocusLevel.choices[5].slider[0].value,
+    customRelaxTime: customFocusLevel.choices[5].slider[1].value,
+    customLongRelaxTime: customFocusLevel.choices[5].slider[2].value,
+  },
+
   // Sets up what named music to play
   studyStartSound: "bell",
 
@@ -31,7 +34,7 @@ export const INITIAL_POMODORO_STATE = {
   // for when rest starts
   restAudio: new Audio(sounds["digital_alarm"]),
   // controls alarm volume
-  volume: 10,
+  volume: 20,
 
   // controls mute and unmute of volume
   mute: false,
@@ -86,16 +89,12 @@ export const pomodoroReducer = (state, action) => {
         ...state,
         chosen: action.payload,
       };
-    case pomodoroReducerActions.CHANGE_TO_CUSTOM:
+    case pomodoroReducerActions.SET_SLIDER_DATA:
       return {
         ...state,
-        chosen: {
-          data: CUSTOM,
-          newTimer: {
-            pomodoro: state.customStudyTime,
-            shortBreak: state.customRelaxTime,
-            longBreak: state.customLongRelaxTime,
-          },
+        sliderData: {
+          ...state.sliderData,
+          [action.payload.name]: parseInt(action.payload.value),
         },
       };
     case pomodoroReducerActions.PLAY_AUDIO:

@@ -9,9 +9,6 @@ const Pomodoro = () => {
   // Context
   const {
     chosen,
-    autoBreak,
-    autoPomo,
-    // longRelaxInterval,
     changeToBreak,
     changeToPomo,
     showSetting,
@@ -36,13 +33,12 @@ const Pomodoro = () => {
     remainingTime,
     maxSeconds,
     setNewPomodoro,
-    setAuto,
     resetSession,
   } = usePomodoroTimer(
     chosen.newTimer.pomodoro,
     chosen.newTimer.shortBreak,
     chosen.newTimer.longBreak
-  ); // this sets the pomodoro and shortBreak to 1min
+  );
 
   useEffect(() => {
     console.log("GOT to reset chosen");

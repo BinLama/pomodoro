@@ -23,25 +23,12 @@ export const PomodoroContextProvider = ({ children }) => {
   // localstorage for setting state
   const { setItem, getItem } = useLocalStorage("pomodoroContext");
 
-  // localstorage for custom slider
-  const { setItem: setSlider, getItem: getSlider } =
-    useLocalStorage("customSlider");
-
   // check if user is logged in
   const { username } = useAuthContext();
 
   const initialData = getItem() || INITIAL_POMODORO_STATE;
 
   const [state, dispatch] = useReducer(pomodoroReducer, initialData);
-
-  // need to set up initial value to not get uncontrolled error
-  const [sliderData, setSliderData] = useState(
-    getSlider() || {
-      pomodoro: customFocusLevel.choices[5].slider[0].value,
-      shortBreak: customFocusLevel.choices[5].slider[1].value,
-      longBreak: customFocusLevel.choices[5].slider[2].value,
-    }
-  );
 
   /**
    * Getting all the setting data when the user log's in
@@ -84,6 +71,9 @@ export const PomodoroContextProvider = ({ children }) => {
             studyStartSound,
             restStartSound,
             id,
+            customStudyTime,
+            customRelaxTime,
+            customLongRelaxTime,
           } = settingData;
 
           /**
@@ -99,6 +89,11 @@ export const PomodoroContextProvider = ({ children }) => {
                 shortBreak: relaxTime,
                 longBreak: longRelaxTime,
               },
+            },
+            sliderData: {
+              customStudyTime,
+              customRelaxTime,
+              customLongRelaxTime,
             },
             studyStartSound,
             restStartSound,
@@ -134,6 +129,7 @@ export const PomodoroContextProvider = ({ children }) => {
   // Save data to local storage on every dispatch
   useEffect(() => {
     if (!username) {
+      console.log("saving state to local storage");
       // Save updated data to local storage
       setItem(state);
     }
@@ -180,6 +176,7 @@ export const PomodoroContextProvider = ({ children }) => {
    *
    */
   const updateTimer = async (type, pomodoro, shortBreak, longBreak) => {
+    console.log(type, pomodoro, shortBreak, longBreak);
     // stop the same update when it's already selected
     if (
       (type === state.chosen.data && type !== CUSTOM) ||
@@ -350,30 +347,6 @@ export const PomodoroContextProvider = ({ children }) => {
     console.log("TOGGLE POMO");
     dispatch({ type: pomodoroReducerActions.TOGGLE_AUTO_POMO });
     if (username) {
-      // const newData = {
-      //   autoStudy: !state.autoPomo,
-      // };
-      // await settingPatchRequest(pomoAxios, newData, state.id);
-      // // Now, update the local state with the response from the server
-      // try {
-      //   const response = await pomoAxios.get(`/setting`, {
-      //     withCredentials: true,
-      //     credentials: "include",
-      //   });
-      //   if (response.status === 200) {
-      //     const data = await response.data;
-      //     // Extract the necessary values from the response
-      //     const { autoStudy } = data.setting;
-      //     // Update the local state with the new values
-      //     dispatch({
-      //       type: pomodoroReducerActions.TOGGLE_AUTO_POMO_SUCCESS,
-      //       payload: { autoPomo: autoStudy },
-      //     });
-      //   }
-      // } catch (err) {
-      //   // Handle errors
-      //   console.error("Error updating state after togglePomo:", err);
-      // }
     }
   };
 
@@ -385,12 +358,13 @@ export const PomodoroContextProvider = ({ children }) => {
     dispatch({ type: pomodoroReducerActions.SKIP_TO_POMO });
   };
 
-  // TODO: still needs to be intergated to old codes
-  const setTimerToCustom = () => {
-    dispatch({ type: pomodoroReducerActions.CHANGE_TO_CUSTOM });
+  const setSliderData = (name, value) => {
+    dispatch({
+      type: pomodoroReducerActions.SET_SLIDER_DATA,
+      payload: { name, value },
+    });
   };
 
-  // console.log("Pomodoro Context state:", state);
   return (
     <PomodoroContext.Provider
       value={{
@@ -410,10 +384,7 @@ export const PomodoroContextProvider = ({ children }) => {
         skipToPomo,
         setNotInSession,
         inSession,
-        sliderData,
         setSliderData,
-        setSlider,
-        getSlider,
       }}
     >
       {children}
