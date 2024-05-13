@@ -63,6 +63,11 @@ const auth = {
   SIGNUP: "SIGNUP",
 };
 
+const canvasHeatMapConst = {
+  height: 120,
+  width: 760,
+};
+
 export {
   pomodoroReducerActions,
   tasksActions,
@@ -82,4 +87,5 @@ export {
   SECONDS,
   MILLISECONDS,
   auth,
+  canvasHeatMapConst,
 };

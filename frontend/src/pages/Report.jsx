@@ -2,6 +2,8 @@ import { getAllUsers } from "../api/api-user";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
+import CanvasHeatMap from "../components/reports/CanvasHeatMap";
+import { canvasHeatMapConst } from "../utils/constants";
 
 const Report = () => {
   const { id } = useAuthContext();
@@ -30,6 +32,8 @@ const Report = () => {
   // Why is this not being parsed.
   return (
     <div>
+      <CanvasHeatMap {...canvasHeatMapConst} />
+
       {values.users.map((user, i) => {
         console.log(user, id);
         return (

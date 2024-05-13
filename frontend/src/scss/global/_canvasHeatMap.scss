@@ -1,0 +1,7 @@
+@use "../utils/" as u;
+
+.canvas__heatmap {
+  height: u.rem(120);
+  width: u.rem(760);
+  background-color: rgb(216, 216, 216);
+}
