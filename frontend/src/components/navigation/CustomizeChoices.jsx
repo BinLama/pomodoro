@@ -3,6 +3,7 @@ import CustomizeTimerOptions from "./custom/Timer/CustomizeTimerOptions";
 import { customAlarm, customFocusLevel } from "../../data";
 import CustomizeAlarmOptions from "./custom/Alarm/CustomizeAlarmOptions";
 import CustomAutoStart from "./custom/Auto/CustomAutoStart";
+import CustomSession from "./custom/session/CustomSession";
 
 const CustomizeChoices = ({ closeOptions }) => {
   return (
@@ -42,6 +43,17 @@ const CustomizeChoices = ({ closeOptions }) => {
           <p>Auto Start</p>
         </div>
         <CustomAutoStart />
+      </div>
+      {/* Customize auto start end */}
+      {/* Customize auto start */}
+      <div className="custom__session">
+        <div className="customize-title">
+          <div className="arrow" onClick={closeOptions}>
+            <IoArrowBackOutline />
+          </div>
+          <p>Custom Session</p>
+        </div>
+        <CustomSession />
       </div>
       {/* Customize auto start end */}
     </div>

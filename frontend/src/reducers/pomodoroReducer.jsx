@@ -97,6 +97,11 @@ export const pomodoroReducer = (state, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
+    case pomodoroReducerActions.SET_SESSION_DATA:
+      return {
+        ...state,
+        maxSession: action.payload.value,
+      };
     case pomodoroReducerActions.PLAY_AUDIO:
       return {
         ...state,

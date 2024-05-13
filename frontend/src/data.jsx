@@ -6,6 +6,8 @@ import {
   AiFillEyeInvisible,
 } from "react-icons/ai";
 import { MdOutlineRadioButtonUnchecked } from "react-icons/md";
+import { GiDeskLamp } from "react-icons/gi";
+
 import { BiSolidTimeFive } from "react-icons/bi";
 
 // uuid
@@ -64,6 +66,12 @@ export const navigationCustomizationSetting = [
     icon: <BsArrowClockwise />,
     note: "Auto start",
     type: "autoStart",
+  },
+  {
+    id: uuidv4(),
+    icon: <GiDeskLamp />,
+    note: "Session",
+    type: "session",
   },
 ];
 
@@ -152,7 +160,7 @@ export const customAlarm = {
     },
     { id: uuidv4(), name: "train horn", music: "train_horn" },
   ],
-  volume: 50,
+  volume: 10,
 };
 
 export const mapper = {
@@ -160,6 +168,7 @@ export const mapper = {
   shortBreak: "short break",
   pomodoro: "pomodoro",
   volume: "volume",
+  maxSession: "sessions",
 };
 
 export const sounds = {

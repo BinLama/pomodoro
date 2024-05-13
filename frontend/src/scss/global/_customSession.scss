@@ -1,0 +1,13 @@
+@use "../utils/" as u;
+
+.custom__session {
+  display: none;
+  padding: u.rem(7) u.rem(10);
+  gap: u.rem(10);
+
+  &-options {
+    display: grid;
+    padding-top: u.rem(10);
+    cursor: pointer;
+  }
+}

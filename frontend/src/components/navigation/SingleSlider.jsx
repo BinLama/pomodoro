@@ -10,10 +10,13 @@ const SingleSlider = ({
   sliderData,
   setSliderData,
 }) => {
+  const isNotTimer =
+    type !== "longBreak" && type !== "shortBreak" && type !== "pomodoro";
+
   return (
     <div>
       <div className="slider__title">
-        <p>{`${sliderData}${type !== "volume" ? " min" : ""}`}</p>
+        <p>{`${sliderData} ${isNotTimer ? " " : "min"}`}</p>
         <p>{mapper[type]}</p>
       </div>
       <input
@@ -22,7 +25,7 @@ const SingleSlider = ({
         value={sliderData}
         max={max}
         onChange={(e) => {
-          if (type === "volume") {
+          if (isNotTimer) {
             setSliderData((oldData) => {
               const newData = {
                 ...oldData,

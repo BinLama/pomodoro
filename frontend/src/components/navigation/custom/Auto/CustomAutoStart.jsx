@@ -5,7 +5,7 @@ const CustomAutoStart = () => {
   return (
     <div className="auto__start-options">
       <div className="auto__start-options_div">
-        <p>Auto Start pomodoro</p>
+        <p>Auto Start Pomodoro</p>
         <div className="toggle">
           <label className="switch">
             <input type="checkbox" checked={autoPomo} onChange={togglePomo} />
@@ -14,7 +14,7 @@ const CustomAutoStart = () => {
         </div>
       </div>
       <div className="auto__start-options_div">
-        <p>Auto Start break</p>
+        <p>Auto Start Break</p>
         <div className="toggle">
           <label className="switch">
             <input type="checkbox" checked={autoBreak} onChange={toggleBreak} />

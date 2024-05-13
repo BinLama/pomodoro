@@ -359,6 +359,7 @@ export const PomodoroContextProvider = ({ children }) => {
   };
 
   /**
+   * setting slider data for pomodoro custom timer
    * @param {string} name attribute that should be changed
    * @param {number} value value that the name attribute should be changed to
    * @return {void}
@@ -371,6 +372,18 @@ export const PomodoroContextProvider = ({ children }) => {
     });
   };
 
+  /**
+   * setting up data for max session data (5 - 10)
+   */
+  const setSessionData = (value) => {
+    console.log(value);
+    dispatch({
+      type: pomodoroReducerActions.SET_SESSION_DATA,
+      payload: { value },
+    });
+  };
+
+  console.log(state);
   return (
     <PomodoroContext.Provider
       value={{
@@ -391,6 +404,7 @@ export const PomodoroContextProvider = ({ children }) => {
         setNotInSession,
         inSession,
         setSliderData,
+        setSessionData,
       }}
     >
       {children}
