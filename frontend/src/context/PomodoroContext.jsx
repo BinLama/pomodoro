@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import { customFocusLevel, sounds } from "../data";
+import { sounds } from "../data";
 import { CUSTOM, pomodoroReducerActions } from "../utils/constants";
 import {
   INITIAL_POMODORO_STATE,
@@ -375,15 +375,20 @@ export const PomodoroContextProvider = ({ children }) => {
   /**
    * setting up data for max session data (5 - 10)
    */
-  const setSessionData = (value) => {
-    console.log(value);
+  const setSessionData = async (value) => {
     dispatch({
       type: pomodoroReducerActions.SET_SESSION_DATA,
       payload: { value },
     });
+
+    if (username) {
+      const changeMaxSession = {
+        maxPomodoroSession: value,
+      };
+      await updateSetting({ settingId: state.id }, changeMaxSession);
+    }
   };
 
-  console.log(state);
   return (
     <PomodoroContext.Provider
       value={{
