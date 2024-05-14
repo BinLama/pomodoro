@@ -7,11 +7,9 @@
 
 ### TODO:
 
-- [x] Save them all in local storage if they are not logged in
+- [ ] Save them all in local storage if they are not logged in
 - [x] Add logout and view profile drop down
-- [x] add a profile page (where you can change profiles)
-- [x] make sure that profile can only be edited by authrozed users.
-- [x] Create a task list (with CURD operations)
+- [ ] Create a github like chart that will show the days logged in and session completed.
 - [ ] add theme picker on the drop down
 - [ ] add forgot password page.
 
