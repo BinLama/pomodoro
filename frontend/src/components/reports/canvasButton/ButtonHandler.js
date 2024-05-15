@@ -1,15 +1,24 @@
 import { RectanlgeButton } from "./Button";
-import { getColor, getMouseLocation, getRandomColor } from "./utils";
+import {
+  getColor,
+  getAllDays,
+  getMouseLocation,
+  getRandomColor,
+} from "./utils";
 
 export class ButtonHandler {
   static days = [];
   static canvas;
   static hitCanvas;
   static scale;
+  static day = 7;
+  static weeks = 52;
 
-  static create52Weeks = (size, location, gap) => {
-    for (let y = 0; y < 7; y++) {
-      for (let x = 0; x <= 52; x++) {
+  static create52Weeks = (size, location, gap, year) => {
+    const dates = getAllDays(year);
+    for (let x = 0; x <= ButtonHandler.weeks; x++) {
+      for (let y = 0; y < ButtonHandler.day; y++) {
+        // console.log(dates[x * ButtonHandler.day + y]);
         ButtonHandler.days.push(
           new RectanlgeButton(
             size,
@@ -17,10 +26,10 @@ export class ButtonHandler {
               x * size + (location[0] + x * gap),
               y * size + (location[1] + y * gap),
             ],
-            getRandomColor()
+            getRandomColor(),
+            dates[x * ButtonHandler.day + y]
           )
         );
-        console.log("create");
       }
     }
   };
@@ -36,6 +45,10 @@ export class ButtonHandler {
     ButtonHandler.canvas.addEventListener(
       "mousemove",
       ButtonHandler.onMouseMove
+    );
+    ButtonHandler.canvas.addEventListener(
+      "mousedown",
+      ButtonHandler.onMouseDown
     );
   }
 
@@ -64,9 +77,16 @@ export class ButtonHandler {
     }
   }
 
+  static onMouseDown(event) {
+    const location = getMouseLocation(event, ButtonHandler.scale);
+    const color = getColor(ButtonHandler.hitCanvas.getContext("2d"), location);
+    const day = ButtonHandler.isHovering(color);
+    console.log(day);
+  }
+
   static isHovering(color) {
     for (const day of ButtonHandler.days) {
-      if (day.color === color) {
+      if (day.color === color && day.date) {
         return day;
       }
     }

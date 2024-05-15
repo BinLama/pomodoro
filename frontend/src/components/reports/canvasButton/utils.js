@@ -31,3 +31,43 @@ export const getMouseLocation = (event, size) => {
 
   return loc;
 };
+
+const getStartDay = (date) => {
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  console.log(date.getDay());
+  return weekday[date.getDay()];
+};
+
+export const getAllDays = (year) => {
+  const gaps = {
+    Sunday: 6,
+    Monday: 0,
+    Tuesday: 1,
+    Wednesday: 2,
+    Thursday: 3,
+    Friday: 4,
+    Saturday: 5,
+  };
+
+  const date = new Date(year, 0, 1);
+  const dayStarted = getStartDay(date);
+
+  // creating gaps so that day starts on correct day
+  const dates = Array(gaps[dayStarted]).fill(false);
+
+  while (date.getFullYear() <= year) {
+    const copiedDate = new Date(date);
+    dates.push(copiedDate);
+    date.setDate(date.getDate() + 1);
+  }
+
+  return dates;
+};
