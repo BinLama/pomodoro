@@ -4,6 +4,8 @@ export class RectanlgeButton {
     this.location = location;
     this.color = color;
     this.hover = false;
+    this.tooltip = false;
+    this.interval;
   }
 
   draw = (ctx) => {
@@ -13,6 +15,11 @@ export class RectanlgeButton {
     if (this.hover) {
       ctx.fillStyle = "red";
     }
+
+    if (this.tooltip) {
+      ctx.rect(0, 0, this.size, this.size);
+    }
+
     ctx.translate(this.location[0], this.location[1]);
     ctx.rect(0, 0, this.size, this.size);
     ctx.fill();

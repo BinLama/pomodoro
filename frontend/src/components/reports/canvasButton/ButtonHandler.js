@@ -46,10 +46,17 @@ export class ButtonHandler {
 
     // reset hovering
     ButtonHandler.resetHovering();
+    ButtonHandler.removeTooltip();
+    // remove timeout
+    ButtonHandler.removeTimeout();
+
     const day = ButtonHandler.isHovering(color);
 
     if (day) {
       day.hover = true;
+      day.interval = setTimeout(() => {
+        day.tooltip = true;
+      }, 350);
 
       ButtonHandler.canvas.style.cursor = "pointer";
     } else {
@@ -64,6 +71,18 @@ export class ButtonHandler {
       }
     }
     return false;
+  }
+
+  static removeTimeout() {
+    for (const day of ButtonHandler.days) {
+      if (day.interval) clearTimeout(day.interval);
+    }
+  }
+
+  static removeTooltip() {
+    for (const day of ButtonHandler.days) {
+      day.tooltip = false;
+    }
   }
 
   static resetHovering() {
