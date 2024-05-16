@@ -42,7 +42,6 @@ const getStartDay = (date) => {
     "Friday",
     "Saturday",
   ];
-  console.log(date.getDay());
   return weekday[date.getDay()];
 };
 
@@ -70,4 +69,23 @@ export const getAllDays = (year) => {
   }
 
   return dates;
+};
+
+export const numToMonth = (month) => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  return months[month];
 };

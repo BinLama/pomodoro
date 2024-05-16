@@ -14,7 +14,8 @@ export class RectanlgeButton {
     ctx.beginPath();
     ctx.fillStyle = `rgb(216, 216, 216)`;
     if (this.tooltip) {
-      ctx.fillStyle = "purple";
+      // ctx.fillStyle = "purple";
+      ctx.rect(0, 0, this.size, this.size);
       // ctx.fillText(new Date(this.date).getFullYear(), 0, 0);
       // ctx.fill();
     }
