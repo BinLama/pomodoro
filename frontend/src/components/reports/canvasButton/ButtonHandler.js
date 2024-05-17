@@ -6,6 +6,7 @@ import {
   getMouseLocation,
   getRandomColor,
   numToMonth,
+  numToDay,
 } from "./utils";
 
 export class ButtonHandler {
@@ -23,9 +24,9 @@ export class ButtonHandler {
     ButtonHandler.distances = [];
 
     const dates = getAllDays(year);
+
     for (let x = 0; x <= ButtonHandler.weeks; x++) {
       for (let y = 0; y < ButtonHandler.day; y++) {
-        // console.log(dates[x * ButtonHandler.day + y]);
         ButtonHandler.days.push(
           new RectanlgeButton(
             size,
@@ -45,7 +46,12 @@ export class ButtonHandler {
       ButtonHandler.distances.push(new TextCanvas(0.1, monthAndLocation));
     }
 
-    console.log(ButtonHandler.distances);
+    const daysAndLocations = ButtonHandler.getDaysDistance();
+    for (const dayAndLocation of daysAndLocations) {
+      ButtonHandler.distances.push(new TextCanvas(size, dayAndLocation, false));
+    }
+
+    console.log(daysAndLocations);
   }
 
   static draw(ctx) {
@@ -60,7 +66,6 @@ export class ButtonHandler {
   }
 
   // TODO: need to draw names on the distance found using get distance
-  static drawNames(ctx) {}
 
   static addEventListeners() {
     ButtonHandler.canvas.addEventListener(
@@ -73,24 +78,26 @@ export class ButtonHandler {
     );
   }
 
-  // return a list of distance from start of the month to the end
+  /**
+   * returns a list of distance between start and end of the month
+   */
   static getDatesDistance() {
     const distances = [];
     const dec = "Dec";
     let start = -1,
       end = -1,
       currentMonth = "";
-    console.log(ButtonHandler.days.length);
+
     for (let i = 0; i < ButtonHandler.days.length; i++) {
       if (!ButtonHandler.days[i].date && currentMonth !== dec) continue;
 
       let month;
       if (ButtonHandler.days[i].date) {
-        month = numToMonth(ButtonHandler.days[i].date.getMonth());
+        month = numToMonth(ButtonHandler.days[i].date);
       }
-      console.log(currentMonth);
+
       if (currentMonth === month && currentMonth !== dec) continue;
-      console.log(i);
+
       if (currentMonth === dec && i !== ButtonHandler.days.length - 2) continue;
 
       if (currentMonth) {
@@ -103,6 +110,35 @@ export class ButtonHandler {
     }
 
     return distances;
+  }
+
+  /**
+   * returns a list of distance between start and end of the day
+   */
+  static getDaysDistance() {
+    const distance = [];
+    const dayFound = new Set();
+
+    let start = -1,
+      end = -1,
+      day = "";
+
+    for (let i = 0; i < 14; i++) {
+      start = ButtonHandler.days[i].location[1];
+      end = start + ButtonHandler.days[i].size * 2;
+
+      if (ButtonHandler.days[i].date) {
+        day = numToDay(ButtonHandler.days[i].date);
+        distance.push([[start, end], day]);
+        dayFound.add(day);
+      }
+
+      if (dayFound.size === 7) {
+        break;
+      }
+    }
+
+    return distance;
   }
 
   static onMouseMove(event) {
@@ -133,7 +169,7 @@ export class ButtonHandler {
     const location = getMouseLocation(event, ButtonHandler.scale);
     const color = getColor(ButtonHandler.hitCanvas.getContext("2d"), location);
     const day = ButtonHandler.isHovering(color);
-    console.log(day);
+    if (day) console.log(day);
   }
 
   static isHovering(color) {

@@ -32,32 +32,26 @@ export const getMouseLocation = (event, size) => {
   return loc;
 };
 
-const getStartDay = (date) => {
-  const weekday = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return weekday[date.getDay()];
+export const numToDay = (date) => {
+  const weekday = ["S", "M", "T", "W", "TH", "F", "Sa"];
+
+  const day = new Date(date).getDay();
+  return weekday[day];
 };
 
 export const getAllDays = (year) => {
   const gaps = {
-    Sunday: 6,
-    Monday: 0,
-    Tuesday: 1,
-    Wednesday: 2,
-    Thursday: 3,
-    Friday: 4,
-    Saturday: 5,
+    S: 6,
+    M: 0,
+    T: 1,
+    W: 2,
+    TH: 3,
+    F: 4,
+    Sa: 5,
   };
 
   const date = new Date(year, 0, 1);
-  const dayStarted = getStartDay(date);
+  const dayStarted = numToDay(date);
 
   // creating gaps so that day starts on correct day
   const dates = Array(gaps[dayStarted]).fill(false);
@@ -71,7 +65,7 @@ export const getAllDays = (year) => {
   return dates;
 };
 
-export const numToMonth = (month) => {
+export const numToMonth = (date) => {
   const months = [
     "Jan",
     "Feb",
@@ -86,6 +80,6 @@ export const numToMonth = (month) => {
     "Nov",
     "Dec",
   ];
-
+  const month = new Date(date).getMonth();
   return months[month];
 };
