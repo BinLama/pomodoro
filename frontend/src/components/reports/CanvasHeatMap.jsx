@@ -4,7 +4,7 @@ import { createHitCanvas } from "./canvasButton/utils";
 
 const CanvasHeatMap = (props) => {
   const { height, width } = props;
-  const [year, setYear] = useState(2022);
+  const [year, setYear] = useState(2024);
 
   const canvasRef = useRef(null);
 
@@ -19,7 +19,7 @@ const CanvasHeatMap = (props) => {
 
   const drawScene = (ctx) => {
     ctx.clearRect(0, 0, width, height);
-    ButtonHandler.drawRectangles(ctx);
+    ButtonHandler.draw(ctx);
   };
 
   const initializeCanvas = () => {

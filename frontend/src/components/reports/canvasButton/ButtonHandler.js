@@ -1,4 +1,5 @@
 import { RectanlgeButton } from "./Button";
+import { TextCanvas } from "./Text";
 import {
   getColor,
   getAllDays,
@@ -14,11 +15,12 @@ export class ButtonHandler {
   static scale;
   static day = 7;
   static weeks = 52;
-  static distances;
+  static distances = [];
 
   static create52Weeks(size, location, gap, year) {
     // reset it everytime window reloads
     ButtonHandler.days = [];
+    ButtonHandler.distances = [];
 
     const dates = getAllDays(year);
     for (let x = 0; x <= ButtonHandler.weeks; x++) {
@@ -37,13 +39,23 @@ export class ButtonHandler {
         );
       }
     }
-    ButtonHandler.distances = ButtonHandler.getDatesDistance();
+    const monthsAndLocations = ButtonHandler.getDatesDistance();
+
+    for (const monthAndLocation of monthsAndLocations) {
+      ButtonHandler.distances.push(new TextCanvas(0.1, monthAndLocation));
+    }
+
+    console.log(ButtonHandler.distances);
   }
 
-  static drawRectangles(ctx) {
+  static draw(ctx) {
     for (const day of ButtonHandler.days) {
       day.draw(ctx);
       day.drawHitArea(ButtonHandler.hitCanvas.getContext("2d"));
+    }
+
+    for (const text of ButtonHandler.distances) {
+      text.draw(ctx);
     }
   }
 
@@ -70,17 +82,20 @@ export class ButtonHandler {
       currentMonth = "";
     console.log(ButtonHandler.days.length);
     for (let i = 0; i < ButtonHandler.days.length; i++) {
-      if (!ButtonHandler.days[i].date) continue;
+      if (!ButtonHandler.days[i].date && currentMonth !== dec) continue;
 
-      const month = numToMonth(ButtonHandler.days[i].date.getMonth());
+      let month;
+      if (ButtonHandler.days[i].date) {
+        month = numToMonth(ButtonHandler.days[i].date.getMonth());
+      }
       console.log(currentMonth);
       if (currentMonth === month && currentMonth !== dec) continue;
-
+      console.log(i);
       if (currentMonth === dec && i !== ButtonHandler.days.length - 2) continue;
 
       if (currentMonth) {
         end = ButtonHandler.days[i - 1].location[0];
-        distances.push([start, end, currentMonth]);
+        distances.push([[start, end], currentMonth]);
       }
 
       start = ButtonHandler.days[i].location[0];
