@@ -15,7 +15,7 @@ export class ButtonHandler {
   static hitCanvas;
   static scale;
   static day = 7;
-  static weeks = 52;
+  static weeks = 53;
   static distances = [];
 
   static create52Weeks(size, location, gap, year) {
@@ -40,6 +40,8 @@ export class ButtonHandler {
         );
       }
     }
+
+    // Creating a text
     const monthsAndLocations = ButtonHandler.getDatesDistance();
 
     for (const monthAndLocation of monthsAndLocations) {
@@ -50,8 +52,6 @@ export class ButtonHandler {
     for (const dayAndLocation of daysAndLocations) {
       ButtonHandler.distances.push(new TextCanvas(size, dayAndLocation, false));
     }
-
-    console.log(daysAndLocations);
   }
 
   static draw(ctx) {
@@ -64,8 +64,6 @@ export class ButtonHandler {
       text.draw(ctx);
     }
   }
-
-  // TODO: need to draw names on the distance found using get distance
 
   static addEventListeners() {
     ButtonHandler.canvas.addEventListener(

@@ -1,5 +1,3 @@
-import { numToMonth } from "./utils";
-
 export class RectanlgeButton {
   constructor(size, location, color, date = false) {
     this.size = size;
