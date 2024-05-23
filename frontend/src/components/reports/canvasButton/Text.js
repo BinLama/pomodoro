@@ -1,3 +1,5 @@
+import { lerp } from "./utils";
+
 export class TextCanvas {
   constructor(size, locationAndMonth, x = true) {
     this.size = size;
@@ -9,11 +11,16 @@ export class TextCanvas {
   draw(ctx) {
     ctx.save();
     ctx.font = `${this.size}px sans serif`;
+    ctx.fillStyle = `rgb(0,0,0)`;
     if (this.x) {
-      ctx.translate(this.average(), 0.1);
+      ctx.translate(
+        lerp(this.location[0], this.location[1] - this.size, 0.5),
+        0.1
+      );
       ctx.fillText(this.text, 0, 0);
     } else {
-      ctx.translate(0.055, this.average());
+      // 0.055 makes MWF align in center
+      ctx.translate(0.055, lerp(this.location[0], this.location[1], 0.5));
       ctx.textAlign = "center";
       if (["M", "W", "F"].includes(this.text)) {
         ctx.fillText(this.text, 0, 0);
@@ -22,8 +29,8 @@ export class TextCanvas {
     ctx.restore();
   }
 
-  average() {
-    // a + (b - a) * t aka Lerp (t is the percentage)
-    return (1 - 0.5) * this.location[0] + 0.5 * this.location[1];
-  }
+  // average() {
+  //   // a + (b - a) * t aka Lerp (t is the percentage)
+  //   return (1 - 0.5) * this.location[0] + 0.5 * this.location[1];
+  // }
 }

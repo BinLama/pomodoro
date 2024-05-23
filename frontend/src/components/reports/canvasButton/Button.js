@@ -13,10 +13,7 @@ export class RectanlgeButton {
     ctx.save();
     ctx.beginPath();
     ctx.fillStyle = `rgb(216, 216, 216)`;
-
-    if (this.tooltip) {
-      ctx.rect(0, 0, this.size, this.size);
-    }
+    ctx.translate(this.location[0], this.location[1]);
 
     if (this.date && this.hover) {
       ctx.fillStyle = "red";
@@ -26,7 +23,6 @@ export class RectanlgeButton {
       ctx.fillStyle = `transparent`;
     }
 
-    ctx.translate(this.location[0], this.location[1]);
     ctx.rect(0, 0, this.size, this.size);
     ctx.fill();
     ctx.closePath();

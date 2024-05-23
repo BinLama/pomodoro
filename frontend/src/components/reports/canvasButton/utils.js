@@ -83,3 +83,7 @@ export const numToMonth = (date) => {
   const month = new Date(date).getMonth();
   return months[month];
 };
+
+export const lerp = (a, b, t) => {
+  return (1 - t) * a + t * b;
+};

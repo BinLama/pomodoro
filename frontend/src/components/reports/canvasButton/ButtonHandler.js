@@ -1,5 +1,6 @@
 import { RectanlgeButton } from "./Button";
 import { TextCanvas } from "./Text";
+import { ToolTips } from "./ToolTips";
 import {
   getColor,
   getAllDays,
@@ -17,12 +18,12 @@ export class ButtonHandler {
   static day = 7;
   static weeks = 53;
   static distances = [];
+  static tooltip = undefined;
 
   static create52Weeks(size, location, gap, year) {
     // reset it everytime window reloads
     ButtonHandler.days = [];
     ButtonHandler.distances = [];
-
     const dates = getAllDays(year);
 
     for (let x = 0; x <= ButtonHandler.weeks; x++) {
@@ -52,6 +53,10 @@ export class ButtonHandler {
     for (const dayAndLocation of daysAndLocations) {
       ButtonHandler.distances.push(new TextCanvas(size, dayAndLocation, false));
     }
+
+    console.log(size);
+    // remove this
+    ButtonHandler.tooltip = new ToolTips(size, location, "Please");
   }
 
   static draw(ctx) {
@@ -62,6 +67,10 @@ export class ButtonHandler {
 
     for (const text of ButtonHandler.distances) {
       text.draw(ctx);
+    }
+
+    if (ButtonHandler.tooltip) {
+      ButtonHandler.tooltip.draw(ctx);
     }
   }
 
@@ -155,6 +164,13 @@ export class ButtonHandler {
       day.hover = true;
       day.interval = setTimeout(() => {
         day.tooltip = true;
+        if (day.tooltip) {
+          ButtonHandler.tooltip = new ToolTips(
+            day.size,
+            day.location,
+            day.date
+          );
+        }
       }, 350);
 
       ButtonHandler.canvas.style.cursor = "pointer";
@@ -188,6 +204,7 @@ export class ButtonHandler {
   static removeTooltip() {
     for (const day of ButtonHandler.days) {
       day.tooltip = false;
+      ButtonHandler.tooltip = undefined;
     }
   }
 

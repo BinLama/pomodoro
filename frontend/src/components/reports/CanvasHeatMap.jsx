@@ -9,9 +9,9 @@ const CanvasHeatMap = (props) => {
   const canvasRef = useRef(null);
 
   const main = (year) => {
-    const size = 12 / height; // 12px
-    const startLocaiton = [18 / height, 22 / height]; // x: 18px, 22px
-    const gap = 2 / height; // 2px
+    const size = 24 / height; // 12px
+    const startLocaiton = [36 / height, 44 / height]; // x: 18px, 22px
+    const gap = 4 / height; // 2px
     ButtonHandler.scale = [width, height];
     ButtonHandler.addEventListeners();
     ButtonHandler.create52Weeks(size, startLocaiton, gap, year);
