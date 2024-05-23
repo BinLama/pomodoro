@@ -54,9 +54,9 @@ export class ButtonHandler {
       ButtonHandler.distances.push(new TextCanvas(size, dayAndLocation, false));
     }
 
-    console.log(size);
+    // console.log(size);
     // remove this
-    ButtonHandler.tooltip = new ToolTips(size, location, "Please");
+    // ButtonHandler.tooltip = new ToolTips(size, location, "Please");
   }
 
   static draw(ctx) {
@@ -165,11 +165,10 @@ export class ButtonHandler {
       day.interval = setTimeout(() => {
         day.tooltip = true;
         if (day.tooltip) {
-          ButtonHandler.tooltip = new ToolTips(
-            day.size,
-            day.location,
-            day.date
-          );
+          ButtonHandler.tooltip = new ToolTips(day.size, day.location, {
+            date: day.date,
+            session: 2,
+          });
         }
       }, 350);
 

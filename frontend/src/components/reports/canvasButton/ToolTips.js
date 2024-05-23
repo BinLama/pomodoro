@@ -1,14 +1,23 @@
 import { lerp } from "./utils";
 
 export class ToolTips {
+  convertDateToNumbers() {
+    const date = new Date(this.data.date);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear().toString().slice(2);
+    return `${month}/${day}/${year}`;
+  }
+
   constructor(size, location, data) {
     this.size = size;
     this.location = location;
     this.data = data;
-    this.x = this.size * 7;
-    this.xCurve = this.size * 7.5;
+    this.date = this.convertDateToNumbers();
+    this.x = this.size * 8;
+    this.xCurve = this.size * 8.5;
     this.y = this.size * 3;
-    this.yCurve = this.size * 3.5;
+    this.yCurve = this.size * 3.4;
     this.curve = 0.03;
   }
 
@@ -16,10 +25,12 @@ export class ToolTips {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = 0.01;
+
     ctx.translate(
       this.location[0] - this.x / 2,
-      this.location[1] - this.y - this.curve
+      this.location[1] - this.y - this.size
     );
+
     // curve start
     ctx.moveTo(this.curve, 0);
     // move in x direction
@@ -57,9 +68,9 @@ export class ToolTips {
     ctx.translate(lerp(0, this.xCurve, 0.05), lerp(0, this.y, 0.95));
     ctx.fillStyle = "black";
     ctx.font = `${this.size * 1.2}px sans serif`;
-    ctx.fillText("Date: 1/1/24", 0, 0);
+    ctx.fillText(`Date: ${this.date}`, 0, 0);
     ctx.restore();
   }
 
-  convertDateToNumbers() {}
+  directionToShow() {}
 }
