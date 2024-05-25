@@ -46,12 +46,12 @@ export class ButtonHandler {
     const monthsAndLocations = ButtonHandler.getDatesDistance();
 
     for (const monthAndLocation of monthsAndLocations) {
-      ButtonHandler.distances.push(new TextCanvas(0.1, monthAndLocation));
+      ButtonHandler.distances.push(new TextCanvas(0.07, monthAndLocation));
     }
 
     const daysAndLocations = ButtonHandler.getDaysDistance();
     for (const dayAndLocation of daysAndLocations) {
-      ButtonHandler.distances.push(new TextCanvas(size, dayAndLocation, false));
+      ButtonHandler.distances.push(new TextCanvas(0.07, dayAndLocation, false));
     }
 
     // console.log(size);

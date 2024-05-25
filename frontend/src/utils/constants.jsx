@@ -64,8 +64,8 @@ const auth = {
 };
 
 const canvasHeatMapConst = {
-  height: 300,
-  width: 775 * 2,
+  height: 184 * 2,
+  width: 965 * 2,
 };
 
 export {

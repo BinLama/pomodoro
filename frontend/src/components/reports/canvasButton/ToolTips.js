@@ -3,8 +3,8 @@ import { lerp } from "./utils";
 export class ToolTips {
   convertDateToNumbers() {
     const date = new Date(this.data.date);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear().toString().slice(2);
     return `${month}/${day}/${year}`;
   }
@@ -14,8 +14,8 @@ export class ToolTips {
     this.location = location;
     this.data = data;
     this.date = this.convertDateToNumbers();
-    this.x = this.size * 8;
-    this.xCurve = this.size * 8.5;
+    this.x = this.size * 8.5;
+    this.xCurve = this.size * 9;
     this.y = this.size * 3;
     this.yCurve = this.size * 3.4;
     this.curve = 0.03;
@@ -54,15 +54,17 @@ export class ToolTips {
     ctx.quadraticCurveTo(0, 0, 0, this.curve);
     // top left curve
     ctx.quadraticCurveTo(0, 0, this.curve, 0);
+    ctx.fillStyle = "rgb(240, 240, 240)";
+    ctx.fill();
     ctx.stroke();
     ctx.closePath();
 
     // session completed
     ctx.save();
-    ctx.translate(lerp(0, this.xCurve, 0.1), lerp(0, this.y, 0.45));
+    ctx.translate(lerp(0, this.xCurve, 0.05), lerp(0, this.y, 0.45));
     ctx.fillStyle = "black";
     ctx.font = `${this.size * 1.2}px sans serif`;
-    ctx.fillText("Session: 10", 0, 0);
+    ctx.fillText("Completed: 10", 0, 0);
     ctx.restore();
 
     ctx.translate(lerp(0, this.xCurve, 0.05), lerp(0, this.y, 0.95));
