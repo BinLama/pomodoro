@@ -1,3 +1,4 @@
+import { ButtonHandler } from "./ButtonHandler";
 import { lerp } from "./utils";
 
 export class ToolTips {
@@ -9,9 +10,10 @@ export class ToolTips {
     return `${month}/${day}/${year}`;
   }
 
-  constructor(size, location, data) {
+  constructor(size, location, startLocation, data) {
     this.size = size;
     this.location = location;
+    this.startLocation = startLocation;
     this.data = data;
     this.date = this.convertDateToNumbers();
     this.x = this.size * 8.5;
@@ -25,11 +27,54 @@ export class ToolTips {
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = 0.01;
+    const xLocation = this.location[0] - this.x / 2;
+    const xSize = this.location[0] + this.x;
+    const yLocatoin = this.location[1] - this.y - this.size / 2;
+    const xEnd =
+      this.size * ButtonHandler.weeks +
+      this.startLocation[0] +
+      ButtonHandler.weeks * ButtonHandler.gap;
 
-    ctx.translate(
-      this.location[0] - this.x / 2,
-      this.location[1] - this.y - this.size
-    );
+    if (
+      xLocation < this.startLocation[0] &&
+      yLocatoin >= this.startLocation[1]
+    ) {
+      console.log("x=0, y>0");
+      ctx.translate(
+        this.startLocation[0],
+        this.location[1] - this.y - this.size
+      );
+    } else if (
+      xLocation < this.startLocation[0] &&
+      yLocatoin < this.startLocation[1]
+    ) {
+      console.log("x=0, y=0");
+      ctx.translate(
+        this.startLocation[0],
+        this.location[1] + this.size + this.curve
+      );
+    } else if (
+      xLocation >= this.startLocation[0] &&
+      xSize <= xEnd &&
+      yLocatoin < this.startLocation[1]
+    ) {
+      console.log("x>0, y=0");
+      ctx.translate(
+        this.location[0] - this.x / 2,
+        this.location[1] + this.size + this.curve
+      );
+    } else if (xSize > xEnd && yLocatoin < this.startLocation[1]) {
+      console.log("x=end, y=0");
+      ctx.translate(xEnd - this.x, this.location[1] + this.size + this.curve);
+    } else if (xSize > xEnd && yLocatoin >= this.startLocation[1]) {
+      console.log("x=end, y=end");
+      ctx.translate(xEnd - this.x, this.location[1] - this.y - this.size / 2);
+    } else {
+      ctx.translate(
+        this.location[0] - this.x / 2,
+        this.location[1] - this.y - this.size / 2
+      );
+    }
 
     // curve start
     ctx.moveTo(this.curve, 0);

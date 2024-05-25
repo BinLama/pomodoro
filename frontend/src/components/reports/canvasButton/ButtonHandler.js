@@ -19,8 +19,11 @@ export class ButtonHandler {
   static weeks = 53;
   static distances = [];
   static tooltip = undefined;
+  static fontSize = 0.07;
+  static startLocation;
+  static gap;
 
-  static create52Weeks(size, location, gap, year) {
+  static create52Weeks(size, year) {
     // reset it everytime window reloads
     ButtonHandler.days = [];
     ButtonHandler.distances = [];
@@ -32,8 +35,10 @@ export class ButtonHandler {
           new RectanlgeButton(
             size,
             [
-              x * size + (location[0] + x * gap),
-              y * size + (location[1] + y * gap),
+              x * size +
+                (ButtonHandler.startLocation[0] + x * ButtonHandler.gap),
+              y * size +
+                (ButtonHandler.startLocation[1] + y * ButtonHandler.gap),
             ],
             getRandomColor(),
             dates[x * ButtonHandler.day + y]
@@ -46,17 +51,17 @@ export class ButtonHandler {
     const monthsAndLocations = ButtonHandler.getDatesDistance();
 
     for (const monthAndLocation of monthsAndLocations) {
-      ButtonHandler.distances.push(new TextCanvas(0.07, monthAndLocation));
+      ButtonHandler.distances.push(
+        new TextCanvas(ButtonHandler.fontSize, monthAndLocation)
+      );
     }
 
     const daysAndLocations = ButtonHandler.getDaysDistance();
     for (const dayAndLocation of daysAndLocations) {
-      ButtonHandler.distances.push(new TextCanvas(0.07, dayAndLocation, false));
+      ButtonHandler.distances.push(
+        new TextCanvas(ButtonHandler.fontSize, dayAndLocation, false)
+      );
     }
-
-    // console.log(size);
-    // remove this
-    // ButtonHandler.tooltip = new ToolTips(size, location, "Please");
   }
 
   static draw(ctx) {
@@ -165,10 +170,15 @@ export class ButtonHandler {
       day.interval = setTimeout(() => {
         day.tooltip = true;
         if (day.tooltip) {
-          ButtonHandler.tooltip = new ToolTips(day.size, day.location, {
-            date: day.date,
-            session: 2,
-          });
+          ButtonHandler.tooltip = new ToolTips(
+            day.size,
+            day.location,
+            ButtonHandler.startLocation,
+            {
+              date: day.date,
+              session: 2,
+            }
+          );
         }
       }, 350);
 
