@@ -12,7 +12,7 @@ const Session = models.session;
 
 const getAllSessions = async (req, res) => {
   try {
-    const { id: userId } = req.user;
+    const { id: userId } = req.auth;
 
     const session = await Session.findAll({
       where: {
@@ -46,7 +46,8 @@ const getAllSessions = async (req, res) => {
 
 const createNewSession = async (req, res) => {
   try {
-    const { id: userId } = req.user;
+    console.log(`auth: ${JSON.stringify(req.auth)}`);
+    const { id: userId } = req.auth;
 
     const session = await Session.create({
       userId,

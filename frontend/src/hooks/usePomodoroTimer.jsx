@@ -7,6 +7,8 @@ import {
   MILLISECONDS,
 } from "../utils/constants";
 import { usePomodoroContext } from "./usePomodoroContext";
+import { useAuthContext } from "./useAuthContext";
+import { createSession } from "../api/api-session";
 
 /**
  * create a hook called pomodoro timer that allows user to create pomodoro timer
@@ -51,6 +53,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
     longRelaxInterval,
   } = usePomodoroContext();
 
+  const { username } = useAuthContext();
   const [pomoPhases, setPomoPhases] = useState({
     pomodoro: { minutes: pomodoro },
     shortBreak: { minutes: shortBreak },
@@ -90,7 +93,7 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
     let remainingMilliseconds = MILLISECONDS;
     let currentTime;
 
-    const tick = () => {
+    const tick = async () => {
       if (seconds === 0) {
         if (minutes === 0) {
           // Timer is complete, but don't switch phase automatically
@@ -122,7 +125,14 @@ const usePomodoroTimer = (pomodoro, shortBreak, longBreak) => {
           long relax: ${longRelaxInterval}`);
           const newSession = Math.round(rotationRef.current / 2);
 
+          if (session !== newSession) {
+            if (username) {
+              await createSession();
+            }
+          }
+
           setSession(newSession);
+
           setPhase((oldState) => {
             let newState;
             if (oldState === SHORTBREAK || oldState === LONGBREAK) {

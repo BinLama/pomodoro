@@ -72,6 +72,7 @@ const requireSignIn = async (req, res, next) => {
  *
  */
 const hasAuthorization = (req, res, next) => {
+  console.log("Checking Authroization");
   const authorized = req.user && req.auth && req.user.id === req.auth.id;
   if (!authorized) {
     res.clearCookie(COOKIE_NAME, {

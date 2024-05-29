@@ -170,24 +170,37 @@ export const TaskContextProvider = ({ children }) => {
       console.log("Marked all tasks");
     }
 
-    // if (username) {
-    //   for (const task of state.tasks) {
-    //     console.log(task);
-    //     if (task.completed !== false) {
-    //       await updateSingleTask({ taskId: task.id }, { completed: true });
-    //     }
-    //   }
-    // }
+    if (username) {
+      for (const task of state.tasks) {
+        console.log(task);
+        if (task.completed === false) {
+          await updateSingleTask({ taskId: task.id }, { completed: true });
+        }
+      }
+
+      dispatch({ type: tasksActions.MARK_ALL_TASKS });
+    }
   };
 
-  const unMarkAllTasks = () => {
+  const unMarkAllTasks = async () => {
     if (!username) {
       dispatch({ type: tasksActions.UNMARK_ALL_TASKS });
       console.log("unmarked all tasks");
     }
+
+    if (username) {
+      for (const task of state.tasks) {
+        console.log(task);
+        if (task.completed === true) {
+          await updateSingleTask({ taskId: task.id }, { completed: false });
+        }
+      }
+
+      dispatch({ type: tasksActions.UNMARK_ALL_TASKS });
+    }
   };
 
-  const clearAllTasks = () => {
+  const clearAllTasks = async () => {
     if (!username) {
       const confirm = window.confirm("Do you want to remove all  tasks?");
 
@@ -195,6 +208,14 @@ export const TaskContextProvider = ({ children }) => {
 
       dispatch({ type: tasksActions.DELETE_ALL_TASKS });
       console.log("delete all tasks");
+    }
+
+    if (username) {
+      for (const task of state.tasks) {
+        await deleteSingleTask({ taskId: task.id });
+      }
+
+      dispatch({ type: tasksActions.DELETE_ALL_TASKS });
     }
   };
 
