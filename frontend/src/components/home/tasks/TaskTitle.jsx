@@ -81,7 +81,7 @@ const TaskTitle = () => {
             <div className="tasks__title__setting-div" onClick={clearAllTasks}>
               <div className="priority"></div>
               <div>
-                {taskSetting[taskSetting.length - 1].icon}{" "}
+                {taskSetting[taskSetting.length - 1].icon}
                 <p>{taskSetting[taskSetting.length - 1].text}</p>
               </div>
             </div>

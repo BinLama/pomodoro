@@ -164,11 +164,20 @@ export const TaskContextProvider = ({ children }) => {
     setShowAddModal(false);
   };
 
-  const markAllTasks = () => {
+  const markAllTasks = async () => {
     if (!username) {
       dispatch({ type: tasksActions.MARK_ALL_TASKS });
       console.log("Marked all tasks");
     }
+
+    // if (username) {
+    //   for (const task of state.tasks) {
+    //     console.log(task);
+    //     if (task.completed !== false) {
+    //       await updateSingleTask({ taskId: task.id }, { completed: true });
+    //     }
+    //   }
+    // }
   };
 
   const unMarkAllTasks = () => {

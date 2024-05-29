@@ -1,9 +1,14 @@
 @use "../utils/" as u;
 
 .canvas__heatmap {
-  height: u.rem(184);
-  width: u.rem(965);
-  background-color: rgb(240, 240, 240);
+  min-width: u.rem(965);
+  // background-color: rgb(240, 240, 240);
+  max-width: u.rem(965);
   margin: auto;
   margin-top: u.rem(20);
+
+  @include u.breakpoint-down(medium) {
+    min-width: u.rem(800);
+    max-width: u.rem(800);
+  }
 }

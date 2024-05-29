@@ -16,10 +16,10 @@ const CustomLogin = ({ setToggleLogin }) => {
   return (
     <div className="absolute nav__login-options" onClick={setToggleLogin}>
       <div className="nav__login-options-container">
-        <Link className="login__options" to={`/user/${id}`}>
+        {/* <Link className="login__options" to={`/user/${id}`}>
           <FaUserEdit />
           <p>My Profile</p>
-        </Link>
+        </Link> */}
         <div className="login__options" onClick={logoutUser}>
           <BiLogOut />
           <p>Logout</p>

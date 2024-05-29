@@ -10,7 +10,7 @@ export class TextCanvas {
 
   draw(ctx) {
     ctx.save();
-    ctx.font = `${this.size}px "Open Sans", sans-serif`;
+    ctx.font = `bold ${this.size}px "Open Sans", sans-serif`;
     ctx.fillStyle = `rgb(0,0,0)`;
     if (this.x) {
       ctx.translate(

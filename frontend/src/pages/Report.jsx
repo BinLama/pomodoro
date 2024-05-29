@@ -4,37 +4,41 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
 import CanvasHeatMap from "../components/reports/CanvasHeatMap";
 import { canvasHeatMapConst } from "../utils/constants";
+import MyProfile from "../components/profile/MyProfile";
 
 const Report = () => {
-  const { id } = useAuthContext();
-  const [values, setValues] = useState({
-    users: [],
-  });
+  const { username } = useAuthContext();
+  // const [values, setValues] = useState({
+  //   users: [],
+  // });
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   const signal = abortController.signal;
 
-    const listAllUsers = async () => {
-      const data = await getAllUsers(signal);
-      if (data) {
-        setValues({ ...values, users: data });
-      }
-    };
+  //   const listAllUsers = async () => {
+  //     const data = await getAllUsers(signal);
+  //     if (data) {
+  //       setValues({ ...values, users: data });
+  //     }
+  //   };
 
-    listAllUsers();
+  //   listAllUsers();
 
-    return () => {
-      abortController.abort();
-    };
-  }, []);
+  //   return () => {
+  //     abortController.abort();
+  //   };
+  // }, []);
 
   // Why is this not being parsed.
   return (
     <div>
-      <CanvasHeatMap {...canvasHeatMapConst} />
+      {username && <MyProfile />}
+      <div style={{ overflow: "auto" }}>
+        <CanvasHeatMap {...canvasHeatMapConst} />
+      </div>
 
-      {values.users.map((user, i) => {
+      {/* {values.users.map((user, i) => {
         console.log(user, id);
         return (
           <div key={i}>
@@ -45,7 +49,7 @@ const Report = () => {
             <Link to={`/user/${user.id}`}>View Profile</Link>
           </div>
         );
-      })}
+      })} */}
     </div>
   );
 };

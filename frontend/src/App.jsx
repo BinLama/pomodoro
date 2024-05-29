@@ -16,13 +16,13 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "report",
+        path: "report/:userId",
         element: <Report />,
       },
-      {
-        path: "user/:userId",
-        element: <ProfilePage />,
-      },
+      // {
+      //   path: "user/:userId",
+      //   element: <ProfilePage />,
+      // },
     ],
   },
   {

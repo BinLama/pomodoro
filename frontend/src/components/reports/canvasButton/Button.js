@@ -16,7 +16,7 @@ export class RectanlgeButton {
     ctx.translate(this.location[0], this.location[1]);
 
     if (this.date && this.hover) {
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "rgba(200, 200, 200, 1)";
     }
 
     if (!this.date) {

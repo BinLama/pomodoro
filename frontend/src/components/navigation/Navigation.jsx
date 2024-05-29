@@ -4,10 +4,12 @@ import CustomNavigation from "./CustomNavigation";
 import { usePomodoroContext } from "../../hooks/usePomodoroContext";
 import { Link } from "react-router-dom";
 import ShowUserLogin from "./ShowUserLogin";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Navigation = () => {
   // ref
   const settingRef = useRef(null);
+  const { id } = useAuthContext();
 
   // show the letters on large screen
   const [width, setWidth] = useState(window.innerWidth);
@@ -50,7 +52,7 @@ const Navigation = () => {
           <h1 className="nav-h1">Pomodoro</h1>
         </Link>
         <nav className="nav__container" style={{ zIndex: showSetting ? 2 : 0 }}>
-          <Link className="nav__setting report" to="/report">
+          <Link className="nav__setting report" to={`/report/${id}`}>
             <BiBarChartSquare />
             {width > breakPoint && <p>Report</p>}
           </Link>

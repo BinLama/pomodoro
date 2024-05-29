@@ -4,7 +4,7 @@ import { createHitCanvas } from "./canvasButton/utils";
 
 const CanvasHeatMap = (props) => {
   const { height, width } = props;
-  const [year, setYear] = useState(2024);
+  const [year, setYear] = useState(new Date().getFullYear());
 
   const canvasRef = useRef(null);
 
@@ -57,6 +57,7 @@ const CanvasHeatMap = (props) => {
 
   return (
     <>
+      <p>{year}</p>
       <canvas className="canvas__heatmap" ref={canvasRef} {...props} />
     </>
   );
