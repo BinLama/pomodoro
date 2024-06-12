@@ -9,7 +9,7 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { getSingleUser } from "../../api/api-user";
 
 const MyProfile = () => {
-  const { userId } = useParams();
+  const { userId } = useParams(); // returns a string
   const { id } = useAuthContext();
 
   const [values, setValues] = useState({
@@ -49,12 +49,49 @@ const MyProfile = () => {
       }
     };
 
-    getCurrentUser();
+    if (id) {
+      getCurrentUser();
+    } else {
+      // anonymous user
+      setValues({
+        ...values,
+        user: {
+          fName: "anonymous",
+          lName: "",
+          email: "",
+          username: "anonymous",
+        },
+        allowed: false,
+        editProfile: false,
+      });
+    }
 
     return () => {
       abortController.abort();
     };
   }, [userId, id, values.editProfile]);
+
+  if (userId === "undefined") {
+    return (
+      <section className="profileCard">
+        <div className="profileCard__div--container">
+          <div className="profileCard__div">
+            <div className="profileCard__div--img relative">
+              <FaUserCircle />
+              {values.allowed && (
+                <div className="profileCard__div--edit absolute">
+                  <BiSolidPencil />
+                </div>
+              )}
+            </div>
+            <div className="profileCard__div--info">
+              <ProfileCard showEdit={showEdit} {...values} />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="profileCard">

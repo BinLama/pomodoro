@@ -7,16 +7,30 @@
 
 ### TODO:
 
-- [ ] Save them all in local storage if they are not logged in
 - [x] Add logout and view profile drop down
 - [ ] Create a github like chart that will show the days logged in and session completed.
+  - Getting session data for each date
+    - Should get it before the days are drawn
+    - It should receive a count of all the sessions
+    - Attach data to each day
+    - Using the data:
+      - Add color for the max and min frequency of data.
+      - Show data legend
+- [ ] Show Annonymous profile if the user is not logged in
+- [ ] Save the data in the localstorage for annon user
+- [ ] Add the Ability to drag and drop task and save the position on the database
+- [ ] Seperate sound control
+- [ ] Add task filtering
+- [ ] Attach session with specific task
+- [ ] Track time spent on task (per minute)
+- [ ] Show bar chart for reports (min per day)
 - [ ] add theme picker on the drop down
 - [ ] add forgot password page.
 
 ### TODO POMODORO:
 
 - [ ] need to add proper modal alert for changes
-- [ ] need to save setting on database
+- [x] need to save setting on database
 - [ ] create custom selection table
 - [ ] Allow users to add 1 more min
 - [ ] Hardcore mode (where everything is locked down)
@@ -27,8 +41,7 @@
 ### TODO Task
 
 - [x] connect the task to the database
-- [ ] create specific API for updating completion
-- [ ] Highlight all task on shit selection
+- [x] create specific API for updating completion
 - [ ] add drag and drop capabilities (and store them in database)
 - [ ] save the position of the files that are dragged on localhost and database (not sure how right now, thinking of adding a position value and incrementing it based on object added)
 

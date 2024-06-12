@@ -33,7 +33,7 @@ const Report = () => {
   // Why is this not being parsed.
   return (
     <div>
-      {username && <MyProfile />}
+      {<MyProfile />}
       <div style={{ overflow: "auto" }}>
         <CanvasHeatMap {...canvasHeatMapConst} />
       </div>
