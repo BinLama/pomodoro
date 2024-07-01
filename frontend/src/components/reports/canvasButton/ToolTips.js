@@ -24,9 +24,20 @@ export class ToolTips {
   }
 
   draw(ctx) {
+    // setup
     ctx.save();
     ctx.beginPath();
     ctx.lineWidth = 0.01;
+
+    this.checkCollision(ctx);
+    this.createBoundingBox(ctx);
+
+    // session information
+    this.writeInsideBoundingBox(ctx);
+    ctx.restore();
+  }
+
+  checkCollision(ctx) {
     const xLocation = this.location[0] - this.x / 2;
     const xSize = this.location[0] + this.x;
     const yLocatoin = this.location[1] - this.y - this.size / 2;
@@ -75,7 +86,9 @@ export class ToolTips {
         this.location[1] - this.y - this.size / 2
       );
     }
+  }
 
+  createBoundingBox(ctx) {
     // curve start
     ctx.moveTo(this.curve, 0);
     // move in x direction
@@ -85,7 +98,12 @@ export class ToolTips {
     // going down y
     ctx.quadraticCurveTo(this.xCurve, 0, this.xCurve, this.y);
     // bottom right curve
-    ctx.quadraticCurveTo(this.xCurve, this.yCurve, this.x, this.y + this.curve);
+    ctx.quadraticCurveTo(
+      this.xCurve,
+      this.yCurve,
+      this.x,
+      this.y + this.curve
+    );
     // going to the beginning of x
     ctx.quadraticCurveTo(
       0,
@@ -103,8 +121,9 @@ export class ToolTips {
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
+  }
 
-    // session completed
+  writeInsideBoundingBox(ctx) {
     ctx.save();
     ctx.translate(lerp(0, this.xCurve, 0.05), lerp(0, this.y, 0.45));
     ctx.fillStyle = "black";
@@ -118,6 +137,4 @@ export class ToolTips {
     ctx.fillText(`Date: ${this.date}`, 0, 0);
     ctx.restore();
   }
-
-  directionToShow() {}
 }
